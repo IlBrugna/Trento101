@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
-const url = 'mongodb+srv://Trento101:iaH59qJrOBkuvbEq@cluster0.syzmwef.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+import dotenv from 'dotenv';
+dotenv.config({path:'./config/.env'});
 
 export const connectDB = async () => {
     try {
-        await mongoose.connect(url,{
+        await mongoose.connect(process.env.DB_URL,{
             //useNewUrlParser: true, // ???
             //useUnifiedTopology: true, // ???
         });
@@ -17,7 +18,9 @@ export const disconnectDB = async() => {
     try {
         await mongoose.connection.close();
         console.log('MongoDB disconnesso');
+        process.exit(0)
     } catch (err) {
         console.log('DISCONNESSIONE MongoDB NON RIUSCITA');
+        process.exit(0)
     }
 };
