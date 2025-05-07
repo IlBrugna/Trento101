@@ -8,7 +8,7 @@ console.log(process.env.PORT);
 
 import testRouter from './routes/testRoute.js'; // Importa il router
 app.use(express.json()); // ATTIVA IL MIDDLEWARE JSON
-app.use('/',testRouter)
+app.use('/api', testRouter)
 
 connectDB(); //CONNETTI AL DB
 

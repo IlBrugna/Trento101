@@ -7,4 +7,8 @@ router.get('/', home );
 router.get('/inner', inner);
 router.get('/database', database);
 
+router.get('/test', (req, res) => {
+    res.json({ message: 'API is working!' });
+  });
+
 export default router; //ESPORTA IL ROUTER, DEFAULT COSì PUO AVERE NOME A SCELTA
