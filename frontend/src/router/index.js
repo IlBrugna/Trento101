@@ -17,7 +17,7 @@ const router=createRouter({
             component: AziendeView
         },
         {
-            path: '/azienda/:id',
+            path: '/azienda/:companyID',
             name: 'company-page',
             component: CompanyPage
         }

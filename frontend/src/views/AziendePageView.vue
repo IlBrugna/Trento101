@@ -2,15 +2,17 @@
 import { ref, onMounted } from 'vue';
 import CompanyInfo from '@/components/company/CompanyInfo.vue';
 import CompanyContacts from '@/components/company/CompanyContacts.vue';
+import { useRoute } from 'vue-router';
 //import CompanyMap from '@/components/CompanyMap.vue';
 import { fetchSpecificCompany } from '@/api/companyApi.js';
 
 const company = ref({});
+const route = useRoute();
+const companyID = route.params.companyID;
 
 onMounted(async () => {
   try {
-    const companyDetails = await fetchSpecificCompany("681dff3c21b0deb8e7af95f0");
-
+    const companyDetails = await fetchSpecificCompany(companyID);
     company.value = companyDetails; // Update the reactive variable
   } catch (error) {
     console.error(error.message);
