@@ -14,6 +14,8 @@ import { RouterView } from 'vue-router';
   </div>
 </template>
 
+ 
+
 <script>
 // Test per vedere se funziona il collegamento frontend-backend
 // Ritorna il messagio su testRoute.js (ovvero "API is working") sennò da errore
