@@ -1,8 +1,14 @@
 import express from 'express'; //IMPORTA EXPRESS
-import { getSpecificCompany } from '../controllers/companyController.js'; //IMPORTA LE FUNZIONI DAL CONTROLLER
+import {
+    getAllCompanies,
+    getSpecificCompany 
+} from '../controllers/companyController.js'; //IMPORTA LE FUNZIONI DAL CONTROLLER
 
 const router = express.Router(); //CREA ROUTER
 
-router.get('/:companyID', getSpecificCompany); //GET PER OTTENERE UNA SPECIFICA AZIENDA
+// `/companies` --> tutte le aziende
+router.get("/", getAllCompanies);
+// `/companies/:companyID` --> azienda specifica
+router.get('/:companyID', getSpecificCompany);
 
 export default router; //ESPORTA IL ROUTER
