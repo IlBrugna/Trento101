@@ -6,9 +6,9 @@ import {
 
 const router = express.Router(); //CREA ROUTER
 
-// `/companies` --> tutte le aziende
+// `/company` --> tutte le aziende
 router.get("/", getAllCompanies);
-// `/companies/:companyID` --> azienda specifica
+// `/company/:companyID` --> azienda specifica
 router.get('/:companyID', getSpecificCompany);
 
 export default router; //ESPORTA IL ROUTER
