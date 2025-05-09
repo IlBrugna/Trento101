@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
+import AziendeView from '@/views/AziendeView.vue';
 import CompanyPage from '@/views/CompanyPage.vue';
 
 const router=createRouter({
@@ -9,6 +10,11 @@ const router=createRouter({
             path:'/', //URL
             name:'home', //NOME DELLA ROUTE
             component: HomeView //COMPONENTE CHE DEVE ESSERE CARICATO
+        },
+        {
+            path: '/aziende',
+            name: 'aziende',
+            component: AziendeView
         },
         {
             path: '/azienda/:id',

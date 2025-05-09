@@ -1,5 +1,16 @@
 import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
 
+
+// GET /company --> tutte le aziende
+export const getAllCompanies = async (req, res) => {
+    try {
+      const companies = await companyModel.find(); // tutti i documenti
+      res.status(200).json(companies);
+    } catch (error) {
+      res.status(500).json({ message: "Errore durante il recupero delle aziende" });
+    }
+  };
+// GET /company/:companyID --> azienda singola
 export const getSpecificCompany = async (req, res) => {
     try {
         const companyID = req.params.companyID; //OTTENGO ID DALLA RICHIESTA
