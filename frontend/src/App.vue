@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
-import HeaderNav from './components/HeaderNav.vue';
+import HeaderNav from './components/common/HeaderNav.vue';
 import { RouterView } from 'vue-router';
 </script>
 
