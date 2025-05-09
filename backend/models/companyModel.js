@@ -28,7 +28,7 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
         type: String,
         required: false,
     },
-    picutre:{
+    picture:{
         type: String,
         required: false,
     }

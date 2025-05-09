@@ -10,7 +10,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  photo: {
+  picture: {
     type: String,
     default: '/placeholder-company.jpg'
   }
@@ -22,7 +22,7 @@ const props = defineProps({
     <!-- FOTO AZIENDA -->
     <div class="h-64 bg-gray-300 relative">
       <img 
-        :src="photo" 
+        :src="picture" 
         :alt="name" 
         class="w-full h-full object-cover"
         onerror="this.src='/placeholder-company.jpg'"

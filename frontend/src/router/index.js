@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
-import AziendeView from '@/views/AziendeView.vue';
-import CompanyPage from '@/views/CompanyPage.vue';
+import AziendeView from '@/views/AziendeSearchView.vue';
+import CompanyPage from '@/views/AziendePageView.vue';
 
 const router=createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -20,7 +20,7 @@ const router=createRouter({
             path: '/azienda/:id',
             name: 'company-page',
             component: CompanyPage
-        },
+        }
     ]
 })
 
