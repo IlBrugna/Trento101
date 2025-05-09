@@ -1,14 +1,14 @@
 import express from 'express';
 import {connectDB, disconnectDB} from './config/db.js'; // Importa la connessione al database
 import dotenv from 'dotenv'; // Importa dotenv per le variabili d'ambiente
+import companyRouter from './routes/companyRouter.js'; // Importa il router delle aziende 
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 const app = express();
 
-console.log(process.env.PORT);
 
-import testRouter from './routes/testRoute.js'; // Importa il router
+
 app.use(express.json()); // ATTIVA IL MIDDLEWARE JSON
-app.use('/api', testRouter)
+app.use('/company', companyRouter)
 
 connectDB(); //CONNETTI AL DB
 
