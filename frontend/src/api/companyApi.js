@@ -5,8 +5,9 @@ export async function fetchSpecificCompany(id) {
     const response = await api.get(`/company/${id}`);
     return response.data; // Return the company details
   } catch (error) {
-    throw new Error(
-      "Errore durante il recupero dei dettagli dell'azienda: " + error.message
-    );
+    throw {
+      status: error.response.status,
+      message: error.response.data.message
+    };  
   }
 }

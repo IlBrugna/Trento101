@@ -9,13 +9,15 @@ import { fetchSpecificCompany } from '@/api/companyApi.js';
 const company = ref({});
 const route = useRoute();
 const companyID = route.params.companyID;
+const badRequest = ref({});
 
 onMounted(async () => {
   try {
     const companyDetails = await fetchSpecificCompany(companyID);
     company.value = companyDetails; // Update the reactive variable
   } catch (error) {
-    console.error(error.message);
+    badRequest.value = error;
+    console.error('Error fetching company details:', error);
   }
 });
 </script>
@@ -23,7 +25,10 @@ onMounted(async () => {
 <template>
   <div class="bg-gray-50 flex-1">
     <div class="container mx-auto px-4 py-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div v-if="badRequest" class="text-red-500 text-center">
+        <p>Errore {{badRequest.status}} {{ badRequest.message }}</p>
+        </div>
+      <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Colonna sinistra con foto e informazioni principali -->
         <div class="lg:col-span-2">
           <CompanyInfo 
@@ -32,7 +37,7 @@ onMounted(async () => {
             :picture="company.picture"
           />
         </div>
-        <div class="space-y-6">
+        <div v-if="!badRequest" class="space-y-6">
           <CompanyContacts 
             :email="company.email" 
             :phoneNumber="company.phoneNumber"
