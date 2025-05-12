@@ -12,7 +12,7 @@ const props = defineProps({
   },
   picture: {
     type: String,
-    default: '/placeholder-company.jpg'
+    default: '/placeholder-logo.png'
   }
 });
 </script>
@@ -25,7 +25,6 @@ const props = defineProps({
         :src="picture" 
         :alt="name" 
         class="w-full h-full object-cover"
-        onerror="this.src='/placeholder-company.jpg'"
       />
     </div>
     
