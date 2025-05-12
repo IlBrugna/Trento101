@@ -3,6 +3,7 @@ import cors     from "cors"; // Importa cors per la gestione delle richieste cro
 import {connectDB, disconnectDB} from './config/db.js'; // Importa la connessione al database
 import dotenv from 'dotenv'; // Importa dotenv per le variabili d'ambiente
 import companyRouter from './routes/companyRouter.js'; // Importa il router delle aziende 
+import authRouter from './routes/authRouter.js'; // Importa il router per l'autenticazione
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(
 );
 
 app.use('/company', companyRouter)
-
+app.use('/auth', authRouter) //ROUTE PER L'AUTH
 connectDB(); //CONNETTI AL DB
 
 app.listen(process.env.PORT, () => {
