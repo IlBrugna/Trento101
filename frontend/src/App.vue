@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
-import HeaderNav from './components/HeaderNav.vue';
+import HeaderNav from './components/common/HeaderNav.vue';
 import { RouterView } from 'vue-router';
 </script>
 
@@ -13,24 +13,5 @@ import { RouterView } from 'vue-router';
     </footer>
   </div>
 </template>
-
- 
-
-<script>
-// Test per vedere se funziona il collegamento frontend-backend
-// Ritorna il messagio su testRoute.js (ovvero "API is working") sennò da errore
-export default {
-  name: 'TestApp',
-  mounted() {
-    fetch('/api/test')
-        .then(res => res.text()) // change from res.json() to res.text()
-        .then(data => {
-            console.log('Raw response:', data);
-        })
-        .catch(err => console.error('API call failed:', err));
-  }
-}
-</script>
-
 <style scoped>
 </style>

@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import api from "@/services/api";
-import CompanyCard from '@/components/CompanyCard.vue';
-import SearchFilter from '@/components/SearchFilter.vue';
-import Pagination from '@/components/Pagination.vue';
+import CompanyCard from '@/components/companySearch/CompanyCard.vue';
+import SearchFilter from '@/components/companySearch/SearchFilter.vue';
+import Pagination from '@/components/companySearch/Pagination.vue';
 
 const companies = ref([]);
 const allFilteredCompanies = ref([]);

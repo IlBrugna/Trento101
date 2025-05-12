@@ -49,9 +49,9 @@ const props = defineProps({
       </div>
       
       <!-- Bottone per visualizzare i dettagli -->
-      <button class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md w-full transition-colors duration-300">
+      <router-link :to="{ name: 'company-page', params: { companyID: company._id } }" class="block mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md w-full text-center transition-colors duration-300">
         Visualizza dettagli
-      </button>
+      </router-link>
     </div>
   </div>
 </template>

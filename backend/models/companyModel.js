@@ -26,9 +26,9 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
     },
     website:{
         type: String,
-        required: true,
+        required: false,
     },
-    picutre:{
+    picture:{
         type: String,
         required: false,
     }

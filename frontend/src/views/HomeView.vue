@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
-import SectionCards from '@/components/SectionCards.vue';
-import LatestSurvey from '@/components/LatestSurvey.vue';
+import SectionCards from '@/components/common/SectionCards.vue';
+import LatestSurvey from '@/components/common/LatestSurvey.vue';
 </script>
 
 <template>
