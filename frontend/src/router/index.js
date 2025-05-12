@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import AziendeView from '@/views/AziendeSearchView.vue';
 import CompanyPage from '@/views/AziendePageView.vue';
+import AdminPanel from '@/views/AdminPanelView.vue';
 
-const router=createRouter({
+const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
     routes:[
         {
@@ -20,6 +21,11 @@ const router=createRouter({
             path: '/azienda/:companyID',
             name: 'company-page',
             component: CompanyPage
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: AdminPanel
         }
     ]
 })
