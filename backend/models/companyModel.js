@@ -31,7 +31,13 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
     picture:{
         type: String,
         required: false,
-    }
+    },
+    password: {
+            type: String,
+            required: "Your password is required",
+            select: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
+            max: 25,
+        },
 });
 
 const companyModel = mongoose.model('companies', companySchema); //CREO IL MODELLO DELLE COMPANY
