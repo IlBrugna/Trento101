@@ -1,5 +1,5 @@
 import express from 'express';
-import cors     from "cors"; // Importa cors per la gestione delle richieste cross-origin
+import cors from "cors"; // Importa cors per la gestione delle richieste cross-origin
 import {connectDB, disconnectDB} from './config/db.js'; // Importa la connessione al database
 import dotenv from 'dotenv'; // Importa dotenv per le variabili d'ambiente
 import companyRouter from './routes/companyRouter.js'; // Importa il router delle aziende 
