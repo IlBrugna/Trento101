@@ -16,7 +16,7 @@ app.use(
         origin: "http://localhost:5000",   // <‑‑ porta di Vite
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: false                 // true se devi inviare cookie
+        credentials: true                 // per leggere cookies
     })
 );
 

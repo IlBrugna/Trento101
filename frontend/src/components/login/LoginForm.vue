@@ -3,11 +3,20 @@ import { ref, defineProps, defineEmits } from 'vue'
 
 const emit = defineEmits(['submit'])
 
+const props = defineProps({
+  errorMessage: String  // Prop per ricevere messaggi di errore dal padre
+});
 //VARIABILI REATTIVE
 const email = ref('')
 const password = ref('')
 
-
+const onSubmit = () => {
+  const loginData = {
+    email: email.value,
+    password: password.value,
+  }
+  emit('submit', loginData) //INVIO EVENTO CON PAYLOAD
+}
 
 </script>
 
@@ -43,7 +52,9 @@ const password = ref('')
         </div>
       </div>
 
-     
+      <div v-if="props.errorMessage" class="text-red-600 text-sm mt-2">
+        {{ props.errorMessage }}
+      </div>
 
       <div>
         <button 
