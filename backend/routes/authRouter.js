@@ -1,5 +1,5 @@
 import express from 'express';
-import { Login} from '../controllers/authController.js';
+import { Login, logout} from '../controllers/authController.js';
 import ValidateAuth from '../middleware/authInputMiddleware.js'; //IMPORTA IL MIDDLEWARE DI VALIDAZIONE
 import {check } from 'express-validator'; 
 import checkCompanyAuth from '../middleware/companyAuthMiddleware.js';
@@ -10,4 +10,6 @@ router.post('/login', check("email").isEmail().withMessage("Inserisci una email 
 router.get('/login/test', checkCompanyAuth,(req, res) => {
     res.status(200).json({message: 'Login test  passato con successo'});
 }); //ROUTE DI TEST
+
+router.post('/logout', logout);
 export default router; //ESPORTA IL ROUTER

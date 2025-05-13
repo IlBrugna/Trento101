@@ -26,3 +26,8 @@ export const Login = async (req, res) => {
     }
     res.end();
 }
+
+export const logout = async (req, res) => {
+    res.clearCookie('AuthToken'); //CANCELLA IL COOKIE
+    return res.status(200).json({message: 'Logout effettuato con successo'});
+}; //ROUTE DI LOGOUT
