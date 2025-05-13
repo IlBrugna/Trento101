@@ -4,10 +4,12 @@ import {connectDB, disconnectDB} from './config/db.js'; // Importa la connession
 import dotenv from 'dotenv'; // Importa dotenv per le variabili d'ambiente
 import companyRouter from './routes/companyRouter.js'; // Importa il router delle aziende 
 import authRouter from './routes/authRouter.js'; // Importa il router per l'autenticazione
+import cookieParser from 'cookie-parser';
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 const app = express();
 
 app.use(express.json()); // ATTIVA IL MIDDLEWARE JSON
+app.use(cookieParser()); // ATTIVA IL MIDDLEWARE PER LE COOKIES
 
 app.use(
     cors({

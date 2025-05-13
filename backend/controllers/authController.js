@@ -12,7 +12,7 @@ export const Login = async (req, res) => {
         }
         const {password: pass, ...companyData} = company._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORDspieg
     
-        res.cookie('AuhtToken', company.generateAuthToken(), {
+        res.cookie('AuthToken', company.generateAuthToken(), {
             maxAge: 30 * 60 * 1000, //BROWSER CANCELLA DOPO X MILLISECONDI
             httpOnly: true, // IMPEDISCE A CLIENT JAVASCRIPT DI MOFICIARLO
             //secure: true, //FORZA HTTPS
