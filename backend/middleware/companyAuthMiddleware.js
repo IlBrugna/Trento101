@@ -7,7 +7,7 @@ const checkCompanyAuth = async (req,res,next) => {
         if (!token) {
             return res.status(401).json({message: 'Token non fornito'});
         }
-
+        
         const decoded = jwt.verify(token, process.env.JWT_SECRET); //RITORNA IL SOLO CAMPO DEL PAYLOAD
         const company = await companyModel.findById(decoded._id);
         if (!company) {

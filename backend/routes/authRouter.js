@@ -1,8 +1,8 @@
 import express from 'express';
 import { Login} from '../controllers/authController.js';
-import ValidateAuth from '../middleware/authMiddleware.js'; //IMPORTA IL MIDDLEWARE DI VALIDAZIONE
+import ValidateAuth from '../middleware/authInputMiddleware.js'; //IMPORTA IL MIDDLEWARE DI VALIDAZIONE
 import {check } from 'express-validator'; 
-import checkCompanyAuth from '../middleware/roleMiddleware.js';
+import checkCompanyAuth from '../middleware/companyAuthMiddleware.js';
 
 const router = express.Router(); //CREA ROUTER
 
