@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import AziendeView from '@/views/AziendeSearchView.vue';
 import CompanyPage from '@/views/AziendePageView.vue';
-import companyLoginView from '@/views/companyLoginView.vue';
-import CompanyLoginView from '@/views/companyLoginView.vue';
+import CompanyLoginView from '@/views/CompanyLoginView.vue';
 
 const router=createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
