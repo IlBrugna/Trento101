@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import InitialRegistration from '@/components/registration/InitialRegistration.vue';
 import CompanyDetails from '@/components/registration/CompanyDetails.vue';
 import { companyRegistration } from '@/api/companyApi.js';
+import { checkEmailExists } from '@/api/authApi.js';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -11,9 +12,18 @@ const companyData = ref({});
 
 const currentStep = ref(1);
 
-const goToDetails = (data) => {
-  currentStep.value = 2;
-  partialCompanyData.value = data;
+const goToDetails = async (data) => {
+  try {
+    const emailExists = await checkEmailExists(data.email);
+    if (emailExists) {
+      alert('Questo indirizzo email è già registrato. Prova con un altro.');
+    } else {
+      currentStep.value = 2;
+      partialCompanyData.value = data;
+    }
+  } catch (error) {
+    alert('Errore durante la verifica dell\'email: ' + error.message);
+  }
 };
 
 const submitRegistration = async (data) => {

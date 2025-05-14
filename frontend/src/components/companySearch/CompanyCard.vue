@@ -12,7 +12,7 @@ const props = defineProps({
 <template>
   <div class="bg-white shadow rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
     <div class="p-4 flex flex-col h-full">
-      <div class="w-16 h-16 mx-auto mb-4">
+      <div class="w-full h-32 flex items-center justify-center mb-4">
         <img :src="company.picture || '/placeholder-logo.png'" 
              alt="Company Logo" 
              class="w-full h-full object-contain rounded-md" 
