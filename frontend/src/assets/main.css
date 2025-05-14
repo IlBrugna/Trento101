@@ -4,5 +4,5 @@
 
 html, body {
   height: 100%;
-  overflow: hidden; /* Disabilita lo scroll */
+  /*overflow: hidden;*/ /* Disabilita lo scroll */
 }

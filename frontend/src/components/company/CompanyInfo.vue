@@ -24,7 +24,7 @@ const props = defineProps({
       <img 
         :src="picture" 
         :alt="name" 
-        class="w-full h-full object-cover"
+        class="w-full h-full object-contain"
       />
     </div>
     

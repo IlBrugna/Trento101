@@ -28,13 +28,22 @@ const companyLoginHandler = async (loginData) => {
         <h2 class="text-3xl font-extrabold text-gray-900">
           Area Aziendale
         </h2>
-        <p class="mt-2 text-sm text-gray-600">
+        <p class="mt-2 text-2xl text-gray-600">
           Accedi con le tue credenziali aziendali
         </p>
       </div>
       
       <div class="mt-8">
         <LoginForm @submit="companyLoginHandler" :errorMessage="error"/>
+      </div>
+
+      <div class="mt-6">
+        <p class="text-lg text-gray-600 flex items-center justify-center">
+          Non hai un account?
+          <router-link to="/azienda/registrazione" class="font-medium text-blue-600 hover:text-blue-500 span ml-2">
+            Registrati
+          </router-link>
+        </p>
       </div>
     </div>
   </div>

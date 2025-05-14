@@ -31,3 +31,18 @@ export const logout = async (req, res) => {
     res.clearCookie('AuthToken'); //CANCELLA IL COOKIE
     return res.status(200).json({message: 'Logout effettuato con successo'});
 }; //ROUTE DI LOGOUT
+
+export const checkEmailExists = async (req, res) => {
+    const email = req.params.email;
+    try {
+        const company = await companyModel.findOne( {email} );
+        if (company) {
+            return res.status(200).json({ exists: true });
+        }
+        else {
+            return res.status(200).json({ exists: false });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error checking email' });
+    }
+}

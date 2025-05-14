@@ -51,3 +51,12 @@ export async function checkAuthOnAppLoad(){
     auth.logout(); // clear session
   }
 };
+
+export const checkEmailExists = async (email) => {
+  try {
+    const response = await api.get(`/auth/check-email/${email}`);
+    return response.data.exists;
+  } catch (error) {
+    throw new Error('Error checking email: ' + error.message);
+  }
+};
