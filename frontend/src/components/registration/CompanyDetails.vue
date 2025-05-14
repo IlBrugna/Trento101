@@ -10,10 +10,6 @@ const picture = ref('');
 
 const emit=defineEmits(['submit-registration']);
 
-const handleFileDrop = async (event) => {
-
-};
-
 </script>
 
 <template>
@@ -88,22 +84,20 @@ const handleFileDrop = async (event) => {
           ></textarea>
         </div>
       </div>
+
       <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Immagine Azienda</label>
-        <div 
-          @drop.prevent="handleFileDrop" 
-          @dragover.prevent 
-          class="flex items-center justify-center px-6 py-4 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:border-blue-400">
-          <input type="file" accept="image/*" class="hidden" @change="handleFileDrop" id="fileInput" />
-          <label for="fileInput" class="text-center text-gray-500">
-            Trascina un'immagine qui o clicca per selezionarla
-          </label>
-        </div>
-        <div v-if="previewUrl" class="mt-4">
-          <p class="text-sm text-gray-600 mb-2">Anteprima:</p>
-          <img :src="previewUrl" alt="Anteprima immagine" class="max-h-40 rounded-md shadow" />
+        <label for="website" class="block text-sm font-medium text-gray-700">Link a Foto (copertina) aziendale</label>
+        <div class="mt-1">
+          <input 
+            id="picture" 
+            name="picture" 
+            type="url" 
+            v-model="picture"
+            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+          />
         </div>
       </div>
+
       <div>
         <button 
           type="submit" 
