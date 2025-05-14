@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
 
 const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
     name: {
@@ -31,8 +32,21 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
     picture:{
         type: String,
         required: false,
-    }
+    },
+    password: {
+            type: String,
+            required: "Your password is required",
+            select: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
+            max: 25,
+        },
 });
+
+companySchema.methods.generateAuthToken = function () { //CREO IL TOKEN
+    const token = jwt.sign({ _id: this._id }, //PAYLOAD
+    process.env.JWT_SECRET, //SEGRETO
+    { expiresIn: '30m' }); //DURATA DEL TOKEN (VALIDITà)
+    return token;
+};
 
 const companyModel = mongoose.model('companies', companySchema); //CREO IL MODELLO DELLE COMPANY
 export default companyModel; 
