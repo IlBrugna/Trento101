@@ -2,7 +2,10 @@
 import { ref } from 'vue';
 import InitialRegistration from '@/components/registration/InitialRegistration.vue';
 import CompanyDetails from '@/components/registration/CompanyDetails.vue';
+import { companyRegistration } from '@/api/companyApi.js';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const partialCompanyData= ref({});
 const companyData = ref({});
 
@@ -13,9 +16,14 @@ const goToDetails = (data) => {
   partialCompanyData.value = data;
 };
 
-const submitRegistration = (data) => {
+const submitRegistration = async (data) => {
   companyData.value = { ...partialCompanyData.value, ...data };
-
+  await companyRegistration(companyData.value).then(() => {
+    alert('Registrazione riuscita! Ora puoi accedere!');
+    router.push('/login');
+  }).catch((error) => {
+    alert('Errore nella registrazione: ' + error.message);
+  });
 };
 </script>
 

@@ -11,3 +11,17 @@ export async function fetchSpecificCompany(id) {
     };  
   }
 }
+
+export async function companyRegistration(loginData) {
+  // POST RICHIESTA ALL'ENDPOINT DI LOGIN
+  try {
+    const response = await api.post('/company',loginData);
+    return response; 
+  } catch (error) {
+    console.log(error.message);
+    throw {
+      status: error.response.status,
+      message: error.response.data.message
+    };  
+  }
+}

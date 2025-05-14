@@ -36,6 +36,6 @@ export const putCompany = async (req, res) => {
     return res.status(201).json(company); 
   }catch(error){
     console.error(error.message);
-    return res.status(500).json({ message: 'Errore durante l\'inserimento dell\'azienda' });
+    return res.status(500).json({ message: error.message });
   }
 }
