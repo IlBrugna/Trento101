@@ -26,3 +26,16 @@ export const getSpecificCompany = async (req, res) => {
         return res.status(500).json({ message: 'Errore durante il recupero dell\'azienda' }); //SE C'E' UN ERRORE
     }
 }
+
+export const putCompany = async (req, res) => {
+  try{
+    const companyData = req.body;
+    const newCompany = new companyModel(companyData);
+    await newCompany.save(); //SALVO AZIENDA
+    const {password, ...company} = newCompany._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORD
+    return res.status(201).json(company); 
+  }catch(error){
+    console.error(error.message);
+    return res.status(500).json({ message: 'Errore durante l\'inserimento dell\'azienda' });
+  }
+}
