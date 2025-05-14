@@ -1,4 +1,5 @@
 import api from "@/services/api";
+import { useAuthStore } from "@/store/authStore.js";
 
 export async function companyLogin(loginData) {
   // POST RICHIESTA ALL'ENDPOINT DI LOGIN
@@ -18,3 +19,14 @@ export async function companyLogin(loginData) {
     };  
   }
 }
+
+export async function checkAuthOnAppLoad(){
+    const auth = useAuthStore();
+  try {
+    const res = await api.get('/auth/check', { withCredentials: true });
+    auth.login(res.data.company); // sets isLoggedIn and user
+  } catch (err) {
+    console.log(err);
+    //auth.logout(); // clear session
+  }
+};

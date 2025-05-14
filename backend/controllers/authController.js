@@ -15,7 +15,7 @@ export const Login = async (req, res) => {
         res.cookie('AuthToken', company.generateAuthToken(), {
             maxAge: 30 * 60 * 1000, //BROWSER CANCELLA DOPO X MILLISECONDI
             httpOnly: true, // IMPEDISCE A CLIENT JAVASCRIPT DI MOFICIARLO
-            secure: false, //FORZA HTTPS
+            secure: true, //FORZA HTTPS
             sameSite: 'None', //vanno bene richieste cross site
         });
 

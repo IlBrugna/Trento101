@@ -10,6 +10,9 @@ router.post('/login', check("email").isEmail().withMessage("Inserisci una email 
 router.get('/login/test', checkCompanyAuth,(req, res) => {
     res.status(200).json({message: 'Login test  passato con successo'});
 }); //ROUTE DI TEST
+router.get('/check', checkCompanyAuth, (req, res) => {
+    res.status(200).json({ company: req.company });
+});
 
 router.post('/logout', logout);
 export default router; //ESPORTA IL ROUTER

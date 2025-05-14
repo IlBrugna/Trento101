@@ -3,14 +3,18 @@ import { companyLogin } from '@/api/authApi';
 import LoginForm from '@/components/login/LoginForm.vue'
 import {ref} from 'vue'; 
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/store/authStore.js';
 
 const error = ref(''); // Messaggio di errore per il login
 const router = useRouter(); // Hook per accedere al router
+const authStore = useAuthStore(); // Hook per accedere allo store di autenticazione
+
 const companyLoginHandler = async (loginData) => {
   try {
     const response = await companyLogin(loginData);
     if (response.status === 200) { //SE SUCCESSO
-      router.push(`/azienda/${response.data.companyData._id}`); // DA MODIFICARE CON DASHBOARD AZIENDALE
+        authStore.login(response.data.companyData);
+        router.push(`/azienda/${response.data.companyData._id}`); // DA MODIFICARE CON DASHBOARD AZIENDALE
     }
   } catch (err) {
     // Gestisci gli errori di login
