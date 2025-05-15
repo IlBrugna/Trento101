@@ -5,10 +5,10 @@ export const Login = async (req, res) => {
     const {email, password} = req.body;
     try {
         let user = await adminModel.findOne({ email }).select('+password'); //PRIMA CONTROLLO SE ADMIN
-        let isAdmin = true;
+        let role = "admin";
         if (!user) {
             user = await companyModel.findOne({ email }).select('+password'); //CONTROLLO SE COMPANY
-            isAdmin = false;
+            role = "company";
         }
     
         if (!user) {
@@ -26,7 +26,7 @@ export const Login = async (req, res) => {
             secure: true, //FORZA HTTPS
             sameSite: 'None', //vanno bene richieste cross site
         });
-        return res.status(200).json({message: 'Login effettuato con successo', userData});
+        return res.status(200).json({message: 'Login effettuato con successo', role, userData });
 
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante il recupero dell\'azienda'});

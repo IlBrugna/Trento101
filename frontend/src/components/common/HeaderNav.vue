@@ -21,7 +21,6 @@ async function handleLogout() {
         <img src="/logo.png" alt="Logo" class="h-8 w-auto" />
         <nav class="flex space-x-4">
           <RouterLink to="/" class="text-gray-700 hover:text-blue-600">Home</RouterLink>
-          <a href="#" class="text-gray-700 hover:text-blue-600">Ricerca</a>
           <RouterLink to="/aziende" class="text-gray-700 hover:text-blue-600">Aziende</RouterLink>
           <a href="#" class="text-gray-700 hover:text-blue-600">Servizi</a>
           <a href="#" class="text-gray-700 hover:text-blue-600">Contatti</a>
