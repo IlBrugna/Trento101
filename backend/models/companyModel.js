@@ -42,7 +42,7 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
 });
 
 companySchema.methods.generateAuthToken = function () { //CREO IL TOKEN
-    const token = jwt.sign({ _id: this._id }, //PAYLOAD
+    const token = jwt.sign({ _id: this._id, role: "company" }, //PAYLOAD
     process.env.JWT_SECRET, //SEGRETO
     { expiresIn: '30m' }); //DURATA DEL TOKEN (VALIDITà)
     return token;

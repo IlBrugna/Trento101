@@ -4,21 +4,25 @@ export const useAuthStore = defineStore('auth',() => {
     //STATE
     const isLoggedIn = ref(false);
     const user = ref(null);
+    const role = ref(null);
 
     //ACTIONS
-    function login(companyData) {
+    function login(userData) {
         isLoggedIn.value = true;
-        user.value = companyData;
+        role.value = userData.role;
+        user.value = userData;
     }
 
     function logout() {
         isLoggedIn.value = false;
         user.value = null;
+        role.value = null;
     }
     //getters (computed)
  return {
     isLoggedIn,
     user,
+    role,
     login,
     logout
  }
