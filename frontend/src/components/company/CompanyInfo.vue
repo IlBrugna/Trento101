@@ -22,12 +22,11 @@ const props = defineProps({
     <!-- FOTO AZIENDA -->
     <div class="h-64 bg-gray-300 relative">
       <img 
-        :src="picture" 
+        :src="picture || '/placeholder-logo.png' " 
         :alt="name" 
         class="w-full h-full object-contain"
       />
     </div>
-    
     <!-- INFORMAZIONI AZIENDA -->
     <div class="p-6">
       <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ name }}</h1>

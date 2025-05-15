@@ -20,7 +20,7 @@ app.use(
     })
 );
 
-app.use('/company', companyRouter)
+app.use('/companies', companyRouter)
 app.use('/auth', authRouter) //ROUTE PER L'AUTH
 connectDB(); //CONNETTI AL DB
 

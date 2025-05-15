@@ -4,6 +4,7 @@ import api from "@/services/api";
 import CompanyCard from '@/components/companySearch/CompanyCard.vue';
 import SearchFilter from '@/components/companySearch/SearchFilter.vue';
 import Pagination from '@/components/companySearch/Pagination.vue';
+import { fetchCompanies } from '@/api/companyApi';
 
 const companies = ref([]);
 const allFilteredCompanies = ref([]);
@@ -27,15 +28,15 @@ const itemsPerPage = ref(10);
 const itemsPerPageOptions = [5, 10, 15, 20];
 
 // Funzione per recuperare le aziende dal server
-const fetchCompanies = async () => {
+const fetchAndSetCompanies = async () => {
   loading.value = true;
   try {
-    const { data } = await api.get("/company");
+    const data = await fetchCompanies();
     companies.value = data;
     allFilteredCompanies.value = [...data];
     applyFilters(); // Applica eventuali filtri iniziali
   } catch (err) {
-    error.value = err.response?.data?.message || err.message;
+    error.value = err.message;
   } finally {
     loading.value = false;
   }
@@ -43,7 +44,7 @@ const fetchCompanies = async () => {
 
 // Chiamata all'API quando il componente viene montato
 onMounted(() => {
-  fetchCompanies();
+  fetchAndSetCompanies();
 });
 
 // Applica filtri alla lista completa

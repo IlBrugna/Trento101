@@ -3,6 +3,15 @@ import { Types } from "mongoose"; // IMPORTA MONGOOSE
 
 // GET /company --> tutte le aziende
 export const getAllCompanies = async (req, res) => {
+  const { email } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
+  if (email) {
+    const company = await companyModel.findOne({ email });
+    if (company) {
+      return res.status(200).json({ exists: true });
+    } else {
+      return res.status(200).json({ exists: false });
+    }}
+
     try {
       const companies = await companyModel.find(); // tutti i documenti
       res.status(200).json(companies);

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import InitialRegistration from '@/components/registration/InitialRegistration.vue';
 import CompanyDetails from '@/components/registration/CompanyDetails.vue';
 import { companyRegistration } from '@/api/companyApi.js';
-import { checkEmailExists } from '@/api/authApi.js';
+import { checkEmailExists } from '@/api/companyApi.js';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
