@@ -11,7 +11,7 @@ export async function companyLogin(loginData) {
     },{
         withCredentials: true //PER FAR FUNZIONARE I COOKIE
     });
-    auth.login(response.data.companyData);
+    auth.login(response.data);
     return response; 
 
   } catch (error) {
@@ -44,7 +44,7 @@ export async function checkAuthOnAppLoad(){
     const auth = useAuthStore();
   try {
     const res = await api.get('/auth', { withCredentials: true });
-    auth.login(res.data.company); // sets isLoggedIn and user
+    auth.login(res.data); // sets isLoggedIn and user
   } catch (err) {
     
     console.log(err);

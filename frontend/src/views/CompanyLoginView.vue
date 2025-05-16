@@ -11,9 +11,10 @@ const companyLoginHandler = async (loginData) => {
   try {
     const response = await companyLogin(loginData);
     if (response.status === 200) { //SE SUCCESSO
-        router.push(`/azienda/${response.data.companyData._id}`); // DA MODIFICARE CON DASHBOARD AZIENDALE
+        router.push(`/azienda/${response.data.userData._id}`); // DA MODIFICARE CON DASHBOARD AZIENDALE
     }
   } catch (err) {
+    console.error(err.message);
     // Gestisci gli errori di login
     error.value = 'Errore nel login. Riprova!';
   }

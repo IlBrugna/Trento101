@@ -4,6 +4,8 @@ import AziendeView from '@/views/AziendeSearchView.vue';
 import CompanyPage from '@/views/AziendePageView.vue';
 import CompanyLoginView from '@/views/CompanyLoginView.vue';
 import CompanyRegistration from '@/views/CompanyRegistration.vue';
+import { useAuthStore } from '@/store/authStore';
+
 
 const router=createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -32,8 +34,36 @@ const router=createRouter({
             path: '/azienda/registrazione',
             name: 'registrazione',
             component: CompanyRegistration
+        },
+        {
+            path: '/adminDashboard',
+            name: 'adminDashboard',
+            meta: { requiresAuth: true, role: 'admin' },
+            //component: AdminPage
+        },
+        {
+            path: '/companyDashboard',
+            name: 'companyDashboard',
+            meta: { requiresAuth: true, role: 'company' },
+            //component: CompanyDash
         }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore();
+  const requiredRole = to.meta.role;
+console.log("current: ",auth.role, "required: ",requiredRole);
+  if (to.meta.requiresAuth && !auth.isLoggedIn) {
+    return next('/login'); // CASE NOT LOGGED IN BUT LOG IN REQUIRED
+  }
+
+  if (requiredRole && auth.role != requiredRole) {
+    console.log("wrong role!")
+    return next('/'); //CASE NOT RIGHT ROLE
+  }
+
+  next();
+});
 
 export default router;
