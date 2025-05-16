@@ -30,6 +30,7 @@ const router = createRouter({
             name: 'admin',
             component: AdminPanel
         },
+        {
             path: '/login',
             name: 'login',
             component: CompanyLoginView
