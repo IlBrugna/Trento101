@@ -60,13 +60,12 @@ export const postCompany = async (req, res) => {
 }
 
 export const putCompany = async (req, res) => {
-
   try {
         const companyID = req.params.companyID; 
         if (!Types.ObjectId.isValid(companyID)) {
            return res.status(400).json({ message: 'ID non valido' });
         }  
-        const dati=req.body.companyData;
+        const dati=req.body;
         const company = await companyModel.findByIdAndUpdate(companyID,dati,{new:true}); //new true torna la versione aggironata
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });

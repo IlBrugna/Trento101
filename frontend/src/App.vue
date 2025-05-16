@@ -12,7 +12,7 @@ onMounted(() => {
 <template>
   <div class="min-h-screen flex flex-col">
     <HeaderNav />
-    <RouterView />
+    <RouterView class="flex-grow"/>
     <footer class="bg-gray-100 py-4 text-center text-sm">
       TRENTO 101 
     </footer>
