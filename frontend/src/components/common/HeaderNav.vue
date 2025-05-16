@@ -67,7 +67,7 @@ function closeDropdowns(event) {
                 Servizi Universitari
               </RouterLink>
               <RouterLink 
-                to="/servizi-del-comune" 
+                to="/comune" 
                 class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                 @click="isServicesDropdownOpen = false"
               >
@@ -76,7 +76,7 @@ function closeDropdowns(event) {
             </div>
           </div>
           
-          <a href="#" class="text-gray-700 hover:text-blue-600">Contatti</a>
+          <RouterLink :to="{ path: '/comune', hash: '#contatti' }" class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
         </nav>
       </div>
       <div v-if="AuthStore.isLoggedIn" class="flex items-center space-x-4">
