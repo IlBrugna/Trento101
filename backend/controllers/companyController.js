@@ -36,7 +36,7 @@ export const getSpecificCompany = async (req, res) => {
     }
 }
 
-export const putCompany = async (req, res) => {
+export const postCompany = async (req, res) => {
   try{
     const companyData = req.body;
     const newCompany = new companyModel(companyData);
@@ -47,4 +47,8 @@ export const putCompany = async (req, res) => {
     console.error(error.message);
     return res.status(500).json({ message: error.message });
   }
+}
+
+export const putCompany = async (req, res) => {
+
 }

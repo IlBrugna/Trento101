@@ -34,11 +34,15 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
         required: false,
     },
     password: {
-            type: String,
-            required: "Your password is required",
-            select: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
-            max: 25,
-        },
+        type: String,
+        required: "Your password is required",
+        select: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
+        max: 25,
+    },
+    password: {
+        type: Boolean,
+        default: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
+    }
 });
 
 companySchema.methods.generateAuthToken = function () { //CREO IL TOKEN
