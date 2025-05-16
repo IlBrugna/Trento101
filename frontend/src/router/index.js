@@ -6,6 +6,7 @@ import AdminPanelView from '@/views/AdminPanelView.vue';
 import CompanyLoginView from '@/views/CompanyLoginView.vue';
 import CompanyRegistration from '@/views/CompanyRegistration.vue';
 import { useAuthStore } from '@/store/authStore';
+import ComunePageView from '@/views/ComunePageView.vue';
 import companyManagerView from '@/views/adminViews/companyManagerView.vue';
 
 const router = createRouter({
@@ -20,6 +21,11 @@ const router = createRouter({
             path: '/aziende',
             name: 'aziende',
             component: AziendeView
+        },
+        {
+            path: '/comune',
+            name: 'comune',
+            component: ComunePageView
         },
         {
             path: '/azienda/:companyID',
@@ -54,7 +60,13 @@ const router = createRouter({
             meta: { requiresAuth: true, role: 'admin' },
             component: companyManagerView
         }
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        if (to.hash) {
+          return { el: to.hash, behavior: 'smooth' }
+        }
+        return { top: 0 }
+      }
 })
 
 router.beforeEach((to, from, next) => {
