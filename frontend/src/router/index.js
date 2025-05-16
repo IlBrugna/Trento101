@@ -6,6 +6,7 @@ import AdminPanelView from '@/views/AdminPanelView.vue';
 import CompanyLoginView from '@/views/CompanyLoginView.vue';
 import CompanyRegistration from '@/views/CompanyRegistration.vue';
 import { useAuthStore } from '@/store/authStore';
+import companyManagerView from '@/views/adminViews/companyManagerView.vue';
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -46,6 +47,12 @@ const router = createRouter({
             name: 'companyDashboard',
             meta: { requiresAuth: true, role: 'company' },
             //component: CompanyDash
+        },
+        {
+            path: '/companyManager',
+            name: 'companyManager',
+            meta: { requiresAuth: true, role: 'admin' },
+            component: companyManagerView
         }
     ]
 })

@@ -9,14 +9,15 @@ const router = useRouter();
 const adminPanels = ref([
   {
     id: 1,
-    title: 'Test Titolo Pannello',
+    title: 'Gestisci pagine aziendali',
     icon: 'users',
-    content: 'contenuto del pannello',
+    content: 'Attivare, disattivare le pagine aziendali!',
     color: 'bg-blue-500',
     size: 'md',
-    route: '/admin/paginatest'
+    route: '/companyManager'
   }
 ]);
+
 </script>
 
 <template>
