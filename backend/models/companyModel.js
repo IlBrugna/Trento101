@@ -39,10 +39,11 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
         select: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
         max: 25,
     },
-    password: {
+    isActive: {
         type: Boolean,
         default: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
-    }
+    },
+    
 });
 
 companySchema.methods.generateAuthToken = function () { //CREO IL TOKEN
