@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import AziendeView from '@/views/AziendeSearchView.vue';
 import CompanyPage from '@/views/AziendePageView.vue';
-import AdminPanel from '@/views/AdminPanelView.vue';
+import AdminPanelView from '@/views/AdminPanelView.vue';
 import CompanyLoginView from '@/views/CompanyLoginView.vue';
 import CompanyRegistration from '@/views/CompanyRegistration.vue';
 import { useAuthStore } from '@/store/authStore';
@@ -26,11 +26,6 @@ const router = createRouter({
             component: CompanyPage
         },
         {
-            path: '/admin',
-            name: 'admin',
-            component: AdminPanel
-        },
-        {
             path: '/login',
             name: 'login',
             component: CompanyLoginView
@@ -41,10 +36,10 @@ const router = createRouter({
             component: CompanyRegistration
         },
         {
-            path: '/adminDashboard',
-            name: 'adminDashboard',
+            path: '/adminPanel',
+            name: 'adminPanel',
             meta: { requiresAuth: true, role: 'admin' },
-            //component: AdminPage
+            component: AdminPanelView
         },
         {
             path: '/companyDashboard',
@@ -58,7 +53,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
   const requiredRole = to.meta.role;
-console.log("current: ",auth.role, "required: ",requiredRole);
+  console.log("current: ",auth.role, "required: ",requiredRole);
   if (to.meta.requiresAuth && !auth.isLoggedIn) {
     return next('/login'); // CASE NOT LOGGED IN BUT LOG IN REQUIRED
   }
