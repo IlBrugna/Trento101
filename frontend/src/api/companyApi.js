@@ -46,3 +46,16 @@ export const checkEmailExists = async (email) => {
     throw new Error('Error checking email: ' + error.message);
   }
 };
+
+export async function companyUpdate(companyID, updateData) {
+  try {
+    const response = await api.put(`/companies/${companyID}`, {companyData: updateData});
+    return response;
+  } catch (error) {
+    console.log(error.message);
+    throw {
+      status: error.response.status,
+      message: error.response.data.message 
+    };
+  }
+}

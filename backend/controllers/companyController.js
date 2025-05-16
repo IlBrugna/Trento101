@@ -3,7 +3,7 @@ import { Types } from "mongoose"; // IMPORTA MONGOOSE
 
 // GET /company --> tutte le aziende
 export const getAllCompanies = async (req, res) => {
-  const { email } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
+  const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
   if (email) {
     const company = await companyModel.findOne({ email });
     if (company) {
@@ -13,8 +13,18 @@ export const getAllCompanies = async (req, res) => {
     }}
 
     try {
-      const companies = await companyModel.find(); // tutti i documenti
-      res.status(200).json(companies);
+      const filtro = {};
+      if (isActive !== undefined) {
+        if (isActive === 'true') filtro.isActive = true; //PARAMETRI QUERY SONO STRINGE!! VANNO CONVERTITE A BOOL
+        else if (isActive === 'false') filtro.isActive = false;
+        else {  
+         return res.status(400).json({ message: 'Parametro isActive non valido, usa true o false' });
+        }
+      }
+
+    const companies = await companyModel.find(filtro);
+
+    return res.status(200).json(companies);
     } catch (error) {
       res.status(500).json({ message: "Errore durante il recupero delle aziende" });
     }
@@ -36,7 +46,7 @@ export const getSpecificCompany = async (req, res) => {
     }
 }
 
-export const putCompany = async (req, res) => {
+export const postCompany = async (req, res) => {
   try{
     const companyData = req.body;
     const newCompany = new companyModel(companyData);
@@ -47,4 +57,21 @@ export const putCompany = async (req, res) => {
     console.error(error.message);
     return res.status(500).json({ message: error.message });
   }
+}
+
+export const putCompany = async (req, res) => {
+  try {
+        const companyID = req.params.companyID; 
+        if (!Types.ObjectId.isValid(companyID)) {
+           return res.status(400).json({ message: 'ID non valido' });
+        }  
+        const dati=req.body;
+        const company = await companyModel.findByIdAndUpdate(companyID,dati,{new:true}); //new true torna la versione aggironata
+        if (!company) {
+            return  res.status(404).json({ message: 'Azienda non trovata' });
+        }
+        return res.status(200).json(company); 
+    } catch (error) {
+        return res.status(500).json({ message: 'Errore durante il recupero dell\'azienda' }); //SE C'E' UN ERRORE
+    }
 }
