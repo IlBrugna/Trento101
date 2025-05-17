@@ -49,7 +49,20 @@ export const checkEmailExists = async (email) => {
 
 export async function companyUpdate(companyID, updateData) {
   try {
-    const response = await api.put(`/companies/${companyID}`, {companyData: updateData});
+    const response = await api.put(`/companies/${companyID}`, updateData);
+    return response;
+  } catch (error) {
+    console.log(error.message);
+    throw {
+      status: error.response.status,
+      message: error.response.data.message 
+    };
+  }
+}
+
+export async function companyDelete(companyID) {
+  try {
+    const response = await api.delete(`/companies/${companyID}`);
     return response;
   } catch (error) {
     console.log(error.message);

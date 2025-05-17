@@ -1,5 +1,6 @@
 import express from 'express'; //IMPORTA EXPRESS
 import {
+    deleteCompany,
     getAllCompanies,
     getSpecificCompany,
     postCompany,
@@ -13,4 +14,5 @@ router.get("/", getAllCompanies); //AGGIUNGERE PARAMETRO
 router.get('/:companyID', getSpecificCompany);
 router.post('/',postCompany);
 router.put('/:companyID', putCompany);
+router.delete('/:companyID',deleteCompany);
 export default router; //ESPORTA IL ROUTER

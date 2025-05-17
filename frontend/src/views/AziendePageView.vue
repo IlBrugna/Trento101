@@ -15,7 +15,11 @@ const badRequestBool = ref(false);
 onMounted(async () => {
   try {
     const companyDetails = await fetchSpecificCompany(companyID);
+    if (companyDetails.isActive==true)
     company.value = companyDetails; // Update the reactive variable
+    else throw new Error("404 Azienda non trovata");
+    
+    
   } catch (error) {
     badRequest.value = error;
     badRequest.value.bool= true;

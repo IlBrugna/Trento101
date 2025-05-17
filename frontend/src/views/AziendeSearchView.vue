@@ -32,8 +32,9 @@ const fetchAndSetCompanies = async () => {
   loading.value = true;
   try {
     const data = await fetchCompanies();
-    companies.value = data;
-    allFilteredCompanies.value = [...data];
+    // Filtra solo le aziende attive
+    companies.value = data.filter(company => company.isActive === true);
+    allFilteredCompanies.value = [...companies.value];
     applyFilters(); // Applica eventuali filtri iniziali
   } catch (err) {
     error.value = err.message;
@@ -96,7 +97,7 @@ const handlePageChange = (page) => {
 };
 
 const handleItemsPerPageChange = (items) => {
-  itemsPerPage.value = items;
+  itemsPerPage.value = parseInt(items);
   currentPage.value = 1; // Torna alla prima pagina
 };
 
@@ -121,7 +122,7 @@ watch(companies, () => {
 <template>
   <div class="container mx-auto px-4 py-8">
     <!-- Loading indicator -->
-    <template>
+    <template v-if="loading">
       <div class="flex justify-center items-center py-12">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>

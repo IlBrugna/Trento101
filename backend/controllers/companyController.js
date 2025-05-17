@@ -75,3 +75,19 @@ export const putCompany = async (req, res) => {
         return res.status(500).json({ message: 'Errore durante il recupero dell\'azienda' }); //SE C'E' UN ERRORE
     }
 }
+
+export const deleteCompany = async (req, res) => {
+  try {
+        const companyID = req.params.companyID; 
+        if (!Types.ObjectId.isValid(companyID)) {
+           return res.status(400).json({ message: 'ID non valido' });
+        }  
+        const company = await companyModel.findByIdAndDelete(companyID);
+        if (!company) {
+            return  res.status(404).json({ message: 'Azienda non trovata' });
+        }
+        return res.status(200).json(company); 
+    } catch (error) {
+        return res.status(500).json({ message: 'Errore durante l\'eleminazione dell\'azienda' }); //SE C'E' UN ERRORE
+    }
+}
