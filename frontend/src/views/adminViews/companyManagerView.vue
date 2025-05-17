@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
-import { fetchCompanies, companyDelete } from '@/api/companyApi';
-import api from "@/services/api";
-
+import { fetchCompanies, companyDelete, companyUpdate } from '@/api/companyApi';
 
 const allCompanies = ref([]);
 const filteredCompanies = ref([]);
@@ -28,11 +26,10 @@ const fetchAndSetCompanies = async () => {
 };
 
 //FUNZIONE DI MODIFICA DELLO STATO
-const updateCompanyStatus = async (companyId, isActive) => {
+const handleUpdateCompanyStatus = async (companyId, isActive) => {
   loading.value = true;
   try {
-
-    const response = await api.put(`/companies/${companyId}`, { isActive });
+    const response = await companyUpdate(companyId, { isActive });
     console.log('Risposta aggiornamento:', response);
     await fetchAndSetCompanies();
   } catch (err) {
@@ -94,11 +91,11 @@ const disabledCompanies = computed(() => {
 
 //ATTIVA AZIENDA
 const enableCompany = async (companyId) => {
-  await updateCompanyStatus(companyId, true);
+  await handleUpdateCompanyStatus(companyId, true);
 };
 //DISATTIVA AZIENDA
 const disableCompany = async (companyId) => {
-  await updateCompanyStatus(companyId, false);
+  await handleUpdateCompanyStatus(companyId, false);
 };
 
 // Watch per aggiornare filtri quando cambiano le aziende
@@ -138,19 +135,17 @@ watch(allCompanies, () => {
               <p v-if="company.email" class="text-sm text-gray-500">{{ company.email }}</p>
             </div>
             <div class="flex space-x-2">
-              <button 
-                @click="enableCompany(company._id)" 
-                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
-                :disabled="loading"
-              >
-                Riattiva
-              </button>
+            <button 
+              @click="enableCompany(company._id)" 
+              class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
+              :disabled="loading">
+              Riattiva
+            </button>
               <button 
                 @click="deleteCompany(company._id)"
                 class="bg-red-500 hover:bg-red-600 text-white p-1 rounded-md text-sm transition-colors"
                 :disabled="loading"
-                title="Elimina azienda"
-              >
+                title="Elimina azienda">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
@@ -172,8 +167,7 @@ watch(allCompanies, () => {
               @input="handleSearchInput($event.target.value)"
               type="text"
               placeholder="Cerca aziende..."
-              class="w-full p-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+              class="w-full p-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             <div class="absolute left-3 top-3 text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -205,16 +199,14 @@ watch(allCompanies, () => {
               v-if="company.isActive"
               @click="disableCompany(company._id)" 
               class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
-              :disabled="loading"
-            >
+              :disabled="loading">
               Disattiva
             </button>
             <button 
               v-else
               @click="enableCompany(company._id)" 
               class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
-              :disabled="loading"
-            >
+              :disabled="loading">
               Riattiva
             </button>
           </div>

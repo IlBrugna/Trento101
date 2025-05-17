@@ -49,7 +49,7 @@ export const checkEmailExists = async (email) => {
 
 export async function companyUpdate(companyID, updateData) {
   try {
-    const response = await api.put(`/companies/${companyID}`, {companyData: updateData});
+    const response = await api.put(`/companies/${companyID}`, updateData);
     return response;
   } catch (error) {
     console.log(error.message);
