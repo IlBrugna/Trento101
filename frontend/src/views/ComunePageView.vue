@@ -1,6 +1,7 @@
 <script setup>
 import HeroSection from '@/components/comunePanel/HeroSection.vue';
 import ServiceCarousel from '@/components/comunePanel/ServiceCarousel.vue';
+import NewsCarousel from '@/components/comunePanel/NewsCarousel.vue';
 </script>
 
 <template>
@@ -21,6 +22,15 @@ import ServiceCarousel from '@/components/comunePanel/ServiceCarousel.vue';
         <h2 class="text-2xl font-bold text-gray-800">Altri Servizi</h2>
       </div>
       <ServiceCarousel :secondary="true"/>
+    </section>
+
+    <!-- Ultime News -->
+    <section class="mb-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Ultime Notizie</h2>
+        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Tutte le notizie</a>
+      </div>
+      <NewsCarousel/>
     </section>
   </main>
 </template>

@@ -43,8 +43,9 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
         type: Boolean,
         default: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
     },
-    
-});
+    },
+    { timestamps: true }
+);
 
 companySchema.methods.generateAuthToken = function () { //CREO IL TOKEN
     const token = jwt.sign({ _id: this._id, role: "company" }, //PAYLOAD
