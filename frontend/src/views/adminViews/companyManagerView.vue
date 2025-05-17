@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
-import { fetchCompanies } from '@/api/companyApi';
+import { fetchCompanies, companyDelete } from '@/api/companyApi';
 import api from "@/services/api";
 
 

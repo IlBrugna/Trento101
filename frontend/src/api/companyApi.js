@@ -59,3 +59,16 @@ export async function companyUpdate(companyID, updateData) {
     };
   }
 }
+
+export async function companyDelete(companyID) {
+  try {
+    const response = await api.delete(`/companies/${companyID}`);
+    return response;
+  } catch (error) {
+    console.log(error.message);
+    throw {
+      status: error.response.status,
+      message: error.response.data.message 
+    };
+  }
+}
