@@ -43,6 +43,24 @@ const updateCompanyStatus = async (companyId, isActive) => {
   }
 };
 
+// FUNZIONE DI ELIMINAZIONE AZIENDA
+const deleteCompany = async (companyId) => {
+  if (!confirm('Sei sicuro di voler eliminare questa azienda?')) {
+    return;
+  }
+  
+  loading.value = true;
+  try {
+    await companyDelete(companyId);
+    await fetchAndSetCompanies(); // Aggiorna la lista dopo l'eliminazione
+  } catch (err) {
+    console.error('Errore durante l\'eliminazione:', err);
+    error.value = `Errore durante l'eliminazione dell'azienda: ${err.message || 'Errore sconosciuto'}`;
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(() => {
   fetchAndSetCompanies();
 });
@@ -119,13 +137,25 @@ watch(allCompanies, () => {
               <p class="font-medium text-gray-800">{{ company.name }}</p>
               <p v-if="company.email" class="text-sm text-gray-500">{{ company.email }}</p>
             </div>
-            <button 
-              @click="enableCompany(company._id)" 
-              class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
-              :disabled="loading"
-            >
-              Riattiva
-            </button>
+            <div class="flex space-x-2">
+              <button 
+                @click="enableCompany(company._id)" 
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
+                :disabled="loading"
+              >
+                Riattiva
+              </button>
+              <button 
+                @click="deleteCompany(company._id)"
+                class="bg-red-500 hover:bg-red-600 text-white p-1 rounded-md text-sm transition-colors"
+                :disabled="loading"
+                title="Elimina azienda"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
