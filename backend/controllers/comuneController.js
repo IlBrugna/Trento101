@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 
 // GET /comune --> tutti i servizi
 export const getAllServices = async (req, res) => {
-  const { title } = req.query;            // controllo duplicati opzionale
+  const { title } = req.query;
   if (title) {
     try {
       const service = await comuneModel.findOne({ title });
@@ -43,8 +43,8 @@ export const getSpecificService = async (req, res) => {
   }
 };
 
-// POST /comune/putservice --> inserimento di un nuovo servizio
-export const putService = async (req, res) => {
+// POST /comune/createservice --> inserimento di un nuovo servizio
+export const createService = async (req, res) => {
   try {
     const serviceData = req.body;
 
@@ -52,6 +52,48 @@ export const putService = async (req, res) => {
 
     await newService.save();              // inserisci in MongoDB
     return res.status(201).json(newService);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+// PUT /comune/:serviceID --> modifica un servizio esistente
+export const updateService = async (req, res) => {
+  const { serviceID } = req.params;
+
+  if (!Types.ObjectId.isValid(serviceID)) {
+    return res.status(400).json({ message: 'ID non valido' });
+  }
+
+  try {
+    const updated = await comuneModel.findByIdAndUpdate(
+      serviceID,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!updated) {
+      return res.status(404).json({ message: 'Servizio non trovato' });
+    }
+    return res.status(200).json(updated);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+// DELETE /comune/:serviceID --> elimina un servizio
+export const deleteService = async (req, res) => {
+  const { serviceID } = req.params;
+
+  if (!Types.ObjectId.isValid(serviceID)) {
+    return res.status(400).json({ message: 'ID non valido' });
+  }
+
+  try {
+    const deleted = await comuneModel.findByIdAndDelete(serviceID);
+    if (!deleted) {
+      return res.status(404).json({ message: 'Servizio non trovato' });
+    }
+    return res.status(200).json({ message: 'Servizio eliminato con successo' });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
