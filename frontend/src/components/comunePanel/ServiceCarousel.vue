@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchAllComuni } from '@/api/comuneAPI';
+import { fetchAllComuni } from '@/api/comuneServicesAPI';
 
 const props = defineProps({
   secondary: {

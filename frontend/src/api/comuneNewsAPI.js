@@ -30,3 +30,48 @@ export async function fetchSpecificNews(id) {
     };
   }
 }
+
+/**
+ * Crea una nuova news
+ */
+export async function createNews(newsData) {
+  try {
+    const { data } = await api.post("/news", newsData);
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
+
+/**
+ * Aggiorna una news esistente
+ */
+export async function updateNews(id, newsData) {
+  try {
+    const { data } = await api.put(`/news/${id}`, newsData);
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
+
+/**
+ * Cancella una news
+ */
+export async function deleteNews(id) {
+  try {
+    const { data } = await api.delete(`/news/${id}`);
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
