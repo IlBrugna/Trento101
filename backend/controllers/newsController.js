@@ -36,3 +36,62 @@ export const getSpecificNews = async (req, res) => {
       .json({ message: 'Errore nel recupero della news' });
   }
 };
+
+// POST /news --> aggiungo una nuova news
+export const createNews = async (req, res) => {
+  try {
+    const newsData = req.body;
+
+    // Converte la data in formato ISO 8601
+    newsData.date = dayjs(newsData.date, 'DD/MM/YYYY').toDate();
+
+    const newNews = new newsModel(newsData);
+
+    await newNews.save();
+    return res.status(201).json(newNews);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+// PUT /news/:newsID --> modifica una news esistente
+export const updateNews = async (req, res) => {
+  const { newsID } = req.params;
+
+  if (!Types.ObjectId.isValid(newsID)) {
+    return res.status(400).json({ message: 'ID non valido' });
+  }
+
+  try {
+    const updated = await newsModel.findByIdAndUpdate(newsID, req.body, {
+      new: true,          // restituisce il documento aggiornato
+      runValidators: true // applica le validazioni dello schema
+    });
+
+    if (!updated) {
+      return res.status(404).json({ message: 'News non trovata' });
+    }
+    return res.status(200).json(updated);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+// DELETE /news/:newsID --> cancella una news esistente
+export const deleteNews = async (req, res) => {
+  const { newsID } = req.params;
+
+  if (!Types.ObjectId.isValid(newsID)) {
+    return res.status(400).json({ message: 'ID non valido' });
+  }
+
+  try {
+    const deleted = await newsModel.findByIdAndDelete(newsID);
+    if (!deleted) {
+      return res.status(404).json({ message: 'News non trovata' });
+    }
+    return res.status(200).json({ message: 'News eliminata con successo' });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
