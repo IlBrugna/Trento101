@@ -15,6 +15,15 @@ const adminPanels = ref([
     color: 'bg-blue-500',
     size: 'md',
     route: '/companyManager'
+  },
+  {
+    id: 2,
+    title: 'Gestisci news',
+    icon: 'users',
+    content: 'Gestisci le news comunali',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminNewsManager'
   }
 ]);
 

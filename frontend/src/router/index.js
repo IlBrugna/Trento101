@@ -8,6 +8,7 @@ import CompanyRegistration from '@/views/CompanyRegistration.vue';
 import { useAuthStore } from '@/store/authStore';
 import ComunePageView from '@/views/ComunePageView.vue';
 import companyManagerView from '@/views/adminViews/companyManagerView.vue';
+import AdminNewsManager from '@/views/adminViews/AdminNewsManager.vue';
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -59,6 +60,12 @@ const router = createRouter({
             name: 'companyManager',
             meta: { requiresAuth: true, role: 'admin' },
             component: companyManagerView
+        },
+        {
+            path: '/adminNewsManager',
+            name: 'adminNewsManager',
+            meta: { requiresAuth: true, role: 'admin' },
+            component: AdminNewsManager
         }
     ],
     scrollBehavior (to, from, savedPosition) {

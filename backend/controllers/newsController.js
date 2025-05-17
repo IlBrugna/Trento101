@@ -42,9 +42,6 @@ export const createNews = async (req, res) => {
   try {
     const newsData = req.body;
 
-    // Converte la data in formato ISO 8601
-    newsData.date = dayjs(newsData.date, 'DD/MM/YYYY').toDate();
-
     const newNews = new newsModel(newsData);
 
     await newNews.save();
