@@ -1,5 +1,7 @@
 import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
 import adminModel from '../models/adminModel.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const Login = async (req, res) => {
     const {email, password} = req.body;
@@ -38,3 +40,39 @@ export const logout = async (req, res) => {
     res.clearCookie('AuthToken'); //CANCELLA IL COOKIE
     return res.status(200).json({message: 'Logout effettuato con successo'});
 }; //ROUTE DI LOGOUT
+
+//verifica password per login
+export const companyLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // cerco azienda
+    const company = await companyModel.findOne({ email });
+    if (!company) {
+      return res.status(404).json({ message: 'Azienda non trovata' });
+    }
+
+    // confronto password ricevuta/hash salvato
+    const isPasswordValid = await bcrypt.compare(password, company.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Password errata' });
+    }
+
+    // Genera token JWT
+    const token = jwt.sign(
+      { userId: company._id, role: 'company' },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    return res.status(200).json({
+      message: 'Login riuscito!',
+      token,
+      userData: company,
+      role: 'company'
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Errore durante il login' });
+  }
+};
