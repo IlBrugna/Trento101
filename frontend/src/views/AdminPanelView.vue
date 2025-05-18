@@ -24,6 +24,15 @@ const adminPanels = ref([
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminNewsManager'
+  },
+  {
+    id: 3,
+    title: 'Gestisci pagina servizi',
+    icon: 'users',
+    content: 'Gestisci le i servizi comunali',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminServicesManager'
   }
 ]);
 

@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { Icon } from '@iconify/vue';
 import { fetchAllComuni } from '@/api/comuneServicesAPI';
+
 
 const props = defineProps({
   secondary: {
@@ -11,22 +13,17 @@ const props = defineProps({
 
 // Stato per i servizi
 const services = ref([]);
-const loading = ref(true);
-const error = ref(null);
+const loading  = ref(true);
+const error    = ref(null);
 
-// Fa il fetch dei servizi
+// Fetch dei servizi
 const loadServices = async () => {
   try {
     loading.value = true;
-    
-    // Fa il fetch dei dati
+   
     const data = await fetchAllComuni();
-    console.log('Fetched data:', data);
-    
-    // Filtra i servizi in base alla proprietà secondaria
     services.value = data.filter(service => service.isPrimary !== props.secondary);
-    console.log('Filtered services:', services.value);
-    
+   
   } catch (err) {
     console.error('Failed to fetch services:', err);
     error.value = 'Failed to load services. Please try again later.';
@@ -35,7 +32,6 @@ const loadServices = async () => {
   }
 };
 
-// Fa il fetch dei servizi al montaggio del componente
 onMounted(loadServices);
 </script>
 
@@ -66,8 +62,8 @@ onMounted(loadServices);
       class="flex-shrink-0 w-80 snap-start rounded-lg overflow-hidden shadow-md hover:shadow-lg transition bg-white"
     >
       <div class="flex items-center h-24 ">
-        <div :class="`h-full w-24 flex items-center justify-center bg-blue-400`">
-          <span class="material-icons text-4xl ">{{ service.icon }}</span>
+        <div :class="`h-full w-24 flex items-center justify-center`" :style="{ backgroundColor: service.color }">
+            <span class="material-icons text-4xl">{{ service.icon }}</span>
         </div>
         <div class="p-4 flex-1">
           <h3 class="font-bold text-lg">{{ service.title }}</h3>
@@ -95,8 +91,8 @@ onMounted(loadServices);
       class="flex-grow-0 flex-shrink-0 basis-auto w-full md:w-auto p-4 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition"
     >
       <div class="flex items-center">
-        <div :class="`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-blue-400`">
-          <span class="material-icons text-lg ">{{ service.icon }}</span>
+        <div :class="`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 `" :style="{ backgroundColor: service.color }">
+            <span class="material-icons text-lg">{{ service.icon }}</span>
         </div>
         <div class="ml-3">
           <h3 class="font-bold">{{ service.title }}</h3>
