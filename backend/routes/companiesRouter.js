@@ -5,7 +5,7 @@ import {
     getCompany,
     postCompany,
     putCompany
-} from '../controllers/companyController.js'; //IMPORTA LE FUNZIONI DAL CONTROLLER
+} from '../controllers/companiesController.js'; //IMPORTA LE FUNZIONI DAL CONTROLLER
 
 const router = express.Router(); //CREA ROUTER
 //router si riferisce a localhost:PORT/company

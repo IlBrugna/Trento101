@@ -1,8 +1,7 @@
-import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
+import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
 import { hashPassword } from '../utils/hashutils.js';
 
-// GET /company --> tutte le aziende
 export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
   if (email) {
@@ -30,7 +29,7 @@ export const getCompanies = async (req, res) => {
       res.status(500).json({ message: "Errore durante il recupero delle aziende" });
     }
   };
-// GET /company/:companyID --> azienda singola
+
 export const getCompany = async (req, res) => {
   try {
         const companyID = req.params.companyID; //OTTENGO ID DALLA RICHIESTA

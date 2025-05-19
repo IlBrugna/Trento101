@@ -5,7 +5,7 @@ import {
     postServizioComune,
     putServizioComune,
     deleteServizioComune
-} from '../controllers/comuneController.js';
+} from '../controllers/serviziComuneController.js';
 
 const router = express.Router();
 
