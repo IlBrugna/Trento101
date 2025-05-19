@@ -1,6 +1,5 @@
 import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
-import bcrypt from 'bcrypt';
 
 // GET /company --> tutte le aziende
 export const getAllCompanies = async (req, res) => {
@@ -93,34 +92,3 @@ export const deleteCompany = async (req, res) => {
     }
 }
 
-//per hashare password preregistrazione
-export const companyRegistration = async (req, res) => {
-  try {
-    const { email, password, ...rest } = req.body;
-
-    // esiste già l'azienda?
-    const existingCompany = await Company.findOne({ email });
-    if (existingCompany) {
-      return res.status(400).json({ message: 'Email già in uso' });
-    }
-
-    // Genera hash
-    const saltRounds = 10; // maggiore = più sicuro ma più lento
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // crea la nuova azienda con password hashata
-    const newCompany = new Company({
-      email,
-      password: hashedPassword,
-      ...rest
-    });
-
-    // Salva nel DB
-    await newCompany.save();
-
-    return res.status(201).json({ message: 'Registrazione completata!' });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Errore durante la registrazione' });
-  }
-};
