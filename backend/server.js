@@ -28,7 +28,7 @@ const API_BASE_PATH = `/api/${API_VERSION}`;
 
 // Routes with versioning
 app.use(`${API_BASE_PATH}/companies`, companyRouter);
-app.use(`${API_BASE_PATH}/comuneServizi`, comuneRouter);
+app.use(`${API_BASE_PATH}/serviziComune`, comuneRouter);
 app.use(`${API_BASE_PATH}/comuneNews`, newsRouter);
 app.use(`${API_BASE_PATH}/auth`, authRouter);
 

@@ -1,5 +1,5 @@
 // controllers/newsController.js
-import newsModel from '../models/newsModel.js';   // importa il modello “notice”
+import newsModel from '../models/newsModel.js';   // importa il modello “News”
 import { Types } from 'mongoose';
 
 // GET /news --> tutte le news

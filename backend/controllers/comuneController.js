@@ -2,7 +2,7 @@
 import comuneModel from '../models/comuneModel.js'; // importa il modello
 import { Types } from 'mongoose';
 
-// GET /comune --> tutti i servizi
+// GET /serviziComune --> tutti i servizi
 export const getServiziComune = async (req, res) => {
   const { title } = req.query;
   if (title) {
@@ -23,7 +23,7 @@ export const getServiziComune = async (req, res) => {
   }
 };
 
-// GET /comune:serviceID --> servizio specifico
+// GET /serviziComune:serviceID --> servizio specifico
 export const getServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
@@ -43,7 +43,7 @@ export const getServizioComune = async (req, res) => {
   }
 };
 
-// POST /comune/createservice --> inserimento di un nuovo servizio
+// POST /serviziComune/createservice --> inserimento di un nuovo servizio
 export const postServizioComune = async (req, res) => {
   try {
     const serviceData = req.body;
@@ -57,7 +57,7 @@ export const postServizioComune = async (req, res) => {
   }
 };
 
-// PUT /comune/:serviceID --> modifica un servizio esistente
+// PUT /serviziComune/:serviceID --> modifica un servizio esistente
 export const putServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
@@ -80,7 +80,7 @@ export const putServizioComune = async (req, res) => {
   }
 };
 
-// DELETE /comune/:serviceID --> elimina un servizio
+// DELETE /serviziComune/:serviceID --> elimina un servizio
 export const deleteServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 

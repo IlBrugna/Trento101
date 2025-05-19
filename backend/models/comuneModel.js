@@ -31,6 +31,6 @@ const comuneSchema = new mongoose.Schema({
   { timestamps: true }
 );
 
-const comuneModel = mongoose.model('comune', comuneSchema);
+const comuneModel = mongoose.model('serviziComune', comuneSchema);
 
 export default comuneModel;
