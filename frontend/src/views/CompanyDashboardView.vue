@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '@/store/authStore';
-import { fetchSpecificCompany, updateCompany } from '@/api/companyApi';
+import { fetchSpecificCompany, companyUpdate } from '@/api/companyApi';
 import CompanyEditForm from '@/components/company/CompanyEditForm.vue';
 import { useRouter } from 'vue-router';
 
