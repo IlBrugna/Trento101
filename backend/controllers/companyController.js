@@ -2,7 +2,7 @@ import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
 
 // GET /company --> tutte le aziende
-export const getAllCompanies = async (req, res) => {
+export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
   if (email) {
     const company = await companyModel.findOne({ email });
@@ -30,7 +30,7 @@ export const getAllCompanies = async (req, res) => {
     }
   };
 // GET /company/:companyID --> azienda singola
-export const getSpecificCompany = async (req, res) => {
+export const getCompany = async (req, res) => {
   try {
         const companyID = req.params.companyID; //OTTENGO ID DALLA RICHIESTA
         if (!Types.ObjectId.isValid(companyID)) {

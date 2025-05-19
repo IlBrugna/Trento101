@@ -3,7 +3,7 @@ import comuneModel from '../models/comuneModel.js'; // importa il modello
 import { Types } from 'mongoose';
 
 // GET /comune --> tutti i servizi
-export const getAllServices = async (req, res) => {
+export const getServiziComune = async (req, res) => {
   const { title } = req.query;
   if (title) {
     try {
@@ -24,7 +24,7 @@ export const getAllServices = async (req, res) => {
 };
 
 // GET /comune:serviceID --> servizio specifico
-export const getSpecificService = async (req, res) => {
+export const getServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
   // controlla che l'id fornito sia un ObjectId valido di Mongo
@@ -44,7 +44,7 @@ export const getSpecificService = async (req, res) => {
 };
 
 // POST /comune/createservice --> inserimento di un nuovo servizio
-export const createService = async (req, res) => {
+export const postServizioComune = async (req, res) => {
   try {
     const serviceData = req.body;
 
@@ -58,7 +58,7 @@ export const createService = async (req, res) => {
 };
 
 // PUT /comune/:serviceID --> modifica un servizio esistente
-export const updateService = async (req, res) => {
+export const putServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
   if (!Types.ObjectId.isValid(serviceID)) {
@@ -81,7 +81,7 @@ export const updateService = async (req, res) => {
 };
 
 // DELETE /comune/:serviceID --> elimina un servizio
-export const deleteService = async (req, res) => {
+export const deleteServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
   if (!Types.ObjectId.isValid(serviceID)) {

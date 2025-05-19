@@ -6,7 +6,7 @@ import api from "@/services/api";
  */
 export async function fetchAllComuni() {
   try {
-    const { data } = await api.get("/comune");
+    const { data } = await api.get("api/v1/comuneServizi");
     return data;
   } catch (error) {
     throw {
@@ -21,7 +21,7 @@ export async function fetchAllComuni() {
  */
 export async function fetchSpecificComune(id) {
   try {
-    const response = await api.get(`/comune/${id}`);
+    const response = await api.get(`api/v1/comuneServizi/${id}`);
     return response.data;
   } catch (error) {
     throw {
@@ -36,7 +36,7 @@ export async function fetchSpecificComune(id) {
  */
 export async function createComune(comuneData) {
   try {
-    const response = await api.post('/comune', comuneData);
+    const response = await api.post('api/v1/comuneServizi', comuneData);
     return response.data;
   } catch (error) {
     throw {
@@ -51,7 +51,7 @@ export async function createComune(comuneData) {
  */
 export async function updateComune(id, comuneData) {
   try {
-    const response = await api.put(`/comune/${id}`, comuneData);
+    const response = await api.put(`api/v1/comuneServizi/${id}`, comuneData);
     return response.data;
   } catch (error) {
     throw {
@@ -66,7 +66,7 @@ export async function updateComune(id, comuneData) {
  */
 export async function deleteComune(id) {
   try {
-    const response = await api.delete(`/comune/${id}`);
+    const response = await api.delete(`api/v1/comuneServizi/${id}`);
     return response.data;
   } catch (error) {
     throw {

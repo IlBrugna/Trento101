@@ -16,7 +16,7 @@ export const getAllNews = async (req, res) => {
 };
 
 // GET /news:newsID --> news specifica
-export const getSpecificNews = async (req, res) => {
+export const getNews = async (req, res) => {
   const { newsID } = req.params;
 
   // controlla che l'id fornito sia un ObjectId valido
@@ -38,7 +38,7 @@ export const getSpecificNews = async (req, res) => {
 };
 
 // POST /news --> aggiungo una nuova news
-export const createNews = async (req, res) => {
+export const postNews = async (req, res) => {
   try {
     const newsData = req.body;
 
@@ -52,7 +52,7 @@ export const createNews = async (req, res) => {
 };
 
 // PUT /news/:newsID --> modifica una news esistente
-export const updateNews = async (req, res) => {
+export const putNews = async (req, res) => {
   const { newsID } = req.params;
 
   if (!Types.ObjectId.isValid(newsID)) {
