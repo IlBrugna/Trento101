@@ -1,8 +1,6 @@
-// controllers/comuneController.js
 import serviziComuneModel from '../models/serviziComuneModel.js'; // importa il modello
 import { Types } from 'mongoose';
 
-// GET /serviziComune --> tutti i servizi
 export const getServiziComune = async (req, res) => {
   const { title } = req.query;
   if (title) {
@@ -23,7 +21,6 @@ export const getServiziComune = async (req, res) => {
   }
 };
 
-// GET /serviziComune:serviceID --> servizio specifico
 export const getServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
@@ -43,7 +40,6 @@ export const getServizioComune = async (req, res) => {
   }
 };
 
-// POST /serviziComune/createservice --> inserimento di un nuovo servizio
 export const postServizioComune = async (req, res) => {
   try {
     const serviceData = req.body;
@@ -57,7 +53,6 @@ export const postServizioComune = async (req, res) => {
   }
 };
 
-// PUT /serviziComune/:serviceID --> modifica un servizio esistente
 export const putServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
@@ -80,7 +75,6 @@ export const putServizioComune = async (req, res) => {
   }
 };
 
-// DELETE /serviziComune/:serviceID --> elimina un servizio
 export const deleteServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 

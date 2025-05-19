@@ -11,7 +11,6 @@ export const useAuthStore = defineStore('auth',() => {
         isLoggedIn.value = true;
         role.value = data.role;
         user.value = data.user;
-        //console.log("assegno allo store ruolo: ",role.value);
     }
 
     function logout() {
