@@ -27,8 +27,8 @@ onMounted(async () => {
 
 const handleUpdate = async (updatedData) => {
   try {
-    const response = await updateCompany(auth.user._id, updatedData);
-    company.value = response;
+    const response = await companyUpdate(auth.user._id, updatedData);
+    company.value = response.data;
     alert('Dati aggiornati con successo!');
   } catch (err) {
     alert('Errore durante l\'aggiornamento.');

@@ -73,6 +73,12 @@ const router = createRouter({
             name: 'adminServicesManager',
             meta: { requiresAuth: true, role: 'admin' },
             component: AdminServicesManager
+        },
+        {
+            path: '/companyDashboard',
+            name: 'companyDashboard',
+            meta: { requiresAuth: true, role: 'company' },
+            component: () => import('@/views/CompanyDashboardView.vue')
         }
     ],
     scrollBehavior (to, from, savedPosition) {
