@@ -2,12 +2,10 @@
 import { ref, onMounted } from 'vue';
 import { fetchAllNews } from '@/api/comuneNewsAPI';
 
-// reactive state
 const news     = ref([]);
 const loading  = ref(true);
 const errorMsg = ref(null);
 
-// simple date formatter (ISO → “DD/MM/YYYY”)
 function formatDate(isoString) {
   return new Date(isoString).toLocaleDateString('it-IT', {
     day: '2-digit',
@@ -18,7 +16,7 @@ function formatDate(isoString) {
 
 onMounted(async () => {
   try {
-    news.value = await fetchAllNews();      // ⇠ call your API
+    news.value = await fetchAllNews();     
   } catch (err) {
     errorMsg.value =
       err?.message || 'Errore nel caricamento delle news';

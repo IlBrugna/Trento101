@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/authStore';
 import { fetchSpecificCompany, companyUpdate } from '@/api/companyApi';
 import CompanyEditForm from '@/components/company/CompanyEditForm.vue';
 import { useRouter } from 'vue-router';
-
+import { checkAuthOnAppLoad } from '@/api/authApi';
 const auth = useAuthStore();
 const router = useRouter();
 
@@ -12,11 +12,7 @@ const company = ref(null);
 const error = ref(null);
 
 onMounted(async () => {
-  if (!auth.user?._id) {
-    router.push('/login');
-    return;
-  }
-
+  await checkAuthOnAppLoad();
   try {
     const data = await fetchSpecificCompany(auth.user._id);
     company.value = data;

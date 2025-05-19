@@ -14,7 +14,7 @@ const companyLoginHandler = async (loginData) => {
     const response = await companyLogin(loginData);
     if (response.status === 200) { //SE SUCCESSO
       if (AuthStore.role=="company")
-        router.push(`/azienda/${response.data.userData._id}`); // DA MODIFICARE CON DASHBOARD AZIENDALE
+        router.push('/companyDashboard'); 
       else if (AuthStore.role=="admin")
         router.push('/adminPanel');
     }

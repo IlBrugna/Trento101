@@ -11,11 +11,4 @@ router.get('/', checkAuth(), (req, res) => {
 });
 router.delete('/', logout);
 
-
-/*
-vedere se ha senso renderlo post, get, delete, SPOSTARE IN COMPANY?
-//SPOSTARE TOKEN NON VALIDO SPOSTARE IN FRONTEND
-
-*/
-
 export default router; //ESPORTA IL ROUTER

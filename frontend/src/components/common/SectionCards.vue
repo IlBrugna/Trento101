@@ -1,22 +1,45 @@
 <script setup>
-//DATA DA AGGIUNGERE
 import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
 </script>
 
 <template>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <div class="bg-white shadow rounded-lg p-12 text-center flex flex-col justify-center min-h-[500px]">
-        <h2 class="text-xl font-semibold mb-2">Servizi Comune</h2>
-        <p class="text-gray-600">Scopri i servizi offerti dal comune.</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    
+    <router-link
+      to="/serviziComune"
+      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
+      style="background-image: url('public/serviziComune.jpg');"
+    >
+      <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
+        <h2 class="text-2xl font-semibold text-white drop-shadow mb-2">Servizi Comune</h2>
+        <p class="text-white text-xl drop-shadow">I servizi del nostro comune</p>
       </div>
-      <div class="bg-white shadow rounded-lg p-12 text-center flex flex-col justify-center min-h-[500px]">
-        <h2 class="text-xl font-semibold mb-2">Aziende</h2>
-        <p class="text-gray-600">Soluzioni per le imprese.</p>
+    </router-link>
+
+    <router-link
+      to="/aziende"
+      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
+      style="background-image: url('public/aziende.jpg');"
+    >
+      <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
+        <h2 class="text-2xl font-semibold text-white drop-shadow mb-2">Aziende</h2>
+        <p class="text-white text-xl drop-shadow">Le imprese sul territorio</p>
       </div>
-      <div class="bg-white shadow rounded-lg p-12 text-center flex flex-col justify-center min-h-[500px]">  
-        <h2 class="text-xl font-semibold mb-2">Servizi Università</h2>
-        <p class="text-gray-600">Portale per studenti e docenti.</p>
+    </router-link>
+
+    <router-link
+      to="/"
+      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
+      style="background-image: url('public/serviziUniversita.jpg');"
+    >
+      <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
+        <h2 class="text-6xl font-semibold text-white drop-shadow mb-2">TO BE DEVELOPED</h2>
+        <h2 class="text-2xl font-semibold text-white drop-shadow mb-2">Servizi Università</h2>
+        <p class="text-white text-xl drop-shadow">Portale per studenti e docenti</p>
       </div>
-    </div>
-  </template>
+    </router-link>
+
+  </div>
+</template>
+
   

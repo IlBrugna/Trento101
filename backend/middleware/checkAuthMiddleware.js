@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import companyModel from "../models/companiesModel.js";
-import adminModel from "../models/adminModel.js"; // <-- Assicurati di crearlo e importarlo
+import adminModel from "../models/adminModel.js";
 
 const checkAuth = (requiredRole = null) => {
   return async (req, res, next) => {

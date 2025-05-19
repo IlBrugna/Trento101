@@ -1,4 +1,3 @@
-// A tiny axios wrapper so every call automatically uses the same base URL.
 import axios from "axios";
 
 const api = axios.create({

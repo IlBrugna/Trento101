@@ -1,9 +1,5 @@
-// src/services/comuneService.js
 import api from "@/services/api";
 
-/**
- * Esegue il fetch di tutti i servizi
- */
 export async function fetchAllComuni() {
   try {
     const { data } = await api.get("api/v1/serviziComune");
@@ -16,9 +12,6 @@ export async function fetchAllComuni() {
   }
 }
 
-/**
- * Esegue il fetch di un servizio specifico
- */
 export async function fetchSpecificComune(id) {
   try {
     const response = await api.get(`api/v1/serviziComune/${id}`);
@@ -31,9 +24,6 @@ export async function fetchSpecificComune(id) {
   }
 }
 
-/**
- * Crea un nuovo servizio
- */
 export async function createComune(comuneData) {
   try {
     const response = await api.post('api/v1/serviziComune', comuneData);
@@ -46,9 +36,6 @@ export async function createComune(comuneData) {
   }
 }
 
-/**
- * Aggiorna un servizio esistente
- */
 export async function updateComune(id, comuneData) {
   try {
     const response = await api.put(`api/v1/serviziComune/${id}`, comuneData);
@@ -61,9 +48,6 @@ export async function updateComune(id, comuneData) {
   }
 }
 
-/**
- * Cancella un servizio
- */
 export async function deleteComune(id) {
   try {
     const response = await api.delete(`api/v1/serviziComune/${id}`);

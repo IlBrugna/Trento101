@@ -1,8 +1,6 @@
-// controllers/newsController.js
 import newsModel from '../models/newsModel.js';   // importa il modello “News”
 import { Types } from 'mongoose';
 
-// GET /news --> tutte le news
 export const getAllNews = async (req, res) => {
   // Lista completa delle news
   try {
@@ -15,7 +13,7 @@ export const getAllNews = async (req, res) => {
   }
 };
 
-// GET /news:newsID --> news specifica
+
 export const getNews = async (req, res) => {
   const { newsID } = req.params;
 
@@ -37,7 +35,6 @@ export const getNews = async (req, res) => {
   }
 };
 
-// POST /news --> aggiungo una nuova news
 export const postNews = async (req, res) => {
   try {
     const newsData = req.body;
@@ -51,7 +48,6 @@ export const postNews = async (req, res) => {
   }
 };
 
-// PUT /news/:newsID --> modifica una news esistente
 export const putNews = async (req, res) => {
   const { newsID } = req.params;
 
@@ -74,7 +70,6 @@ export const putNews = async (req, res) => {
   }
 };
 
-// DELETE /news/:newsID --> cancella una news esistente
 export const deleteNews = async (req, res) => {
   const { newsID } = req.params;
 

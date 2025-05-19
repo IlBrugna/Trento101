@@ -1,9 +1,5 @@
-// services/comuneNewsAPI.js
 import api from "@/services/api";
 
-/**
- * Esegue il fetch di tutte le news
- */
 export async function fetchAllNews() {
   try {
     const { data } = await api.get("api/v1/comuneNews");
@@ -16,9 +12,6 @@ export async function fetchAllNews() {
   }
 }
 
-/**
- * Esegue il fetch di una news specifica
- */
 export async function fetchSpecificNews(id) {
   try {
     const { data } = await api.get(`api/v1/comuneNews/${id}`);
@@ -31,9 +24,6 @@ export async function fetchSpecificNews(id) {
   }
 }
 
-/**
- * Crea una nuova news
- */
 export async function createNews(newsData) {
   try {
     const { data } = await api.post("api/v1/comuneNews", newsData);
@@ -46,9 +36,6 @@ export async function createNews(newsData) {
   }
 }
 
-/**
- * Aggiorna una news esistente
- */
 export async function updateNews(id, newsData) {
   try {
     const { data } = await api.put(`api/v1/comuneNews/${id}`, newsData);
@@ -61,9 +48,6 @@ export async function updateNews(id, newsData) {
   }
 }
 
-/**
- * Cancella una news
- */
 export async function deleteNews(id) {
   try {
     const { data } = await api.delete(`api/v1/comuneNews/${id}`);
