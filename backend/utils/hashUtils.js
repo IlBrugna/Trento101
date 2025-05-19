@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt';
 
-const SALT_ROUNDS = 10;
 
 //genera hash
 export const hashPassword = async (plainPassword) => {
-  return await bcrypt.hash(plainPassword, SALT_ROUNDS);
+  return await bcrypt.hash(plainPassword, parseInt(process.env.SALT_ROUNDS,10));
 };
 
 //verifica password 
