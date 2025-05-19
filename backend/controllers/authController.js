@@ -1,5 +1,7 @@
 import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
 import adminModel from '../models/adminModel.js';
+import jwt from 'jsonwebtoken';
+import { verifyPassword } from '../utils/hashutils.js';
 
 export const Login = async (req, res) => {
     const {email, password} = req.body;
@@ -14,7 +16,7 @@ export const Login = async (req, res) => {
         if (!user) {
             return res.status(404).json({message: 'Utente non trovato'});
         }
-        const isMatch = (password === user.password);
+        const isMatch = await verifyPassword(password, user.password);//uso bycrpt
         if (!isMatch) {
             return res.status(401).json({message: 'Password errata'});
         }
@@ -38,3 +40,4 @@ export const logout = async (req, res) => {
     res.clearCookie('AuthToken'); //CANCELLA IL COOKIE
     return res.status(200).json({message: 'Logout effettuato con successo'});
 }; //ROUTE DI LOGOUT
+
