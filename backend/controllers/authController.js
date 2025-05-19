@@ -1,4 +1,4 @@
-import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
+import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import adminModel from '../models/adminModel.js';
 import jwt from 'jsonwebtoken';
 import { verifyPassword } from '../utils/hashutils.js';

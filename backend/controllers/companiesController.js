@@ -1,9 +1,8 @@
-import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
+import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
 import { hashPassword } from '../utils/hashutils.js';
 
-// GET /company --> tutte le aziende
-export const getAllCompanies = async (req, res) => {
+export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
   if (email) {
     const company = await companyModel.findOne({ email });
@@ -30,8 +29,8 @@ export const getAllCompanies = async (req, res) => {
       res.status(500).json({ message: "Errore durante il recupero delle aziende" });
     }
   };
-// GET /company/:companyID --> azienda singola
-export const getSpecificCompany = async (req, res) => {
+
+export const getCompany = async (req, res) => {
   try {
         const companyID = req.params.companyID; //OTTENGO ID DALLA RICHIESTA
         if (!Types.ObjectId.isValid(companyID)) {
@@ -57,7 +56,7 @@ export const postCompany = async (req, res) => {
     return res.status(201).json(company); 
   }catch(error){
     console.error(error.message);
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: 'Errore durante la creazionedell\'azienda' });
   }
 }
 
@@ -74,7 +73,7 @@ export const putCompany = async (req, res) => {
         }
         return res.status(200).json(company); 
     } catch (error) {
-        return res.status(500).json({ message: 'Errore durante il recupero dell\'azienda' }); //SE C'E' UN ERRORE
+        return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
     }
 }
 

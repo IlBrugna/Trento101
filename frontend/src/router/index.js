@@ -10,6 +10,7 @@ import ComunePageView from '@/views/ComunePageView.vue';
 import companyManagerView from '@/views/adminViews/companyManagerView.vue';
 import AdminNewsManager from '@/views/adminViews/AdminNewsManager.vue';
 import AdminServicesManager from '@/views/adminViews/AdminServicesManager.vue';
+import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -25,8 +26,8 @@ const router = createRouter({
             component: AziendeView
         },
         {
-            path: '/comune',
-            name: 'comune',
+            path: '/serviziComune',
+            name: 'serviziComune',
             component: ComunePageView
         },
         {
@@ -73,6 +74,12 @@ const router = createRouter({
             name: 'adminServicesManager',
             meta: { requiresAuth: true, role: 'admin' },
             component: AdminServicesManager
+        },
+        {
+            path: '/companyDashboard',
+            name: 'companyDashboard',
+            meta: { requiresAuth: true, role: 'company' },
+            component: CompanyDashboardView
         }
     ],
     scrollBehavior (to, from, savedPosition) {

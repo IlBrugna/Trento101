@@ -1,13 +1,13 @@
 // controllers/comuneController.js
-import comuneModel from '../models/comuneModel.js'; // importa il modello
+import serviziComuneModel from '../models/serviziComuneModel.js'; // importa il modello
 import { Types } from 'mongoose';
 
-// GET /comune --> tutti i servizi
-export const getAllServices = async (req, res) => {
+// GET /serviziComune --> tutti i servizi
+export const getServiziComune = async (req, res) => {
   const { title } = req.query;
   if (title) {
     try {
-      const service = await comuneModel.findOne({ title });
+      const service = await serviziComuneModel.findOne({ title });
       return res.status(200).json({ exists: !!service });
     } catch (err) {
       return res.status(500).json({ message: 'Errore nella ricerca del servizio' });
@@ -16,15 +16,15 @@ export const getAllServices = async (req, res) => {
 
   // lista completa di tutti i servizi
   try {
-    const services = await comuneModel.find();   // nessun filtro = tutti i documenti
+    const services = await serviziComuneModel.find();   // nessun filtro = tutti i documenti
     return res.status(200).json(services);
   } catch (err) {
-    return res.status(500).json({ message: 'Errore nel recupero dei servizi' });
+    return res.status(500).json({ message: 'Errore durante il recupero dei servizi' });
   }
 };
 
-// GET /comune:serviceID --> servizio specifico
-export const getSpecificService = async (req, res) => {
+// GET /serviziComune:serviceID --> servizio specifico
+export const getServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
   // controlla che l'id fornito sia un ObjectId valido di Mongo
@@ -33,32 +33,32 @@ export const getSpecificService = async (req, res) => {
   }
 
   try {
-    const service = await comuneModel.findById(serviceID);
+    const service = await serviziComuneModel.findById(serviceID);
     if (!service) {
       return res.status(404).json({ message: 'Servizio non trovato' });
     }
     return res.status(200).json(service);
   } catch (err) {
-    return res.status(500).json({ message: 'Errore nel recupero del servizio' });
+    return res.status(500).json({ message: 'Errore durante il recupero del servizio' });
   }
 };
 
-// POST /comune/createservice --> inserimento di un nuovo servizio
-export const createService = async (req, res) => {
+// POST /serviziComune/createservice --> inserimento di un nuovo servizio
+export const postServizioComune = async (req, res) => {
   try {
     const serviceData = req.body;
 
-    const newService = new comuneModel(serviceData);
+    const newService = new serviziComuneModel(serviceData);
 
     await newService.save();              // inserisci in MongoDB
     return res.status(201).json(newService);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: "Errore durante la creazione del servizio" });
   }
 };
 
-// PUT /comune/:serviceID --> modifica un servizio esistente
-export const updateService = async (req, res) => {
+// PUT /serviziComune/:serviceID --> modifica un servizio esistente
+export const putServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
   if (!Types.ObjectId.isValid(serviceID)) {
@@ -66,7 +66,7 @@ export const updateService = async (req, res) => {
   }
 
   try {
-    const updated = await comuneModel.findByIdAndUpdate(
+    const updated = await serviziComuneModel.findByIdAndUpdate(
       serviceID,
       req.body,
       { new: true, runValidators: true }
@@ -76,12 +76,12 @@ export const updateService = async (req, res) => {
     }
     return res.status(200).json(updated);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: 'Errore durante la modifica del servizio' });
   }
 };
 
-// DELETE /comune/:serviceID --> elimina un servizio
-export const deleteService = async (req, res) => {
+// DELETE /serviziComune/:serviceID --> elimina un servizio
+export const deleteServizioComune = async (req, res) => {
   const { serviceID } = req.params;
 
   if (!Types.ObjectId.isValid(serviceID)) {
@@ -89,12 +89,12 @@ export const deleteService = async (req, res) => {
   }
 
   try {
-    const deleted = await comuneModel.findByIdAndDelete(serviceID);
+    const deleted = await serviziComuneModel.findByIdAndDelete(serviceID);
     if (!deleted) {
       return res.status(404).json({ message: 'Servizio non trovato' });
     }
-    return res.status(200).json({ message: 'Servizio eliminato con successo' });
+    return res.status(200).json({ deleted });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: "Errore durante l\'eleminazione del servizio" });
   }
 };
