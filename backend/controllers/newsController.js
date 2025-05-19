@@ -11,7 +11,7 @@ export const getAllNews = async (req, res) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ message: 'Errore nel recupero delle news' });
+      .json({ message: 'Errore durante il recupero delle notizie' });
   }
 };
 
@@ -27,13 +27,13 @@ export const getNews = async (req, res) => {
   try {
     const news = await newsModel.findById(newsID);
     if (!news) {
-      return res.status(404).json({ message: 'News non trovata' });
+      return res.status(404).json({ message: 'Notizia non trovata' });
     }
     return res.status(200).json(news);
   } catch (err) {
     return res
       .status(500)
-      .json({ message: 'Errore nel recupero della news' });
+      .json({ message: 'Errore durante il recupero della notizia' });
   }
 };
 
@@ -47,7 +47,7 @@ export const postNews = async (req, res) => {
     await newNews.save();
     return res.status(201).json(newNews);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: 'Errore durante la creazione della notizia' });
   }
 };
 
@@ -66,11 +66,11 @@ export const putNews = async (req, res) => {
     });
 
     if (!updated) {
-      return res.status(404).json({ message: 'News non trovata' });
+      return res.status(404).json({ message: 'Notizia non trovata' });
     }
     return res.status(200).json(updated);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: 'Errore durante la modifica della notizia' });
   }
 };
 
@@ -85,10 +85,10 @@ export const deleteNews = async (req, res) => {
   try {
     const deleted = await newsModel.findByIdAndDelete(newsID);
     if (!deleted) {
-      return res.status(404).json({ message: 'News non trovata' });
+      return res.status(404).json({ message: 'Notizia non trovata' });
     }
-    return res.status(200).json({ message: 'News eliminata con successo' });
+    return res.status(200).json({ deleted });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: "Errore durante l\'eleminazione della notizia" });
   }
 };

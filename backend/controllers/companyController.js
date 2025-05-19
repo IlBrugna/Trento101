@@ -57,7 +57,7 @@ export const postCompany = async (req, res) => {
     return res.status(201).json(company); 
   }catch(error){
     console.error(error.message);
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: 'Errore durante la creazionedell\'azienda' });
   }
 }
 
@@ -74,7 +74,7 @@ export const putCompany = async (req, res) => {
         }
         return res.status(200).json(company); 
     } catch (error) {
-        return res.status(500).json({ message: 'Errore durante il recupero dell\'azienda' }); //SE C'E' UN ERRORE
+        return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
     }
 }
 

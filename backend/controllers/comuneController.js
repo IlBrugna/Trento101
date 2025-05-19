@@ -19,7 +19,7 @@ export const getServiziComune = async (req, res) => {
     const services = await comuneModel.find();   // nessun filtro = tutti i documenti
     return res.status(200).json(services);
   } catch (err) {
-    return res.status(500).json({ message: 'Errore nel recupero dei servizi' });
+    return res.status(500).json({ message: 'Errore durante il recupero dei servizi' });
   }
 };
 
@@ -39,7 +39,7 @@ export const getServizioComune = async (req, res) => {
     }
     return res.status(200).json(service);
   } catch (err) {
-    return res.status(500).json({ message: 'Errore nel recupero del servizio' });
+    return res.status(500).json({ message: 'Errore durante il recupero del servizio' });
   }
 };
 
@@ -53,7 +53,7 @@ export const postServizioComune = async (req, res) => {
     await newService.save();              // inserisci in MongoDB
     return res.status(201).json(newService);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: "Errore durante la creazione del servizio" });
   }
 };
 
@@ -76,7 +76,7 @@ export const putServizioComune = async (req, res) => {
     }
     return res.status(200).json(updated);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: 'Errore durante la modifica del servizio' });
   }
 };
 
@@ -93,8 +93,8 @@ export const deleteServizioComune = async (req, res) => {
     if (!deleted) {
       return res.status(404).json({ message: 'Servizio non trovato' });
     }
-    return res.status(200).json({ message: 'Servizio eliminato con successo' });
+    return res.status(200).json({ deleted });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: "Errore durante l\'eleminazione del servizio" });
   }
 };
