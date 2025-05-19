@@ -25,8 +25,8 @@ const router = createRouter({
             component: AziendeView
         },
         {
-            path: '/comune',
-            name: 'comune',
+            path: '/serviziComune',
+            name: 'serviziComune',
             component: ComunePageView
         },
         {
