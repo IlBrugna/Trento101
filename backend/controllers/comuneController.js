@@ -1,5 +1,5 @@
 // controllers/comuneController.js
-import comuneModel from '../models/comuneModel.js'; // importa il modello
+import serviziComuneModel from '../models/serviziComuneModel.js'; // importa il modello
 import { Types } from 'mongoose';
 
 // GET /serviziComune --> tutti i servizi
@@ -7,7 +7,7 @@ export const getServiziComune = async (req, res) => {
   const { title } = req.query;
   if (title) {
     try {
-      const service = await comuneModel.findOne({ title });
+      const service = await serviziComuneModel.findOne({ title });
       return res.status(200).json({ exists: !!service });
     } catch (err) {
       return res.status(500).json({ message: 'Errore nella ricerca del servizio' });
@@ -16,7 +16,7 @@ export const getServiziComune = async (req, res) => {
 
   // lista completa di tutti i servizi
   try {
-    const services = await comuneModel.find();   // nessun filtro = tutti i documenti
+    const services = await serviziComuneModel.find();   // nessun filtro = tutti i documenti
     return res.status(200).json(services);
   } catch (err) {
     return res.status(500).json({ message: 'Errore durante il recupero dei servizi' });
@@ -33,7 +33,7 @@ export const getServizioComune = async (req, res) => {
   }
 
   try {
-    const service = await comuneModel.findById(serviceID);
+    const service = await serviziComuneModel.findById(serviceID);
     if (!service) {
       return res.status(404).json({ message: 'Servizio non trovato' });
     }
@@ -48,7 +48,7 @@ export const postServizioComune = async (req, res) => {
   try {
     const serviceData = req.body;
 
-    const newService = new comuneModel(serviceData);
+    const newService = new serviziComuneModel(serviceData);
 
     await newService.save();              // inserisci in MongoDB
     return res.status(201).json(newService);
@@ -66,7 +66,7 @@ export const putServizioComune = async (req, res) => {
   }
 
   try {
-    const updated = await comuneModel.findByIdAndUpdate(
+    const updated = await serviziComuneModel.findByIdAndUpdate(
       serviceID,
       req.body,
       { new: true, runValidators: true }
@@ -89,7 +89,7 @@ export const deleteServizioComune = async (req, res) => {
   }
 
   try {
-    const deleted = await comuneModel.findByIdAndDelete(serviceID);
+    const deleted = await serviziComuneModel.findByIdAndDelete(serviceID);
     if (!deleted) {
       return res.status(404).json({ message: 'Servizio non trovato' });
     }
