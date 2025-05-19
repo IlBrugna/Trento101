@@ -1,5 +1,6 @@
 import companyModel from "../models/companyModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
+import { hashPassword } from '../utils/hashutils.js';
 
 // GET /company --> tutte le aziende
 export const getCompanies = async (req, res) => {
@@ -49,6 +50,7 @@ export const getCompany = async (req, res) => {
 export const postCompany = async (req, res) => {
   try{
     const companyData = req.body;
+    companyData.password = await hashPassword(companyData.password); //hash password presalvataggio
     const newCompany = new companyModel(companyData);
     await newCompany.save(); //SALVO AZIENDA
     const {password, ...company} = newCompany._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORD
@@ -91,3 +93,4 @@ export const deleteCompany = async (req, res) => {
         return res.status(500).json({ message: 'Errore durante l\'eleminazione dell\'azienda' }); //SE C'E' UN ERRORE
     }
 }
+
