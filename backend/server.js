@@ -6,6 +6,7 @@ import companyRouter from './routes/companiesRouter.js'; // Importa il router de
 import comuneRouter from './routes/serviziComuneRouter.js'; // Importa il router delle aziende 
 import newsRouter from './routes/newsRouter.js'; // Importa il router delle news
 import authRouter from './routes/authRouter.js'; // Importa il router per l'autenticazione
+import richiesteSupportoRouter from './routes/richiesteSupportoRouter.js'; // Importa il router per le richieste di supporto
 import cookieParser from 'cookie-parser';
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 const app = express();
@@ -31,6 +32,7 @@ app.use(`${API_BASE_PATH}/companies`, companyRouter);
 app.use(`${API_BASE_PATH}/serviziComune`, comuneRouter);
 app.use(`${API_BASE_PATH}/comuneNews`, newsRouter);
 app.use(`${API_BASE_PATH}/auth`, authRouter);
+app.use(`${API_BASE_PATH}/richiesteSupporto`, richiesteSupportoRouter);
 
 connectDB(); //CONNETTI AL DB
 
