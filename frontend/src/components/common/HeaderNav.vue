@@ -75,7 +75,7 @@ function closeDropdowns(event) {
             </div>
           </div>
           
-          <RouterLink :to="{ path: '/serviziComune', hash: '#contatti' }" class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
+          <RouterLink to="/contatti"  class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
         </nav>
       </div>
       <div v-if="AuthStore.isLoggedIn" class="flex items-center space-x-4">
