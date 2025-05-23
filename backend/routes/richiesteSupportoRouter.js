@@ -1,7 +1,5 @@
 import express from 'express';
 import {
-    getAllSupportRequests,
-    getSupportRequest,
     postSupportRequest
 } from '../controllers/richiesteSupportoController.js';
 
