@@ -11,6 +11,7 @@ import companyManagerView from '@/views/adminViews/companyManagerView.vue';
 import AdminNewsManager from '@/views/adminViews/AdminNewsManager.vue';
 import AdminServicesManager from '@/views/adminViews/AdminServicesManager.vue';
 import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
+import UniversitaPageView from '@/views/UniversitaPageView.vue';
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -80,6 +81,11 @@ const router = createRouter({
             name: 'companyDashboard',
             meta: { requiresAuth: true, role: 'company' },
             component: CompanyDashboardView
+        },
+        {
+            path: '/serviziUniversita',
+            name: 'serviziUniversita',
+            component: UniversitaPageView 
         }
     ],
     scrollBehavior (to, from, savedPosition) {
