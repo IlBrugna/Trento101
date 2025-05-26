@@ -43,11 +43,12 @@ const adminPanels = ref([
     size: 'md',
     route: '/adminPollManager'
   },
+  {
     id: 5,
     title: 'Gestisci richieste di supporto',
     icon: 'users',
     content: 'Gestisci le richieste di supporto',
-    color: 'bg-orange-400',
+    color: 'bg-blue-500',
     size: 'md',
     route: '/adminSupportRequestManager'
   }

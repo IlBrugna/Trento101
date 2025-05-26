@@ -30,3 +30,14 @@ export const postPoll = async (req, res) => {
         res.status(500).json({ message: 'Errore durante la creazione del sondaggio' });
     }
 }
+
+export const getPolls = async (req, res) => {
+  try {
+    const allPolls = await pollsModel.find();
+    return res.status(200).json(allPolls);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: 'Errore durante il recupero dei sondaggi' });
+  }
+};

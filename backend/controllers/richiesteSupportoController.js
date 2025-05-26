@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import nodemailer from 'nodemailer';
 import { sendMail } from '../utils/mailUtils.js';
 
-export const getAllSupportRequests = async (_req, res) => {
+export const getAllSupportRequests = async (req, res) => {
   try {
     const allRequests = await supportRequestModel.find();
     return res.status(200).json(allRequests);
