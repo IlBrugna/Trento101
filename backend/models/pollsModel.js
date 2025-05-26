@@ -1,16 +1,15 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose from 'mongoose';
 
-const OptionSchema = new Schema({
+const OptionSchema = new mongoose.Schema({
   text: { type: String, required: true },
   votes: { type: Number, default: 0 }
 });
 
-const PollSchema = new Schema({
+const PollSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: String,
-  options: [OptionSchema],
-  votedIps: [String], // IP LIST DI CHI HA GIà
+  options: [OptionSchema], 
+  votedIps: [String], // IP LIST DI CHI HA GIà VOTATO
   startDate: Date,
   endDate: Date,
   status: {
@@ -20,4 +19,6 @@ const PollSchema = new Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Polls', PollSchema);
+const pollsModel = mongoose.model('Polls', PollSchema);
+
+export default pollsModel;
