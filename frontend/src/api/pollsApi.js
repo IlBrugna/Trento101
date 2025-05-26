@@ -11,3 +11,15 @@ export async function createPoll(pollData) {
     };
   }
 }
+
+export async function fetchAllPolls() {
+  try {
+    const { data } = await api.get("api/v1/polls");
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
