@@ -12,6 +12,7 @@ import AdminNewsManager from '@/views/adminViews/AdminNewsManager.vue';
 import AdminServicesManager from '@/views/adminViews/AdminServicesManager.vue';
 import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
 import ContactsPageView from '@/views/ContactsPageView.vue';
+import AdminPollMangerView from '@/views/adminViews/AdminPollManger.vue';
 import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
 
 const router = createRouter({
@@ -93,6 +94,12 @@ const router = createRouter({
             name: 'companyDashboard',
             meta: { requiresAuth: true, role: 'company' },
             component: CompanyDashboardView
+        },
+        {
+            path: '/adminPollManager',
+            name: 'adminPollManager',
+            meta: { requiresAuth: true, role: 'admin' },
+            component: AdminPollMangerView
         }
     ],
     scrollBehavior (to, from, savedPosition) {
