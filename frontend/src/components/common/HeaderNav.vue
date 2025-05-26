@@ -74,7 +74,7 @@ function closeDropdowns(event) {
               </RouterLink>
             </div>
           </div>
-          <RouterLink to="/"  class="text-gray-700 hover:text-blue-600">Sondaggi</RouterLink>
+          <RouterLink to="/polls"  class="text-gray-700 hover:text-blue-600">Sondaggi</RouterLink>
           <RouterLink to="/contatti"  class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
         </nav>
       </div>

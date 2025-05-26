@@ -14,7 +14,7 @@ import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
 import ContactsPageView from '@/views/ContactsPageView.vue';
 import AdminPollMangerView from '@/views/adminViews/AdminPollManger.vue';
 import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
-
+import PollsPageView from '@/views/PollsPageView.vue';
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
     routes:[
@@ -100,6 +100,12 @@ const router = createRouter({
             name: 'adminPollManager',
             meta: { requiresAuth: true, role: 'admin' },
             component: AdminPollMangerView
+        },
+        {
+            path: '/polls',
+            name: 'polls',
+            meta: { requiresAuth: false },
+            component: PollsPageView
         }
     ],
     scrollBehavior (to, from, savedPosition) {
