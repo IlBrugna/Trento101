@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { fetchAllPolls } from '@/api/pollsApi';
+import { fetchAllPolls, votePoll } from '@/api/pollsApi';
 
 //PROPS PER RENDERLO RIUTILIZZABILE
 const props = defineProps({
@@ -34,6 +34,8 @@ const props = defineProps({
 const allPolls = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const selectedOptions = ref({});
+const voting = ref({});
 
 const formatDate = (dateString, detailed = false) => {
   if (!dateString) return 'Data non disponibile';
@@ -81,15 +83,13 @@ const displayedPolls = computed(() => {
     default:
       filtered = allPolls.value.filter(poll => !isActivePoll(poll));
   }
-  
-  // Sort by date (most recent first)
+    // Sort by date (piu recente prima)
   const sorted = filtered.sort((a, b) => {
     const dateA = new Date(a.endDate || a.updatedAt || a.createdAt);
     const dateB = new Date(b.endDate || b.updatedAt || b.createdAt);
     return dateB - dateA;
   });
-  
-  // Apply limit
+    // applica limite
   return props.limit > 0 ? sorted.slice(0, props.limit) : sorted;
 });
 
@@ -109,6 +109,29 @@ const sectionTitle = computed(() => {
       return 'Sondaggi';
   }
 });
+
+const submitVote = async (pollId) => {
+  const optionId = selectedOptions.value[pollId];
+  
+  if (!optionId) {
+    alert('Seleziona un\'opzione prima di votare');
+    return;
+  }
+
+  try {
+    voting.value[pollId] = true;
+    await votePoll(pollId, optionId);
+    
+    // Ricarica i sondaggi per aggiornare i risultati
+    await loadPolls();
+    
+    alert('Voto registrato con successo!');
+  } catch (err) {
+    alert(err.message || 'Errore durante il voto');
+  } finally {
+    voting.value[pollId] = false;
+  }
+};
 
 const loadPolls = async () => {
   try {
@@ -167,9 +190,6 @@ onMounted(() => {
                     ]">
                 {{ isActivePoll(poll) ? 'Attivo' : 'Concluso' }}
               </span>
-              <span v-if="!detailed" class="text-sm text-gray-500">
-                {{ formatDate(poll.endDate || poll.createdAt) }}
-              </span>
             </div>
           </div>
           
@@ -177,40 +197,48 @@ onMounted(() => {
              :class="[detailed ? 'text-gray-600 mb-3' : 'text-gray-600 text-sm mb-3']">
             {{ poll.description }}
           </p>
-          
-          <div v-if="detailed" class="text-sm text-gray-500 space-y-1">
-            <p v-if="poll.startDate">Iniziato: {{ formatDate(poll.startDate, true) }}</p>
-            <p v-if="poll.endDate">
-              {{ isActivePoll(poll) ? 'Termina' : 'Terminato' }}: {{ formatDate(poll.endDate, true) }}
-            </p>
-          </div>
         </div>
 
-        <!-- Active Poll Voting Interface -->
-        <div v-if="isActivePoll(poll) && showVoting" class="space-y-3">
+        <!-- Votazione per sondaggi attivi -->
+        <div v-if="isActivePoll(poll) && showVoting && !poll.hasVoted" class="space-y-3">
           <div v-for="option in poll.options" :key="option._id" 
-               class="border border-gray-200 rounded-lg p-3 hover:border-blue-300 cursor-pointer">
+               @click="selectedOptions[poll._id] = option._id"
+               :class="[
+                 'border rounded-lg p-3 cursor-pointer',
+                 selectedOptions[poll._id] === option._id 
+                   ? 'border-blue-500 bg-blue-50' 
+                   : 'border-gray-200 hover:border-blue-300'
+               ]">
             <div class="flex items-center">
-              <input type="radio" :name="`poll-${poll._id}`" class="h-4 w-4 text-blue-600 mr-3" disabled>
+              <input 
+                type="radio" 
+                :name="`poll-${poll._id}`" 
+                :checked="selectedOptions[poll._id] === option._id"
+                class="h-4 w-4 text-blue-600 mr-3" readonly>
               <span>{{ option.text }}</span>
             </div>
           </div>
           
-          <div class="mt-4 pt-4 border-t border-gray-200">
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400" disabled>
-              Vota (Funzionalità in arrivo)
-            </button>
-          </div>
+          <button 
+            @click="submitVote(poll._id)"
+            :disabled="voting[poll._id] || !selectedOptions[poll._id]"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400">
+            {{ voting[poll._id] ? 'Votando...' : 'Vota' }}
+          </button>
+        </div>
+
+        <!-- Messaggio per chi ha già votato -->
+        <div v-else-if="isActivePoll(poll) && showVoting && poll.hasVoted" 
+             class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p class="text-yellow-700">Hai già votato in questo sondaggio.</p>
         </div>
         
-        <!-- Results Display -->
-        <div v-else-if="!isActivePoll(poll) || !showVoting" class="space-y-2">
+        <!-- Risultati -->
+        <div v-if="!isActivePoll(poll) || !showVoting || poll.hasVoted" class="space-y-2">
           <h5 v-if="detailed" class="font-medium text-gray-900 mb-3">Risultati:</h5>
           
-          <div v-for="option in poll.options" :key="option._id" 
-               :class="[detailed ? 'space-y-2' : 'flex justify-between items-center']">
-            
-            <div v-if="detailed" class="flex justify-between items-center">
+          <div v-for="option in poll.options" :key="option._id" class="space-y-2">
+            <div class="flex justify-between items-center">
               <span class="text-sm font-medium">{{ option.text }}</span>
               <span class="text-sm text-gray-600">
                 {{ option.votes }} voti 
@@ -220,30 +248,17 @@ onMounted(() => {
               </span>
             </div>
             
-            <template v-else>
-              <span class="text-sm">{{ option.text }}</span>
-              <div class="flex items-center space-x-2">
-                <span class="text-sm font-medium">{{ option.votes }} voti</span>
-                <div class="w-16 bg-gray-200 rounded-full h-2">
-                  <div 
-                    class="bg-blue-600 h-2 rounded-full" 
-                    :style="{ width: getTotalVotes(poll.options) > 0 ? (option.votes / getTotalVotes(poll.options) * 100) + '%' : '0%' }"
-                  ></div>
-                </div>
-              </div>
-            </template>
-            
-            <div v-if="detailed" class="w-full bg-gray-200 rounded-full h-3">
+            <div class="w-full bg-gray-200 rounded-full h-3">
               <div 
-                class="bg-blue-600 h-3 rounded-full transition-all duration-300" 
+                class="bg-blue-600 h-3 rounded-full" 
                 :style="{ width: getTotalVotes(poll.options) > 0 ? (option.votes / getTotalVotes(poll.options) * 100) + '%' : '0%' }"
               ></div>
             </div>
           </div>
           
-          <div :class="[detailed ? 'pt-2 border-t border-gray-100' : 'mt-2']">
-            <p :class="[detailed ? 'text-sm text-gray-600 font-medium' : 'text-xs text-gray-500']">
-              Totale {{ detailed ? 'partecipanti' : 'voti' }}: {{ getTotalVotes(poll.options) }}
+          <div class="pt-2 border-t border-gray-100">
+            <p class="text-sm text-gray-600 font-medium">
+              Totale voti: {{ getTotalVotes(poll.options) }}
             </p>
           </div>
         </div>

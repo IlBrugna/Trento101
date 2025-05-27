@@ -23,3 +23,17 @@ export async function fetchAllPolls() {
     };
   }
 }
+
+export async function votePoll(pollId, optionId) {
+  try {
+    const { data } = await api.post(`api/v1/polls/${pollId}/vote`, {
+      optionId: optionId
+    });
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
