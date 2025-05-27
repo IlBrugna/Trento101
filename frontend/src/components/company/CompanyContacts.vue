@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 
 const props = defineProps({
   email: {
@@ -17,16 +17,74 @@ const props = defineProps({
   website: {
     type: String,
     default: 'https://www.example.com'
+  },
+  companyName: {
+    type: String,
+    required: true
   }
 });
 
+const mapContainer = ref(null);
+const isLoading = ref(true);
+
+const initMap = async () => {
+  try {
+    if (!mapContainer.value) {
+      console.error('Container della mappa non trovato');
+      return;
+    }
+
+    // Geocoding usando Nominatim
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(props.address)}`);
+    const data = await response.json();
+
+    if (data && data[0]) {
+      const lat = parseFloat(data[0].lat);
+      const lon = parseFloat(data[0].lon);
+
+      //INIT
+      const map = L.map(mapContainer.value).setView([lat, lon], 15);
+
+      //LAYER OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      //MARKER
+      L.marker([lat, lon])
+        .addTo(map)
+
+      //Forza il ridimensionamento della mappa
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+      
+    } else {
+      console.error('Indirizzo non trovato');
+    }
+  } catch (error) {
+    console.error('Errore caricamento mappa:', error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(async () => {
+  //ASPETTARE CHE DOM SIA PRONTO
+  await nextTick();
+  
+  // TIMEOUT PER GARANTIRE CHE SIA PRONTO
+  setTimeout(() => {
+    initMap();
+  }, 100);
+});
 </script>
 
 <template>
   <div class="bg-white shadow rounded-lg p-6">
     <h2 class="text-lg font-medium text-gray-800 mb-4">Contatti</h2>
     
-    <ul class="space-y-3">
+    <ul class="space-y-3 mb-6">
       <li class="flex items-start">
         <div class="flex-shrink-0 mt-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -51,7 +109,7 @@ const props = defineProps({
         </div>
       </li>
       
-      <li v-if="address" class="flex items-start">
+      <li class="flex items-start">
         <div class="flex-shrink-0 mt-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -75,7 +133,25 @@ const props = defineProps({
           <p class="text-sm text-gray-600">{{ website }}</p>
         </div>
       </li>
-      
     </ul>
+
+    <!-- SEZIONE MAPPA -->
+    <div class="border-t pt-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-md font-medium text-gray-800">Posizione</h3>
+      </div>
+
+      <!-- Mappa -->
+      <div class="relative">
+        <div v-if="isLoading" class="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+          <div class="text-center">
+            <div class="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-2"></div>
+            <p class="text-sm text-gray-600">Caricamento mappa...</p>
+          </div>
+        </div>
+
+        <div v-show="!isLoading" ref="mapContainer" class="h-48 w-full rounded-lg border" style="min-height: 192px;"></div>
+      </div>
+    </div>
   </div>
 </template>
