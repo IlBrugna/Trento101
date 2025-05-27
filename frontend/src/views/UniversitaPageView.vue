@@ -8,13 +8,8 @@ import UniversitaServiceCarousel from '@/components/universitaPanel/UniversitaSe
     <UniversitaHeroSection />
 
     <section id="servizi" class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Servizi Principali</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Servizi Offerti</h2>
       <UniversitaServiceCarousel />
-    </section>
-
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Altri Servizi</h2>
-      <UniversitaServiceCarousel :secondary="true" />
     </section>
   </main>
 </template>

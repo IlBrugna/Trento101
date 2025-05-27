@@ -28,7 +28,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
     </router-link>
 
     <router-link
-      to="/servizi-universitari"
+      to="/serviziUniversita"
       class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
       style="background-image: url('public/serviziUniversita.jpg');"
     >
