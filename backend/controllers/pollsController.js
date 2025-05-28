@@ -1,4 +1,5 @@
 import pollsModel from '../models/pollsModel.js';
+import { recordEvent } from '../utils/recordEventUtils.js';
 
 export const postPoll = async (req, res) => {
     try {
@@ -24,7 +25,6 @@ export const postPoll = async (req, res) => {
         });
 
         await newPoll.save();
-
         res.status(201).json(newPoll);
     } catch (error) {
         res.status(500).json({ message: 'Errore durante la creazione del sondaggio' });
@@ -69,7 +69,6 @@ export const postVote = async (req, res) => {
         option.votes += 1; //Incrementa voto
         poll.votedIps.push(req.clientIP);
         await poll.save();
-
         res.status(200).json({ message: 'Voto registrato con successo' });
     } catch (error) {
         res.status(500).json({ message: 'Errore durante il voto' });

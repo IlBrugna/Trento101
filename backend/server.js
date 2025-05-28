@@ -8,8 +8,10 @@ import newsRouter from './routes/newsRouter.js'; // Importa il router delle news
 import authRouter from './routes/authRouter.js'; // Importa il router per l'autenticazione
 import richiesteSupportoRouter from './routes/richiesteSupportoRouter.js'; // Importa il router per le richieste di supporto
 import pollsRouter from './routes/pollsRouter.js'; // Importa il router per i sondaggi
+import statisticsRouter from './routes/statisticsRouter.js'; // Importa il router per le statistiche
 import cookieParser from 'cookie-parser';
 import { initMailer } from './utils/mailUtils.js'; // Importa la funzione per inizializzare il mailer
+import { recordEvent } from './utils/recordEventUtils.js'; // Importa la funzione per registrare gli eventi
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 
 const allowedOrigins = [
@@ -22,6 +24,17 @@ const app = express();
 app.use(express.json()); // ATTIVA IL MIDDLEWARE JSON
 app.use(cookieParser()); // ATTIVA IL MIDDLEWARE PER LE COOKIES
 
+// Per il logging degli eventi di visualizzazione delle pagine
+app.use(async (req, res, next) => {
+  res.on('finish', () => {
+    // Registra un evento di visualizzazione della pagina solo per le richieste GET con successo
+    if (req.method === 'GET' && res.statusCode < 400) {
+      recordEvent(req, 'page_view');
+    }
+  });
+  next();
+});
+
 app.use(
   cors({
     origin: (origin, cb) => {
@@ -31,11 +44,12 @@ app.use(
       }
       return cb(new Error('Origin not allowed by CORS'));
     },
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET','POST','PUT','PATCH','DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     credentials: true,
   })
 );
+
 
 await initMailer();
 
@@ -55,6 +69,7 @@ app.use(`${API_BASE_PATH}/comuneNews`, newsRouter);
 app.use(`${API_BASE_PATH}/auth`, authRouter);
 app.use(`${API_BASE_PATH}/richiesteSupporto`, richiesteSupportoRouter);
 app.use(`${API_BASE_PATH}/polls`, pollsRouter);
+app.use(`${API_BASE_PATH}/stats`, statisticsRouter);
 
 connectDB(); //CONNETTI AL DB
 
