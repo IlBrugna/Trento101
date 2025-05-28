@@ -79,7 +79,28 @@ onMounted(loadServices);
       </div>
     </a>
   </div>
- 
+  
+   <!-- Secondary Services (Grid) -->
+  <div v-else class="flex flex-wrap gap-3">
+    <a
+      v-for="service in services"
+      :key="service._id"
+      :href="service.url"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex-grow-0 flex-shrink-0 basis-auto w-full md:w-auto p-4 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition"
+    >
+      <div class="flex items-center">
+        <div :class="`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 `" :style="{ backgroundColor: service.color }">
+            <span class="material-icons text-lg">{{ service.icon }}</span>
+        </div>
+        <div class="ml-3">
+          <h3 class="font-bold">{{ service.title }}</h3>
+          <p class="text-gray-600 text-sm mt-1">{{ service.description }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
 </template>
 
 <style scoped>
