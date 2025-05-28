@@ -20,37 +20,46 @@ const adminPanels = ref([
     id: 2,
     title: 'Gestisci news',
     icon: 'users',
-    content: 'Gestisci le news comunali',
+    content: 'Aggiungi, rimuovi o modifica le news comunali',
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminNewsManager'
   },
   {
     id: 3,
-    title: 'Gestisci pagina servizi',
+    title: 'Gestisci pagina servizi comunali',
     icon: 'users',
-    content: 'Gestisci i servizi comunali',
+    content: 'Aggiungi, rimuovi o modifica i servizi comunali',
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminServicesManager'
   },
   {
     id: 4,
-    title: 'Gestisci sondaggi',
-    icon: 'users',
-    content: 'Crea polls di interesse per i cittadini',
-    color: 'bg-blue-500',
-    size: 'md',
-    route: '/adminPollManager'
-  },
-  {
-    id: 5,
     title: 'Gestisci richieste di supporto',
     icon: 'users',
     content: 'Gestisci le richieste di supporto',
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminSupportRequestManager'
+  },
+  {
+    id: 5,
+    title: 'Crea sondaggi',
+    icon: 'users',
+    content: 'Crea polls di interesse per i cittadini',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminPollCreate'
+  },
+  {
+    id: 6,
+    title: 'Monitora e chiudi sondaggi',
+    icon: 'users',
+    content: 'Quanti hanno votato? Devi chiudere il sondaggio prima del previsto?',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/AdminPollManager'
   }
 ]);
 
