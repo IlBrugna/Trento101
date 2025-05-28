@@ -9,7 +9,9 @@ import authRouter from './routes/authRouter.js'; // Importa il router per l'aute
 import richiesteSupportoRouter from './routes/richiesteSupportoRouter.js'; // Importa il router per le richieste di supporto
 import pollsRouter from './routes/pollsRouter.js'; // Importa il router per i sondaggi
 import cookieParser from 'cookie-parser';
+import universitaRouter from './routes/serviziUniversitaRouter.js'; // Importa il router delle aziende 
 import { initMailer } from './utils/mailUtils.js'; // Importa la funzione per inizializzare il mailer
+
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 
 const allowedOrigins = [
@@ -53,8 +55,10 @@ app.use(`${API_BASE_PATH}/companies`, companyRouter);
 app.use(`${API_BASE_PATH}/serviziComune`, comuneRouter);
 app.use(`${API_BASE_PATH}/comuneNews`, newsRouter);
 app.use(`${API_BASE_PATH}/auth`, authRouter);
+app.use(`${API_BASE_PATH}/serviziUniversita`, universitaRouter);
 app.use(`${API_BASE_PATH}/richiesteSupporto`, richiesteSupportoRouter);
 app.use(`${API_BASE_PATH}/polls`, pollsRouter);
+
 
 connectDB(); //CONNETTI AL DB
 

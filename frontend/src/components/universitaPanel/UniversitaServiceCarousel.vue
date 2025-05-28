@@ -1,0 +1,101 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { Icon } from '@iconify/vue';
+import { fetchAllUniversitaServices } from '@/api/universitaServicesAPI';
+
+
+const props = defineProps({
+  secondary: {
+    type: Boolean,
+    default: false
+  }
+});
+
+// Stato per i servizi
+const services = ref([]);
+const loading  = ref(true);
+const error    = ref(null);
+
+// Fetch dei servizi
+const loadServices = async () => {
+  try {
+    loading.value = true;
+   
+    const data = await fetchAllUniversitaServices();
+    services.value = data.filter(service => service.isPrimary !== props.secondary);
+   
+  } catch (err) {
+    console.error('Failed to fetch services:', err);
+    error.value = 'Failed to load services. Please try again later.';
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(loadServices);
+</script>
+
+<template>
+  <!-- Stato di caricamento -->
+  <div v-if="loading" class="p-4 text-center">
+    <div class="animate-pulse flex space-x-4 justify-center">
+      <div class="h-3 w-3 bg-blue-400 rounded-full"></div>
+      <div class="h-3 w-3 bg-blue-400 rounded-full"></div>
+      <div class="h-3 w-3 bg-blue-400 rounded-full"></div>
+    </div>
+    <p class="mt-2 text-gray-600">Caricamento...</p>
+  </div>
+ 
+  <!-- Stato di errore -->
+  <div v-else-if="error" class="p-4 text-center text-red-500">
+    {{ error }}
+  </div>
+ 
+  <!-- Primary Services (Carousel) -->
+  <div v-else-if="!secondary" class="flex flex-nowrap gap-4 overflow-x-auto pb-2 snap-x">
+    <a
+      v-for="service in services"
+      :key="service._id"
+      :href="service.url"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex-shrink-0 w-80 snap-start rounded-lg overflow-hidden shadow-md hover:shadow-lg transition bg-white"
+    >
+      <div class="flex items-center h-24 ">
+        <div :class="`h-full w-24 flex items-center justify-center`" :style="{ backgroundColor: service.color }">
+            <span class="material-icons text-4xl">{{ service.icon }}</span>
+        </div>
+        <div class="p-4 flex-1">
+          <h3 class="font-bold text-lg">{{ service.title }}</h3>
+          <div class="mt-2 flex justify-end">
+            <span class="text-xs font-medium text-blue-600 flex items-center">
+              Visita <span class="material-icons ml-1 text-xs">arrow_forward</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-gray-50 border-t border-gray-100">
+        <p class="text-gray-600 text-sm">{{ service.description }}</p>
+      </div>
+    </a>
+  </div>
+ 
+</template>
+
+<style scoped>
+/* Scrollbar custom */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 6px;
+}
+</style>

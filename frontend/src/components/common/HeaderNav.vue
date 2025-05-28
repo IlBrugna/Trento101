@@ -59,7 +59,7 @@ function closeDropdowns(event) {
               class="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10"
             >
               <RouterLink 
-                to="/servizi-universitari" 
+                to="/serviziUniversita" 
                 class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                 @click="isServicesDropdownOpen = false"
               >
