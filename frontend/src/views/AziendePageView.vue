@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 import CompanyInfo from '@/components/company/CompanyInfo.vue';
 import CompanyContacts from '@/components/company/CompanyContacts.vue';
 import { useRoute } from 'vue-router';
-//import CompanyMap from '@/components/CompanyMap.vue';
 import { fetchSpecificCompany } from '@/api/companyApi.js';
 
 const company = ref({});
@@ -49,6 +48,7 @@ onMounted(async () => {
             :phoneNumber="company.phoneNumber"
             :address="company.address"
             :website="company.website"
+            :companyName="company.name"
            />
         </div>
         <!-- FUTURA MAPPA QUI -->

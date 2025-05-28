@@ -12,6 +12,10 @@ import AdminNewsManager from '@/views/adminViews/AdminNewsManager.vue';
 import AdminServicesManager from '@/views/adminViews/AdminServicesManager.vue';
 import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
 import UniversitaPageView from '@/views/UniversitaPageView.vue';
+import ContactsPageView from '@/views/ContactsPageView.vue';
+import AdminPollMangerView from '@/views/adminViews/AdminPollManger.vue';
+import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
+import PollsPageView from '@/views/PollsPageView.vue';
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -35,6 +39,11 @@ const router = createRouter({
             path: '/azienda/:companyID',
             name: 'company-page',
             component: CompanyPage
+        },
+        {
+            path: '/contatti',
+            name: 'contactsPage',
+            component: ContactsPageView
         },
         {
             path: '/login',
@@ -77,6 +86,12 @@ const router = createRouter({
             component: AdminServicesManager
         },
         {
+            path: '/adminSupportRequestManager',
+            name: 'adminSupportRequestManager',
+            meta: { requiresAuth: true, role: 'admin' },
+            component: AdminSupportRequestManager
+        },
+        {
             path: '/companyDashboard',
             name: 'companyDashboard',
             meta: { requiresAuth: true, role: 'company' },
@@ -86,6 +101,18 @@ const router = createRouter({
             path: '/serviziUniversita',
             name: 'serviziUniversita',
             component: UniversitaPageView 
+        },
+        {
+            path: '/adminPollManager',
+            name: 'adminPollManager',
+            meta: { requiresAuth: true, role: 'admin' },
+            component: AdminPollMangerView
+        },
+        {
+            path: '/polls',
+            name: 'polls',
+            meta: { requiresAuth: false },
+            component: PollsPageView
         }
     ],
     scrollBehavior (to, from, savedPosition) {
