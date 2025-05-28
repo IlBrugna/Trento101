@@ -16,6 +16,7 @@ import ContactsPageView from '@/views/ContactsPageView.vue';
 import AdminPollMangerView from '@/views/adminViews/AdminPollManger.vue';
 import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
 import PollsPageView from '@/views/PollsPageView.vue';
+import AdminUniversitaServicesManager from '@/views/adminViews/AdminUniversitaServicesManager.vue';
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -113,6 +114,12 @@ const router = createRouter({
             name: 'polls',
             meta: { requiresAuth: false },
             component: PollsPageView
+        },
+        {
+            path: '/adminUniversitaServicesManager',
+            name: 'adminUniversitaServicesManager',
+            component: AdminUniversitaServicesManager,
+            meta: { requiresAuth: true, role: 'admin' }
         }
     ],
     scrollBehavior (to, from, savedPosition) {
