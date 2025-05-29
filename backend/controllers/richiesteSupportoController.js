@@ -2,6 +2,7 @@ import supportRequestModel from '../models/richiesteSupportoModel.js';
 import { Types } from 'mongoose';
 import nodemailer from 'nodemailer';
 import { sendMail } from '../utils/mailUtils.js';
+import { recordEvent} from "../utils/recordEventUtils.js";
 
 export const getAllSupportRequests = async (req, res) => {
   try {
@@ -40,9 +41,10 @@ export const postSupportRequest = async (req, res) => {
 
     const newRequest = new supportRequestModel(requestData);
     await newRequest.save();
-
+    await recordEvent(req, 'support_request_created', { requestId: newRequest._id });
     return res.status(201).json(newRequest);
   } catch (err) {
+    console.error('Error creating support request:', err);
     return res
       .status(500)
       .json({ message: 'Errore durante la creazione della richiesta di supporto' });
@@ -121,6 +123,7 @@ export async function replyToRequest(req, res, next) {
       messageId: info.messageId,
       previewUrl: nodemailer.getTestMessageUrl?.(info),
     });
+    await recordEvent(req, 'support_request_replied', { requestId: ticket._id });
   } catch (err) {
     console.error('Errore: ', err);
     next(err);

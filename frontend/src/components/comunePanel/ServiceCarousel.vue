@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { fetchAllComuni } from '@/api/comuneServicesAPI';
-
+import { useStats } from '@/api/statisticsAPI';
 
 const props = defineProps({
   secondary: {
@@ -15,6 +15,34 @@ const props = defineProps({
 const services = ref([]);
 const loading  = ref(true);
 const error    = ref(null);
+
+// Stats API
+const stats = useStats();
+
+// Function to track service clicks
+const trackServiceClick = async (service) => {
+  console.log('CHIAMATO2');
+  try {
+    await stats.trackServiceClick({
+      serviceId: service._id,
+      serviceName: service.title,
+      serviceUrl: service.url,
+      isPrimary: !props.secondary
+    });
+  } catch (error) {
+    console.log('CHIAMATOERROR');
+    console.error('Failed to track service click:', error);
+  }
+};
+
+// Handle service click
+const handleServiceClick = async (service, e) => {
+  e.preventDefault();                // blocca la navigazione
+  console.log('CHIAMATO1');
+  await trackServiceClick(service);  // aspetta la POST
+  console.log('CHIAMATO4');
+  window.open(service.url, '_blank'); // poi apri la pagina
+};
 
 // Fetch dei servizi
 const loadServices = async () => {
@@ -57,8 +85,8 @@ onMounted(loadServices);
       v-for="service in services"
       :key="service._id"
       :href="service.url"
-      target="_blank"
       rel="noopener noreferrer"
+      @click="handleServiceClick(service, $event)"
       class="flex-shrink-0 w-80 snap-start rounded-lg overflow-hidden shadow-md hover:shadow-lg transition bg-white"
     >
       <div class="flex items-center h-24 ">
@@ -86,8 +114,8 @@ onMounted(loadServices);
       v-for="service in services"
       :key="service._id"
       :href="service.url"
-      target="_blank"
       rel="noopener noreferrer"
+      @click="handleServiceClick(service, $event)"
       class="flex-grow-0 flex-shrink-0 basis-auto w-full md:w-auto p-4 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition"
     >
       <div class="flex items-center">

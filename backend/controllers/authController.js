@@ -2,6 +2,7 @@ import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import adminModel from '../models/adminModel.js';
 import jwt from 'jsonwebtoken';
 import { verifyPassword } from '../utils/hashutils.js';
+import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 
 export const Login = async (req, res) => {
     const {email, password} = req.body;
@@ -28,6 +29,7 @@ export const Login = async (req, res) => {
             secure: true, //FORZA HTTPS
             sameSite: 'None', //vanno bene richieste cross site
         });
+        await recordEvent(req, 'login');
         return res.status(200).json({message: 'Login effettuato con successo', role, userData });
 
     } catch (error) {
@@ -38,6 +40,7 @@ export const Login = async (req, res) => {
 
 export const logout = async (req, res) => {
     res.clearCookie('AuthToken'); //CANCELLA IL COOKIE
+    await recordEvent(req, 'logout');
     return res.status(200).json({message: 'Logout effettuato con successo'});
 };
 

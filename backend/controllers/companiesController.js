@@ -1,6 +1,7 @@
 import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
 import { hashPassword } from '../utils/hashutils.js';
+import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 
 export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
@@ -53,6 +54,7 @@ export const postCompany = async (req, res) => {
     const newCompany = new companyModel(companyData);
     await newCompany.save(); //SALVO AZIENDA
     const {password, ...company} = newCompany._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORD
+    await recordEvent(req, 'company_created', { companyId: newCompany._id });
     return res.status(201).json(company); 
   }catch(error){
     console.error(error.message);
@@ -71,6 +73,7 @@ export const putCompany = async (req, res) => {
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
         }
+        await recordEvent(req, 'company_updated', { companyId: newCompany._id });
         return res.status(200).json(company); 
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
@@ -87,7 +90,8 @@ export const deleteCompany = async (req, res) => {
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
         }
-        return res.status(200).json(company); 
+        await recordEvent(req, 'company_deleted', { companyId: newCompany._id });
+        return res.status(200).json(company);
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante l\'eleminazione dell\'azienda' }); //SE C'E' UN ERRORE
     }

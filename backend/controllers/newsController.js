@@ -1,5 +1,6 @@
 import newsModel from '../models/newsModel.js';   // importa il modello “News”
 import { Types } from 'mongoose';
+import { recordEvent } from '../utils/recordEventUtils.js'; // importa la funzione per registrare gli eventi
 
 export const getAllNews = async (req, res) => {
   // Lista completa delle news
