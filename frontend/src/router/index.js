@@ -11,11 +11,14 @@ import companyManagerView from '@/views/adminViews/companyManagerView.vue';
 import AdminNewsManager from '@/views/adminViews/AdminNewsManager.vue';
 import AdminServicesManager from '@/views/adminViews/AdminServicesManager.vue';
 import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
+import UniversitaPageView from '@/views/UniversitaPageView.vue';
 import ContactsPageView from '@/views/ContactsPageView.vue';
 import AdminPollMangerView from '@/views/adminViews/AdminPollManger.vue';
 import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
 import AdminStatisticsManager from '@/views/adminViews/AdminStatisticsManager.vue';
 import PollsPageView from '@/views/PollsPageView.vue';
+import AdminUniversitaServicesManager from '@/views/adminViews/AdminUniversitaServicesManager.vue';
+
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
     routes:[
@@ -97,6 +100,11 @@ const router = createRouter({
             component: CompanyDashboardView
         },
         {
+            path: '/serviziUniversita',
+            name: 'serviziUniversita',
+            component: UniversitaPageView 
+        },
+        {
             path: '/adminPollManager',
             name: 'adminPollManager',
             meta: { requiresAuth: true, role: 'admin' },
@@ -113,6 +121,12 @@ const router = createRouter({
             name: 'polls',
             meta: { requiresAuth: false },
             component: PollsPageView
+        },
+        {
+            path: '/adminUniversitaServicesManager',
+            name: 'adminUniversitaServicesManager',
+            component: AdminUniversitaServicesManager,
+            meta: { requiresAuth: true, role: 'admin' }
         }
     ],
     scrollBehavior (to, from, savedPosition) {
