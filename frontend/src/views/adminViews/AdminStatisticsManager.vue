@@ -93,13 +93,11 @@ async function getCompanyName(id) {
   if (companyNameCache.value[id]) return companyNameCache.value[id];
 
   try {
-    const company = await fetchSpecificCompany(id);   // 👉 your API call
+    const company = await fetchSpecificCompany(id);
     const name    = company?.name || id;
     companyNameCache.value[id] = name;
-    console.log(`Company name for ${id}: ${name}`); // Debug log
     return name;
   } catch (_) {
-    // fall-back ⇒ leave the raw id in the cache so we don’t retry forever
     companyNameCache.value[id] = id;
     return id;
   }
@@ -118,7 +116,7 @@ const formatUrl = (url) => {
 
     if (cleanUrl.startsWith('companies/')) {
     const id   = cleanUrl.split('/')[1];
-    const name = companyNameCache.value[id] || id;        // reactive
+    const name = companyNameCache.value[id] || id;
     return `🏢 ${name}`;
   }
   
@@ -199,9 +197,8 @@ const totalStats = computed(() => {
     requests: overview.value.supportRequests || 0
   };
 
-  // Fixed for counter-based data
   const companyTotal = companyStats.value?.totalCompanies || 0;
-  const newCompaniesInPeriod = companyStats.value?.totalCompanies || 0; // Same as total since we only track created
+  const newCompaniesInPeriod = companyStats.value?.totalCompanies || 0;
   const totalServiceClicks = serviceStats.value?.topServices?.reduce((sum, service) => sum + service.clicks, 0) || 0;
 
   return {
@@ -215,7 +212,7 @@ const totalStats = computed(() => {
 const formattedVisits = computed(() => {
   const visits = totalStats.value.visits;
   if (typeof visits === 'object' && visits !== null) {
-    return 0; // MongoDB object - return 0 for now
+    return 0;
   }
   return Number(visits) || 0;
 });
@@ -277,11 +274,11 @@ async function fetchStats() {
     companyStats.value = companyData || { events: [], totalCompanies: 0 };
     serviceStats.value = serviceData || { topServices: [], serviceEvents: [] };
 
-    const companyIds = Array.from(             // Set → Array to keep unique ids
+    const companyIds = Array.from(
     new Set(
         (topPages.value || [])
         .map(p => p._id || '')
-        .map(id => id.split('?')[0])         // strip query-string
+        .map(id => id.split('?')[0])
         .map(id => {
             // ogni “<24hex>” ➜ ritorna l’ID
             if (/^[a-f\d]{24}$/i.test(id)) return id;
