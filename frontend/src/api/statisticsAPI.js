@@ -10,5 +10,6 @@ export function useStats() {
     getCompanyStats:    () => api.get(`${base}/companies`).then(r => r.data),
     getServiceStats:    () => api.get(`${base}/services`).then(r => r.data),
     trackServiceClick:  (data) => api.post(`${base}/track-service-click`, data).then(r => r.data),
+    trackUniversitaServiceClick: (data) => api.post(`${base}/track-universita-service-click`, data).then(r => r.data),
   };
 }

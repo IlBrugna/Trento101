@@ -37,6 +37,10 @@ export async function getTopPages(req, res) {
 export async function getEventBreakdown(req, res) {
   try {
     const stats = await Statistics.findOne() || {};
+    
+    const regularServiceClicks = stats.serviceClicks ? Array.from(stats.serviceClicks.values()).reduce((sum, count) => sum + count, 0) : 0;
+    const universitaServiceClicks = stats.universitaServiceClicks ? Array.from(stats.universitaServiceClicks.values()).reduce((sum, count) => sum + count, 0) : 0;
+    
     const breakdown = [
       { type: 'page_view', count: stats.pageViews ? Array.from(stats.pageViews.values()).reduce((sum, count) => sum + count, 0) : 0 },
       { type: 'login', count: stats.totalLogins || 0 },
@@ -44,9 +48,9 @@ export async function getEventBreakdown(req, res) {
       { type: 'support_request_created', count: stats.totalSupportRequests || 0 },
       { type: 'company_created', count: stats.totalCompaniesCreated || 0 },
       { type: 'survey_vote', count: stats.totalSurveyVotes || 0 },
-      { type: 'service_click', count: stats.serviceClicks ? Array.from(stats.serviceClicks.values()).reduce((sum, count) => sum + count, 0) : 0 }
+      { type: 'service_click', count: regularServiceClicks + universitaServiceClicks }
     ].filter(item => item.count > 0);
-    
+   
     res.json(breakdown);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -69,17 +73,34 @@ export async function getServiceStats(req, res) {
   try {
     const stats = await Statistics.findOne();
    
-    if (!stats || !stats.serviceClicks) {
-      return res.json({ topServices: [], serviceEvents: [] });
+    let topServices = [];
+    
+    // Get regular service clicks
+    if (stats && stats.serviceClicks) {
+      const regularServices = Array.from(stats.serviceClicks)
+        .map(([serviceName, clicks]) => ({
+          serviceId: serviceName,
+          clicks,
+          serviceName: serviceName,
+          type: 'regular'
+        }));
+      topServices = [...regularServices];
     }
-   
-    // Conterte la Map dei serviceClicks in un array di oggetti
-    const topServices = Array.from(stats.serviceClicks)
-      .map(([serviceName, clicks]) => ({ 
-        serviceId: serviceName, 
-        clicks, 
-        serviceName: serviceName
-      }))
+    
+    // Get university service clicks
+    if (stats && stats.universitaServiceClicks) {
+      const universitaServices = Array.from(stats.universitaServiceClicks)
+        .map(([serviceName, clicks]) => ({
+          serviceId: serviceName,
+          clicks,
+          serviceName: serviceName,
+          type: 'universita'
+        }));
+      topServices = [...topServices, ...universitaServices];
+    }
+    
+    // Sort combined services by clicks and take top 10
+    topServices = topServices
       .sort((a, b) => b.clicks - a.clicks)
       .slice(0, 10);
    
@@ -102,5 +123,21 @@ export async function trackServiceClick(req, res) {
     res.status(201).json({ message: 'Service click tracked successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to track service click', error: err.message });
+  }
+}
+
+export async function trackUniversitaServiceClick(req, res) {
+  try {
+    const { serviceId, serviceName } = req.body;
+    if (!serviceId) {
+      return res.status(400).json({ message: 'serviceId is required' });
+    }
+   
+    const keyToStore = serviceName || serviceId;
+    await Statistics.incrementCounter('universita_service_click', null, keyToStore);
+   
+    res.status(201).json({ message: 'University service click tracked successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to track university service click', error: err.message });
   }
 }

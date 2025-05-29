@@ -7,7 +7,8 @@ const statisticsSchema = new mongoose.Schema({
   totalCompaniesCreated: { type: Number, default: 0 },
   totalSurveyVotes: { type: Number, default: 0 },
   pageViews: { type: Map, of: Number, default: new Map() },
-  serviceClicks: { type: Map, of: Number, default: new Map() }
+  serviceClicks: { type: Map, of: Number, default: new Map() },
+  universitaServiceClicks: { type: Map, of: Number, default: new Map() }
 }, { timestamps: true });
 
 // Metodo statico per incrementare i contatori
@@ -35,6 +36,9 @@ statisticsSchema.statics.incrementCounter = async function(type, url = null, ser
       break;
     case 'service_click':
       updateQuery = { $inc: { [`serviceClicks.${serviceId}`]: 1 } };
+      break;
+    case 'universita_service_click':
+      updateQuery = { $inc: { [`universitaServiceClicks.${serviceId}`]: 1 } };
       break;
   }
   

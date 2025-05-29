@@ -5,7 +5,8 @@ import {
   getEventBreakdown,
   getCompanyStats,
   getServiceStats,
-  trackServiceClick
+  trackServiceClick,
+  trackUniversitaServiceClick
 } from '../controllers/statisticsController.js';
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.get('/event-breakdown', getEventBreakdown);
 router.get('/companies', getCompanyStats);
 router.get('/services', getServiceStats);
 router.post('/track-service-click', trackServiceClick);
+router.post('/track-universita-service-click', trackUniversitaServiceClick);
 
 export default router;

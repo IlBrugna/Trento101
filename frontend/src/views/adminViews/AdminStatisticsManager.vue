@@ -128,6 +128,7 @@ const formatUrl = (url) => {
     'stats/top-pages': '📈 Statistiche - Top Pagine',
     'comuneNews': '📰 News Comune',
     'serviziComune': '🏛️ Servizi Comunali',
+    'serviziUniversita': '📓 Servizi Universitari',
     'stats/overview': '📊 Statistiche - Panoramica',
     'stats/event-breakdown': '📈 Statistiche - Eventi',
     'richiesteSupporto': '🎧 Richieste Supporto',

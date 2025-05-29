@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { fetchAllUniversitaServices } from '@/api/universitaServicesAPI';
+import { useStats } from '@/api/statisticsAPI';
 
 
 const props = defineProps({
@@ -15,6 +16,19 @@ const props = defineProps({
 const services = ref([]);
 const loading  = ref(true);
 const error    = ref(null);
+
+const stats = useStats();
+
+const trackServiceClick = async (serviceId, serviceName) => {
+  try {
+    await stats.trackUniversitaServiceClick({
+      serviceId: serviceId,
+      serviceName: serviceName
+    });
+  } catch (error) {
+    console.error('Failed to track service click:', error);
+  }
+};
 
 // Fetch dei servizi
 const loadServices = async () => {
@@ -59,6 +73,7 @@ onMounted(loadServices);
       :href="service.url"
       target="_blank"
       rel="noopener noreferrer"
+      @click="trackServiceClick(service._id, service.title)"
       class="flex-shrink-0 w-80 snap-start rounded-lg overflow-hidden shadow-md hover:shadow-lg transition bg-white"
     >
       <div class="flex items-center h-24 ">
@@ -88,6 +103,7 @@ onMounted(loadServices);
       :href="service.url"
       target="_blank"
       rel="noopener noreferrer"
+      @click="trackServiceClick(service._id, service.title)"
       class="flex-grow-0 flex-shrink-0 basis-auto w-full md:w-auto p-4 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition"
     >
       <div class="flex items-center">
