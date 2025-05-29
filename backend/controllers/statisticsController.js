@@ -75,7 +75,7 @@ export async function getServiceStats(req, res) {
    
     let topServices = [];
     
-    // Get regular service clicks
+    // Click regolari sui servizi
     if (stats && stats.serviceClicks) {
       const regularServices = Array.from(stats.serviceClicks)
         .map(([serviceName, clicks]) => ({
@@ -87,7 +87,7 @@ export async function getServiceStats(req, res) {
       topServices = [...regularServices];
     }
     
-    // Get university service clicks
+    // Click sui servizi Università
     if (stats && stats.universitaServiceClicks) {
       const universitaServices = Array.from(stats.universitaServiceClicks)
         .map(([serviceName, clicks]) => ({
@@ -99,7 +99,7 @@ export async function getServiceStats(req, res) {
       topServices = [...topServices, ...universitaServices];
     }
     
-    // Sort combined services by clicks and take top 10
+    // Filtra e ordina i servizi per numero di click
     topServices = topServices
       .sort((a, b) => b.clicks - a.clicks)
       .slice(0, 10);

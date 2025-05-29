@@ -19,6 +19,7 @@ const error    = ref(null);
 
 const stats = useStats();
 
+// Funzione per tracciare i click sui servizi
 const trackServiceClick = async (serviceId, serviceName) => {
   try {
     await stats.trackUniversitaServiceClick({
