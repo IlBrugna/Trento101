@@ -1,43 +1,45 @@
 import mongoose from 'mongoose';
 
-const eventSchema = new mongoose.Schema(
-  {
-    type: {
-      type: String,
-      required: true,
-      enum: [
-        'page_view',
-        'login',
-        'logout',
-        'support_request_created',
-        'company_created',
-        'survey_vote',
-        'service_click',
-      ],
-    },
+const statisticsSchema = new mongoose.Schema({
+  totalLogins: { type: Number, default: 0 },
+  totalLogouts: { type: Number, default: 0 },
+  totalSupportRequests: { type: Number, default: 0 },
+  totalCompaniesCreated: { type: Number, default: 0 },
+  totalSurveyVotes: { type: Number, default: 0 },
+  pageViews: { type: Map, of: Number, default: new Map() },
+  serviceClicks: { type: Map, of: Number, default: new Map() }
+}, { timestamps: true });
 
-    /** URL o rotta interessata (`/`, `/aziende/123`, …) */
-    url: {
-      type: String,
-      required: false,
-    },
-
-    metadata: { type: mongoose.Schema.Types.Mixed, default: {} }
-  },
-  {
-    timestamps: true,
+// Metodo statico per incrementare i contatori
+statisticsSchema.statics.incrementCounter = async function(type, url = null, serviceId = null) {
+  let updateQuery = {};
+  
+  switch(type) {
+    case 'login':
+      updateQuery = { $inc: { totalLogins: 1 } };
+      break;
+    case 'logout':
+      updateQuery = { $inc: { totalLogouts: 1 } };
+      break;
+    case 'support_request_created':
+      updateQuery = { $inc: { totalSupportRequests: 1 } };
+      break;
+    case 'company_created':
+      updateQuery = { $inc: { totalCompaniesCreated: 1 } };
+      break;
+    case 'survey_vote':
+      updateQuery = { $inc: { totalSurveyVotes: 1 } };
+      break;
+    case 'page_view':
+      updateQuery = { $inc: { [`pageViews.${url}`]: 1 } };
+      break;
+    case 'service_click':
+      updateQuery = { $inc: { [`serviceClicks.${serviceId}`]: 1 } };
+      break;
   }
-);
-// ricerche più frequenti: per tipo di evento nel tempo
-eventSchema.index({ type: 1, createdAt: 1 });
-
-// per analizzare gli accessi di un singolo utente
-eventSchema.index({ userId: 1, createdAt: 1 });
-
-eventSchema.statics.log = function (payload) {
-  return this.create(payload);
+  
+  return this.findOneAndUpdate({}, updateQuery, { upsert: true, new: true });
 };
 
-const eventModel = mongoose.model('events', eventSchema);
-
-export default eventModel;
+const Statistics = mongoose.model('Statistics', statisticsSchema);
+export default Statistics;

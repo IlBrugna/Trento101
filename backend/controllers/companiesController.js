@@ -73,6 +73,7 @@ export const putCompany = async (req, res) => {
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
         }
+        await recordEvent(req, 'company_updated', { companyId: newCompany._id });
         return res.status(200).json(company); 
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
@@ -89,6 +90,7 @@ export const deleteCompany = async (req, res) => {
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
         }
+        await recordEvent(req, 'company_deleted', { companyId: newCompany._id });
         return res.status(200).json(company);
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante l\'eleminazione dell\'azienda' }); //SE C'E' UN ERRORE

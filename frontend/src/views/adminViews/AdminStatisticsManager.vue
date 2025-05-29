@@ -8,6 +8,7 @@ import {
 } from 'chart.js';
 
 import { useStats } from '@/api/statisticsAPI.js';
+import { fetchSpecificCompany } from '@/api/companyAPI.js';
 
 // ChartJS
 ChartJS.register(
@@ -16,7 +17,6 @@ ChartJS.register(
   BarElement, ArcElement
 );
 
-const range        = ref('30d');          // 7d | 30d | 90d
 const loading      = ref(false);
 const error        = ref(null);
 const hideStatsPages = ref(true);         // Nascondi pagine statistiche
@@ -26,11 +26,7 @@ const topPages     = ref([]);             // Top pagine
 const breakdown    = ref([]);             // Eventi per tipo
 const companyStats = ref({});             // Statistiche aziende
 const serviceStats = ref([]);             // Statistiche servizi
-
-const labels      = computed(() => overview.value.map(d => d.day));
-const visits      = computed(() => overview.value.map(d => d.visits));
-const logins      = computed(() => overview.value.map(d => d.logins));
-const requests    = computed(() => overview.value.map(d => d.supportRequests));
+const topPagesVisible = ref(5);           // Numero di pagine da mostrare (per il grafico)
 
 const pieLabels   = computed(() => breakdown.value.map(b => b.type));
 const pieCounts   = computed(() => breakdown.value.map(b => b.count));
@@ -91,32 +87,23 @@ const doughnutOptions = computed(() => ({
   }
 }));
 
-const lineChartData = computed(() => ({
-  labels: labels.value,
-  datasets: [
-    {
-      label: 'Visite',
-      data: visits.value,
-      borderColor: 'rgb(59, 130, 246)',
-      backgroundColor: 'rgba(59, 130, 246, 0.1)',
-      tension: 0.4
-    },
-    {
-      label: 'Login',
-      data: logins.value,
-      borderColor: 'rgb(16, 185, 129)',
-      backgroundColor: 'rgba(16, 185, 129, 0.1)',
-      tension: 0.4
-    },
-    {
-      label: 'Richieste di supporto create',
-      data: requests.value,
-      borderColor: 'rgb(239, 68, 68)',
-      backgroundColor: 'rgba(239, 68, 68, 0.1)',
-      tension: 0.4
-    }
-  ]
-}));
+const companyNameCache = ref({});
+
+async function getCompanyName(id) {
+  if (companyNameCache.value[id]) return companyNameCache.value[id];
+
+  try {
+    const company = await fetchSpecificCompany(id);   // 👉 your API call
+    const name    = company?.name || id;
+    companyNameCache.value[id] = name;
+    console.log(`Company name for ${id}: ${name}`); // Debug log
+    return name;
+  } catch (_) {
+    // fall-back ⇒ leave the raw id in the cache so we don’t retry forever
+    companyNameCache.value[id] = id;
+    return id;
+  }
+}
 
 const formatUrl = (url) => {
   if (!url) return 'N/A';
@@ -127,6 +114,13 @@ const formatUrl = (url) => {
     .replace(/\/\d+$/, '/:id') // Rimuove ID numerici finali
     .replace(/limit=\d+/, '') // Rimuove limit params
     .replace(/range=\w+/, ''); // Rimuove range params
+
+
+    if (cleanUrl.startsWith('companies/')) {
+    const id   = cleanUrl.split('/')[1];
+    const name = companyNameCache.value[id] || id;        // reactive
+    return `🏢 ${name}`;
+  }
   
   // Mappatura URL a etichette più leggibili
   const urlMappings = {
@@ -145,11 +139,15 @@ const formatUrl = (url) => {
   return urlMappings[cleanUrl] || cleanUrl || 'Pagina Sconosciuta';
 };
 
+const displayedTopPages = computed(() =>
+  filteredTopPages.value.slice(0, topPagesVisible.value)
+);
+
 const barChartData = computed(() => ({
-  labels: filteredTopPages.value.map(p => formatUrl(p._id)),
+  labels: displayedTopPages.value.map(p => formatUrl(p._id)),
   datasets: [{
     label: 'Visite pagina',
-    data: filteredTopPages.value.map(p => p.views),
+    data: displayedTopPages.value.map(p => p.views),
     backgroundColor: 'rgba(147, 51, 234, 0.8)',
     borderColor: 'rgb(147, 51, 234)',
     borderWidth: 1
@@ -193,16 +191,17 @@ const doughnutData = computed(() => ({
   }]
 }));
 
+
 const totalStats = computed(() => {
-  const totals = overview.value.reduce((acc, day) => ({
-    visits: acc.visits + day.visits,
-    logins: acc.logins + day.logins,
-    requests: acc.requests + day.supportRequests
-  }), { visits: 0, logins: 0, requests: 0 });
+  const totals = {
+    visits: overview.value.visits || 0,
+    logins: overview.value.logins || 0,
+    requests: overview.value.supportRequests || 0
+  };
 
+  // Fixed for counter-based data
   const companyTotal = companyStats.value?.totalCompanies || 0;
-  const newCompaniesInPeriod = companyStats.value?.events?.find(e => e.type === 'company_created')?.count || 0;
-
+  const newCompaniesInPeriod = companyStats.value?.totalCompanies || 0; // Same as total since we only track created
   const totalServiceClicks = serviceStats.value?.topServices?.reduce((sum, service) => sum + service.clicks, 0) || 0;
 
   return {
@@ -211,6 +210,34 @@ const totalStats = computed(() => {
     newCompaniesInPeriod,
     totalServiceClicks
   };
+});
+
+const formattedVisits = computed(() => {
+  const visits = totalStats.value.visits;
+  if (typeof visits === 'object' && visits !== null) {
+    return 0; // MongoDB object - return 0 for now
+  }
+  return Number(visits) || 0;
+});
+
+const formattedLogins = computed(() => {
+  const logins = totalStats.value.logins;
+  return Number(logins) || 0;
+});
+
+const formattedCompanies = computed(() => {
+  const companies = totalStats.value.totalCompanies;
+  return Number(companies) || 0;
+});
+
+const formattedRequests = computed(() => {
+  const requests = totalStats.value.requests;
+  return Number(requests) || 0;
+});
+
+const formattedServiceClicks = computed(() => {
+  const clicks = totalStats.value.totalServiceClicks;
+  return Number(clicks) || 0;
 });
 
 const serviceClicksChartData = computed(() => {
@@ -228,34 +255,6 @@ const serviceClicksChartData = computed(() => {
   };
 });
 
-const companyEventsChartData = computed(() => {
-  if (!companyStats.value?.events?.length) return null;
-  
-  const eventLabels = {
-    'company_created': '🏢 Aziende Create',
-    'company_updated': '✏️ Aziende Aggiornate', 
-    'company_deleted': '🗑️ Aziende Eliminate'
-  };
-  
-  return {
-    labels: companyStats.value.events.map(e => eventLabels[e.type] || e.type),
-    datasets: [{
-      data: companyStats.value.events.map(e => e.count),
-      backgroundColor: [
-        'rgba(34, 197, 94, 0.8)',
-        'rgba(59, 130, 246, 0.8)', 
-        'rgba(239, 68, 68, 0.8)'
-      ],
-      borderColor: [
-        'rgb(34, 197, 94)',
-        'rgb(59, 130, 246)',
-        'rgb(239, 68, 68)'
-      ],
-      borderWidth: 2
-    }]
-  };
-});
-
 // Data Fetch
 async function fetchStats() {
   loading.value = true; 
@@ -265,18 +264,39 @@ async function fetchStats() {
     const api = useStats();
     
     const [overviewData, topPagesData, breakdownData, companyData, serviceData] = await Promise.all([
-      api.getOverview(range.value),
-      api.getTopPages(10),
-      api.getEventBreakdown(range.value),
-      api.getCompanyStats().catch(() => ({ events: [], totalCompanies: 0 })), // Enhanced error handling
-      api.getServiceStats(range.value).catch(() => ({ topServices: [], serviceEvents: [] })) // Enhanced error handling
+      api.getOverview(),
+      api.getTopPages(20), // Limita a 20 pagine
+      api.getEventBreakdown(),
+      api.getCompanyStats().catch(() => ({ events: [], totalCompanies: 0 })),
+      api.getServiceStats().catch(() => ({ topServices: [], serviceEvents: [] }))
     ]);
     
-    overview.value = overviewData || [];
+    overview.value = overviewData || { visits: 0, logins: 0, supportRequests: 0 };
     topPages.value = topPagesData || [];
     breakdown.value = breakdownData || [];
     companyStats.value = companyData || { events: [], totalCompanies: 0 };
     serviceStats.value = serviceData || { topServices: [], serviceEvents: [] };
+
+    const companyIds = Array.from(             // Set → Array to keep unique ids
+    new Set(
+        (topPages.value || [])
+        .map(p => p._id || '')
+        .map(id => id.split('?')[0])         // strip query-string
+        .map(id => {
+            // ogni “<24hex>” ➜ ritorna l’ID
+            if (/^[a-f\d]{24}$/i.test(id)) return id;
+
+            // ogni “…/companies/<24hex>/…” ➜ ritorna l’ID
+            const m = id.match(/companies\/([a-f\d]{24})(?:\/|$)/i);
+            return m ? m[1] : null;
+        })
+        .filter(Boolean)// Rimuove nulls
+    )
+    );
+
+    console.log('Company IDs to fetch:', companyIds);  
+
+    await Promise.all(companyIds.map(getCompanyName));
     
   } catch (e) {
     console.error('Error fetching statistics:', e);
@@ -292,7 +312,6 @@ function retryFetch() {
 }
 
 onMounted(fetchStats);
-watch(range, fetchStats);
 </script>
 
 <template>
@@ -305,20 +324,6 @@ watch(range, fetchStats);
     <!-- Controlli -->
     <div class="mb-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
       <div class="flex gap-4 items-center flex-wrap">
-        <div class="flex gap-2 items-center">
-          <label for="range-select" class="text-sm font-medium text-gray-700">
-            Periodo:
-          </label>
-          <select 
-            id="range-select"
-            v-model="range" 
-            class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="7d">Ultimi 7 giorni</option>
-            <option value="30d">Ultimi 30 giorni</option>
-            <option value="90d">Ultimi 90 giorni</option>
-          </select>
-        </div>
 
         <!-- Checkbox per nascondere -->
         <div class="flex items-center">
@@ -375,7 +380,7 @@ watch(range, fetchStats);
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Visite Totali</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ totalStats.visits.toLocaleString() }}</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ formattedVisits.toLocaleString() }}</p>
             </div>
           </div>
         </div>
@@ -391,7 +396,7 @@ watch(range, fetchStats);
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Login Totali</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ totalStats.logins.toLocaleString() }}</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ formattedLogins.toLocaleString() }}</p>
             </div>
           </div>
         </div>
@@ -407,8 +412,8 @@ watch(range, fetchStats);
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Aziende Totali</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ totalStats.totalCompanies.toLocaleString() }}</p>
-              <p class="text-xs text-gray-400">{{ totalStats.newCompaniesInPeriod }} create nel periodo</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ formattedCompanies.toLocaleString() }}</p>
+              <p class="text-xs text-gray-400">{{ formattedCompanies }} totali create</p>
             </div>
           </div>
         </div>
@@ -424,7 +429,7 @@ watch(range, fetchStats);
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Richieste di Supporto Create</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ totalStats.requests.toLocaleString() }}</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ formattedRequests.toLocaleString() }}</p>
             </div>
           </div>
         </div>
@@ -440,12 +445,26 @@ watch(range, fetchStats);
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Click sui Servizi</p>
-              <p class="text-2xl font-semibold text-gray-900">{{ totalStats.totalServiceClicks.toLocaleString() }}</p>
-              <p class="text-xs text-gray-400">nel periodo selezionato</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ formattedServiceClicks.toLocaleString() }}</p>
+              <p class="text-xs text-gray-400">totali</p>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="flex items-center gap-2">
+        <label for="tp-count" class="text-sm text-gray-700">
+            Numero di pagine da mostrare:
+        </label>
+        <input
+            id="tp-count"
+            v-model.number="topPagesVisible"
+            type="number"
+            min="1"
+            :max="filteredTopPages.length"
+            class="w-20 border-gray-300 rounded-md text-sm"
+        />
+        </div>
 
       <!-- Grafici -->
       <div class="space-y-8">
@@ -495,28 +514,6 @@ watch(range, fetchStats);
           />
         </div>
 
-        <div v-if="companyEventsChartData" class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-          <div class="max-w-md mx-auto">
-            <Doughnut
-              :data="companyEventsChartData"
-              :options="{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: 'Eventi Aziende per Tipo'
-                  },
-                  legend: {
-                    position: 'bottom',
-                  }
-                }
-              }"
-              class="h-80"
-            />
-          </div>
-        </div>
-
         <div v-if="serviceStats.length > 0" class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
           <Bar
             :data="{
@@ -562,7 +559,7 @@ watch(range, fetchStats);
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="page in filteredTopPages.slice(0, 5)" :key="page._id">
+                <tr v-for="page in displayedTopPages" :key="page._id">
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ formatUrl(page._id) }}</td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ page.views.toLocaleString() }}</td>
                 </tr>
