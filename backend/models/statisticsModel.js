@@ -11,10 +11,11 @@ const statisticsSchema = new mongoose.Schema({
   universitaServiceClicks: { type: Map, of: Number, default: new Map() }
 }, { timestamps: true });
 
-// Metodo statico per incrementare i contatori
 statisticsSchema.statics.incrementCounter = async function(type, url = null, serviceId = null) {
-  let updateQuery = {};
+  await this.findOneAndUpdate({}, {}, { upsert: true });
   
+  let updateQuery = {};
+ 
   switch(type) {
     case 'login':
       updateQuery = { $inc: { totalLogins: 1 } };
@@ -41,8 +42,8 @@ statisticsSchema.statics.incrementCounter = async function(type, url = null, ser
       updateQuery = { $inc: { [`universitaServiceClicks.${serviceId}`]: 1 } };
       break;
   }
-  
-  return this.findOneAndUpdate({}, updateQuery, { upsert: true, new: true });
+ 
+  return this.findOneAndUpdate({}, updateQuery, { new: true });
 };
 
 const Statistics = mongoose.model('Statistics', statisticsSchema);

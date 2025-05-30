@@ -21,7 +21,6 @@ const stats = useStats();
 
 // Function to track service clicks
 const trackServiceClick = async (service) => {
-  console.log('CHIAMATO2');
   try {
     await stats.trackServiceClick({
       serviceId: service._id,
@@ -30,7 +29,6 @@ const trackServiceClick = async (service) => {
       isPrimary: !props.secondary
     });
   } catch (error) {
-    console.log('CHIAMATOERROR');
     console.error('Failed to track service click:', error);
   }
 };
@@ -38,9 +36,7 @@ const trackServiceClick = async (service) => {
 // Handle service click
 const handleServiceClick = async (service, e) => {
   e.preventDefault();                // blocca la navigazione
-  console.log('CHIAMATO1');
   await trackServiceClick(service);  // aspetta la POST
-  console.log('CHIAMATO4');
   window.open(service.url, '_blank'); // poi apri la pagina
 };
 

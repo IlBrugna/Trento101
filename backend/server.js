@@ -27,13 +27,15 @@ app.use(cookieParser()); // ATTIVA IL MIDDLEWARE PER LE COOKIES
 
 // Per il logging degli eventi di visualizzazione delle pagine
 app.use(async (req, res, next) => {
-  res.on('finish', () => {
+    const isStats = req.originalUrl.startsWith('/api/v1/stats');
+    const isAuth = req.originalUrl.startsWith('/api/v1/auth');
+    res.on('finish', () => {
     // Registra un evento di visualizzazione della pagina solo per le richieste GET con successo
-    if (req.method === 'GET' && res.statusCode < 400) {
-      recordEvent(req, 'page_view');
+    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth) {
+        recordEvent(req, 'page_view');
     }
-  });
-  next();
+    });
+    next();
 });
 
 app.use(
