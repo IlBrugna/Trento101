@@ -3,7 +3,7 @@ import { Types } from "mongoose"; // IMPORTA MONGOOSE
 import { hashPassword } from '../utils/hashutils.js';
 import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 import { isEmailVerified } from '../utils/emailVerificationUtils.js';
-
+import deleteOldUploadcareImage from "../utils/deletePicture.js";
 export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
   if (email) {
@@ -74,21 +74,31 @@ export const postCompany = async (req, res) => {
 
 export const putCompany = async (req, res) => {
   try {
-        const companyID = req.params.companyID; 
-        if (!Types.ObjectId.isValid(companyID)) {
-           return res.status(400).json({ message: 'ID non valido' });
-        }  
-        const dati=req.body;
-        
-        const company = await companyModel.findByIdAndUpdate(companyID,dati,{new:true}); //new true torna la versione aggironata
-        if (!company) {
-            return  res.status(404).json({ message: 'Azienda non trovata' });
-        }
-        await recordEvent(req, 'company_updated', { companyId: company._id });
-        return res.status(200).json(company); 
-    } catch (error) {
-        return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
+    const companyID = req.params.companyID; 
+    if (!Types.ObjectId.isValid(companyID)) {
+      return res.status(400).json({ message: 'ID non valido' });
+    }  
+    const dati=req.body;
+    
+    //SE PICTURE VIENE MODIFICATA DEVO CANCELLARLA DA UPLOADCARE
+    if (dati.picture) {
+      //HO BISOGNO DEL LINK DELLA VECCHIA FOTO
+      const currentCompany = await companyModel.findById(companyID);
+      
+      if (currentCompany && currentCompany.picture && currentCompany.picture !== dati.picture) {
+        await deleteOldUploadcareImage(currentCompany.picture);
+      }
     }
+
+   const company = await companyModel.findByIdAndUpdate(companyID,dati,{new:true}); //new true torna la versione aggironata
+    if (!company) {
+        return  res.status(404).json({ message: 'Azienda non trovata' });
+    }
+    await recordEvent(req, 'company_updated', { companyId: company._id });
+    return res.status(200).json(company); 
+  } catch (error) {
+        return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
+  }
 }
 
 export const deleteCompany = async (req, res) => {
