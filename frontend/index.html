@@ -1,16 +1,110 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="it">
   <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trento 101</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="  crossorigin=""/>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <style>
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    top: 0px !important;
+  }
+
+  .goog-te-banner-frame {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  body {
+    position: static !important;
+    top: 0px !important;
+  }
+
+  .goog-logo-link, .goog-te-gadget {
+    display: none !important;
+    font-size: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  iframe.goog-te-banner-frame {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  .goog-te-balloon-frame {
+    display: none !important;
+  }
+
+  #goog-gt-tt, .goog-tooltip, .goog-tooltip:hover {
+    display: none !important;
+  }
+
+  .skiptranslate {
+    display: none !important;
+  }
+
+  #google_translate_element {
+    display: none !important;
+  }
+</style>
+
+
   </head>
+
   <body>
+    <!-- App principale Vue -->
     <div id="app"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+   
+    <!-- Leaflet -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <!-- App JS -->
     <script type="module" src="/src/main.js"></script>
+    
+    <!-- Google Traduttore per la traduzione -->
+    <div id="google_translate_element" style="display: none;"></div>
+
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'it' }, 'google_translate_element');
+     }
+</script>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+  document.addEventListener('DOMSubtreeModified', function () {
+    const frame = document.querySelector('.goog-te-banner-frame');
+    if (frame) {
+      frame.remove();
+    }
+
+    const html = document.querySelector('html');
+    const body = document.querySelector('body');
+
+    if (html) html.style.top = '0px';
+    if (body) body.style.top = '0px';
+  });
+</script>
+
   </body>
 </html>
