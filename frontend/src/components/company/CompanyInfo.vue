@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 
 const props = defineProps({
   name: {
@@ -20,11 +19,11 @@ const props = defineProps({
 <template>
   <div class="bg-white shadow rounded-lg overflow-hidden">
     <!-- FOTO AZIENDA -->
-    <div class="h-64 bg-gray-300 relative">
+    <div class="relative w-full aspect-[17/8] bg-gray-200">
       <img 
-        :src="picture || '/placeholder-logo.png' " 
+        :src="props.picture || '/placeholder-logo.png'"
         :alt="name" 
-        class="w-full h-full object-contain"
+        class="w-full h-full object-cover"
       />
     </div>
     <!-- INFORMAZIONI AZIENDA -->
