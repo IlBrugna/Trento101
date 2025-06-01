@@ -1,20 +1,57 @@
 <script setup>
 import { ref } from 'vue';
-
+import { UploadClient } from '@uploadcare/upload-client'; 
 const name = ref('');
 const phoneNumber = ref('');
 const website = ref('');
 const address = ref('');
 const description = ref('');
 const picture = ref('');
+const imageFile = ref(null);
+
+//UPLOADCARE INIT
+const uploadClient = new UploadClient({ 
+  publicKey: import.meta.env.VITE_UPLOADCARE_PUBLIC_KEY 
+});
+
 
 const emit=defineEmits(['submit-registration']);
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    imageFile.value = file;
+  }
+};
+
+
+const handleSubmit = async () => {
+  let finalPicture = picture.value;
+
+  if (imageFile.value) {
+    try {
+      const fileInfo = await uploadClient.uploadFile(imageFile.value);
+      finalPicture = fileInfo.cdnUrl;
+    } catch (error) {
+      console.error("Image upload failed:", error);
+    }
+  }
+
+  emit('submit-registration', {
+    name: name.value,
+    phoneNumber: phoneNumber.value,
+    website: website.value,
+    address: address.value,
+    description: description.value,
+    picture: finalPicture
+  });
+ };
 
 </script>
 
 <template>
   <div class="bg-white py-8 px-6 shadow rounded-lg">
-    <form @submit.prevent="emit('submit-registration', {name,phoneNumber,address,website,description,picture})">
+    <form @submit.prevent="handleSubmit">
       <div class="mb-6">
         <label for="name" class="block text-sm font-medium text-gray-700">Nome Azienda</label>
         <div class="mt-1">
@@ -93,6 +130,18 @@ const emit=defineEmits(['submit-registration']);
             name="picture" 
             type="url" 
             v-model="picture"
+            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+          />
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="website" class="block text-sm font-medium text-gray-700">Carica Immagine personalizzata</label>
+        <div class="mt-1">
+          <input 
+            type="file" 
+            @change="handleFileUpload"
+            accept="image/*"
             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
           />
         </div>
