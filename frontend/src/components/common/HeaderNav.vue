@@ -24,6 +24,44 @@ function closeDropdowns(event) {
     isServicesDropdownOpen.value = false;
   }
 }
+
+const toggleLanguage = () => {
+  const currentLang = document.documentElement.lang || 'it';
+
+  if (currentLang === 'it') {
+    translateTo('en');
+  } else {
+    resetTranslation();
+  }
+};
+
+const translateTo = (lang) => {
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+    document.documentElement.lang = lang; 
+  }
+};
+
+const resetTranslation = () => {
+  // Cancella cookie traduzione google
+  deleteCookie('googtrans');
+  deleteCookie('googtrans', window.location.hostname);
+  deleteCookie('googtrans', '.' + window.location.hostname);
+
+  document.documentElement.lang = 'it';
+
+  location.reload();
+};
+
+const deleteCookie = (name, domain) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;${domain ? ` domain=${domain};` : ''}`;
+};
+
+
+
+
 </script>
 <template>
   <header class="bg-white shadow" @click="closeDropdowns">
@@ -76,6 +114,8 @@ function closeDropdowns(event) {
           </div>
           <RouterLink to="/polls"  class="text-gray-700 hover:text-blue-600">Sondaggi</RouterLink>
           <RouterLink to="/contatti"  class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
+          <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600">Traduci</button>
+
         </nav>
       </div>
       <div v-if="AuthStore.isLoggedIn" class="flex items-center space-x-4">
