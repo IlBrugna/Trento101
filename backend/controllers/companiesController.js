@@ -107,6 +107,11 @@ export const deleteCompany = async (req, res) => {
         if (!Types.ObjectId.isValid(companyID)) {
            return res.status(400).json({ message: 'ID non valido' });
         }  
+      //CANCELLO PRIMA LA FOTO DAL CLOUD
+        const currentCompany = await companyModel.findById(companyID);
+        if (currentCompany && currentCompany.picture) {
+        await deleteOldUploadcareImage(currentCompany.picture);}
+      //POI CANCELLO LA ENTRY NEL DB
         const company = await companyModel.findByIdAndDelete(companyID);
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
