@@ -3,6 +3,9 @@ import { Types } from "mongoose"; // IMPORTA MONGOOSE
 import { hashPassword } from '../utils/hashutils.js';
 import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 import { isEmailVerified } from '../utils/emailVerificationUtils.js';
+import { UploadClient } from '@uploadcare/upload-client'
+
+const clientUploadCare = new UploadClient({ publicKey: process.env.UPLOADCARE_PUBLIC_API })
 
 export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
@@ -60,6 +63,12 @@ export const postCompany = async (req, res) => {
     }
     
     companyData.password = await hashPassword(companyData.password); //hash password presalvataggio
+    /*
+     * INSERIRE API UPLOADCARE QUA? 
+     */
+
+
+
     const newCompany = new companyModel(companyData);
     await newCompany.save(); //SALVO AZIENDA
     const {password, ...company} = newCompany._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORD
@@ -78,6 +87,13 @@ export const putCompany = async (req, res) => {
            return res.status(400).json({ message: 'ID non valido' });
         }  
         const dati=req.body;
+        /*
+        * CONTROLLARE SE NUOVA IMMAGINE,
+        const response = await client.uploadFile(req.file.buffer, {
+        fileName: req.file.originalname,
+        contentType: req.file.mimetype, });
+        */
+
         const company = await companyModel.findByIdAndUpdate(companyID,dati,{new:true}); //new true torna la versione aggironata
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
