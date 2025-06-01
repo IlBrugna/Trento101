@@ -21,15 +21,27 @@ watch(() => props.company, (newVal) => {
 const submitForm = async () => {
   try {
     isUploading.value = true;
+    const modifiedFields = {};
+    
+    for (const key in form.value) {
+      if (form.value[key] !== props.company[key]) {
+        modifiedFields[key] = form.value[key];
+      }
+    }
 
     //UPLOAD IMMAGE FIRST
     if (imageFile.value) {
       const fileInfo = await uploadClient.uploadFile(imageFile.value);
-      form.value.picture = fileInfo.cdnUrl;
+      modifiedFields.picture = fileInfo.cdnUrl;
     }
 
-    emit('submit', form.value);
-    
+    //SE NESSUN CAMBIAMENTO, NON INVIO EMIT
+    if (Object.keys(modifiedFields).length > 0) {
+      emit('submit', modifiedFields);
+    } else {
+      alert("Nessuna modifica da salvare.");
+    }
+
   } catch (error) {
     console.error('Error uploading image:', error);
     alert('Errore durante il caricamento dell\'immagine. Riprova.');
