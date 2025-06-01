@@ -58,10 +58,8 @@ const handleRegistration = async (companyData) => {
     
     await companyRegistration(fullData);
     
-    router.push({
-      name: 'login',
-      query: { message: 'Registrazione completata con successo! Puoi ora effettuare il login.' }
-    });
+    alert('Registrazione completata con successo! Puoi ora effettuare il login.');
+    router.push({ name: 'login' });
     
   } catch (err) {
     error.value = err.message || 'Errore durante la registrazione';
