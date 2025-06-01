@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser';
 import universitaRouter from './routes/serviziUniversitaRouter.js'; // Importa il router delle aziende 
 import { initMailer } from './utils/mailUtils.js'; // Importa la funzione per inizializzare il mailer
 import { recordEvent } from './utils/recordEventUtils.js'; // Importa la funzione per registrare gli eventi
+import emailVerificationRouter from './routes/emailVerificationRouter.js';
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 
 const allowedOrigins = [
@@ -74,6 +75,7 @@ app.use(`${API_BASE_PATH}/serviziUniversita`, universitaRouter);
 app.use(`${API_BASE_PATH}/richiesteSupporto`, richiesteSupportoRouter);
 app.use(`${API_BASE_PATH}/polls`, pollsRouter);
 app.use(`${API_BASE_PATH}/stats`, statisticsRouter);
+app.use(`${API_BASE_PATH}/email-verification`, emailVerificationRouter);
 
 
 connectDB(); //CONNETTI AL DB

@@ -2,6 +2,7 @@ import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
 import { hashPassword } from '../utils/hashutils.js';
 import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
+import { isEmailVerified } from '../utils/emailVerificationUtils.js';
 
 export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
@@ -50,6 +51,14 @@ export const getCompany = async (req, res) => {
 export const postCompany = async (req, res) => {
   try{
     const companyData = req.body;
+    //VERIFICA REGISTRAZIONE 
+    const emailVerified = await isEmailVerified(companyData.email);
+    if (!emailVerified) {
+      return res.status(400).json({ 
+        message: 'Email non verificata. Completa prima la verifica dell\'email.' 
+      });
+    }
+    
     companyData.password = await hashPassword(companyData.password); //hash password presalvataggio
     const newCompany = new companyModel(companyData);
     await newCompany.save(); //SALVO AZIENDA
@@ -73,7 +82,7 @@ export const putCompany = async (req, res) => {
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
         }
-        await recordEvent(req, 'company_updated', { companyId: newCompany._id });
+        await recordEvent(req, 'company_updated', { companyId: company._id });
         return res.status(200).json(company); 
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante la modifica dell\'azienda' }); //SE C'E' UN ERRORE
@@ -90,10 +99,9 @@ export const deleteCompany = async (req, res) => {
         if (!company) {
             return  res.status(404).json({ message: 'Azienda non trovata' });
         }
-        await recordEvent(req, 'company_deleted', { companyId: newCompany._id });
-        return res.status(200).json(company);
+        recordEvent(req, 'company_deleted', { companyId: company._id });
+        return res.status(200).json(company); 
     } catch (error) {
         return res.status(500).json({ message: 'Errore durante l\'eleminazione dell\'azienda' }); //SE C'E' UN ERRORE
     }
 }
-
