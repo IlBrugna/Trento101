@@ -8,22 +8,42 @@ const address = ref('');
 const description = ref('');
 const picture = ref('');
 const imageFile = ref(null);
+const isDragOver = ref(false);
 
 //UPLOADCARE INIT
 const uploadClient = new UploadClient({ 
   publicKey: import.meta.env.VITE_UPLOADCARE_PUBLIC_KEY 
 });
 
-
 const emit=defineEmits(['submit-registration']);
 
-const handleFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
+const handleFileUpload = (file) => {
+  if (file && file.type.startsWith('image/')) {
     imageFile.value = file;
   }
 };
 
+const onFileChange = (event) => {
+  const file = event.target.files[0];
+  handleFileUpload(file);
+};
+
+const onDrop = (event) => {
+  event.preventDefault();
+  isDragOver.value = false;
+  const file = event.dataTransfer.files[0];
+  handleFileUpload(file);
+};
+
+const onDragOver = (event) => {
+  event.preventDefault();
+  isDragOver.value = true;
+};
+
+const onDragLeave = (event) => {
+  event.preventDefault();
+  isDragOver.value = false;
+};
 
 const handleSubmit = async () => {
   let finalPicture = picture.value;
@@ -123,27 +143,37 @@ const handleSubmit = async () => {
       </div>
 
       <div class="mb-6">
-        <label for="website" class="block text-sm font-medium text-gray-700">Link a Foto (copertina) aziendale</label>
+        <label class="block text-sm font-medium text-gray-700">Carica Immagine personalizzata</label>
         <div class="mt-1">
-          <input 
-            id="picture" 
-            name="picture" 
-            type="url" 
-            v-model="picture"
-            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-          />
-        </div>
-      </div>
-
-      <div class="mb-6">
-        <label for="website" class="block text-sm font-medium text-gray-700">Carica Immagine personalizzata</label>
-        <div class="mt-1">
-          <input 
-            type="file" 
-            @change="handleFileUpload"
-            accept="image/*"
-            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-          />
+          <div 
+            @drop="onDrop"
+            @dragover="onDragOver"
+            @dragleave="onDragLeave"
+            :class="[
+              'relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors',
+              isDragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+            ]"
+          >
+            <input 
+              type="file" 
+              @change="onFileChange"
+              accept="image/*"
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <div class="space-y-2">
+              <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div class="text-gray-600">
+                <p class="text-sm">
+                  <span class="font-medium text-blue-600">Clicca per caricare</span> o trascina qui
+                </p>
+              </div>
+              <div v-if="imageFile" class="text-sm text-green-600 font-medium">
+                File selezionato: {{ imageFile.name }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
