@@ -1,28 +1,41 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { UploadClient } from '@uploadcare/upload-client';
+
 const emit = defineEmits(['submit']);
 const props = defineProps({ company: Object });
+
 const imageFile = ref(null);
 const form = ref({ ...props.company });
+const isUploading = ref(false);
+
+//UPLOADCARE INIT
+const uploadClient = new UploadClient({ 
+  publicKey: import.meta.env.VITE_UPLOADCARE_PUBLIC_KEY 
+});
 
 watch(() => props.company, (newVal) => {
   form.value = { ...newVal };
 }, { immediate: true });
 
-const submitForm = () => {
-  const formData = new FormData();
+const submitForm = async () => {
+  try {
+    isUploading.value = true;
 
-  //TUTTI CAMPI FORM
-  for (const key in form.value) {
-    formData.append(key, form.value[key]);
+    //UPLOAD IMMAGE FIRST
+    if (imageFile.value) {
+      const fileInfo = await uploadClient.uploadFile(imageFile.value);
+      form.value.picture = fileInfo.cdnUrl;
+    }
+
+    emit('submit', form.value);
+    
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    alert('Errore durante il caricamento dell\'immagine. Riprova.');
+  } finally {
+    isUploading.value = false;
   }
-
-  //FILE SE PRESENTE
-  if (imageFile.value) {
-    formData.append('image', imageFile.value);
-  }
-
-  emit('submit', formData);
 };
 
 const handleFileUpload = (event) => {
@@ -62,14 +75,21 @@ const handleFileUpload = (event) => {
 
     <div>
       <label class="block text-sm font-medium text-gray-700">Immagine Copertina (FILE)</label>
-      <input type="file" class="border rounded w-full px-3 py-2" @change="handleFileUpload"/>
+      <input 
+        type="file" 
+        class="border rounded w-full px-3 py-2" 
+        @change="handleFileUpload"
+        accept="image/*"
+        :disabled="isUploading"
+      />
     </div>
 
-    
-
-    <button type="submit"
-      class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition">
-      Salva Modifiche
+    <button 
+      type="submit"
+      class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+      :disabled="isUploading"
+    >
+      {{ isUploading ? 'Caricamento...' : 'Salva Modifiche' }}
     </button>
   </form>
 </template>
