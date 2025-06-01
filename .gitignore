@@ -2,6 +2,7 @@ backend/node_modules
 backend/config/.env
 
 #frontend 
+frontend/.env
 # Logs
 frontend/logs/
 frontend/*.log

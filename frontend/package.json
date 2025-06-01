@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
+    "@uploadcare/upload-client": "^6.14.3",
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "pinia": "^3.0.2",
