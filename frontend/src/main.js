@@ -8,7 +8,12 @@ import { checkAuthOnAppLoad } from './api/authApi';
 const app= createApp(App);
 app.use(createPinia())
 
-await checkAuthOnAppLoad();
+async function startApp() {
+  await checkAuthOnAppLoad();
+  app.use(router);
+}
+
+startApp();
 
 app.use(router) //aggiungiamo il router all'app
 app.mount('#app')
