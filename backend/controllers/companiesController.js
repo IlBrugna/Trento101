@@ -1,6 +1,6 @@
 import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import { Types } from "mongoose"; // IMPORTA MONGOOSE
-import { hashPassword } from '../utils/hashutils.js';
+import { hashPassword } from '../utils/hashUtils.js';
 import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 import { isEmailVerified } from '../utils/emailVerificationUtils.js';
 import deleteOldUploadcareImage from "../utils/deletePicture.js";

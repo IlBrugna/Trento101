@@ -1,7 +1,7 @@
 import companyModel from "../models/companiesModel.js"; // IMPORTA IL MODELLO
 import adminModel from '../models/adminModel.js';
 import jwt from 'jsonwebtoken';
-import { verifyPassword } from '../utils/hashutils.js';
+import { verifyPassword } from '../utils/hashUtils.js';
 import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 
 export const Login = async (req, res) => {
