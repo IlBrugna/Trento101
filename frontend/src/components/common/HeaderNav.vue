@@ -114,7 +114,6 @@ const deleteCookie = (name, domain) => {
           </div>
           <RouterLink to="/polls"  class="text-gray-700 hover:text-blue-600">Sondaggi</RouterLink>
           <RouterLink to="/contatti"  class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
-          <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600">Traduci</button>
 
         </nav>
       </div>
@@ -134,20 +133,24 @@ const deleteCookie = (name, domain) => {
           </svg>
           <span>Modifica la tua Pagina</span>
         </RouterLink>
+        <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
         <button @click="handleLogout" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h6a2 2 0 002-2v-1" />
           </svg>
           <span>Logout</span>
-        </button>
+        </button>       
+         
       </div>
-      <div v-else>
+      <div v-else class="flex items-center space-x-4">
+        <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
         <RouterLink to="/login" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c3.314 0 6.355 1.112 8.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <span >Login</span>
         </RouterLink>
+        
       </div>
     </div>
   </header>
