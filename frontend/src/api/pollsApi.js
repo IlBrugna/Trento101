@@ -37,3 +37,17 @@ export async function votePoll(pollId, optionId) {
     };
   }
 }
+
+export async function downloadAllPolls(format = 'json') {
+  try {
+    const { data } = await api.get(`api/v1/polls/download?format=${format}`, {
+      responseType: 'blob'
+    });
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
