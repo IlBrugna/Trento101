@@ -25,6 +25,7 @@ const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
   'http://localhost:5000',
+  'https://trento101.onrender.com'
 ];
 
 const app = express();
