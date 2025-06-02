@@ -16,6 +16,13 @@ import { recordEvent } from './utils/recordEventUtils.js'; // Importa la funzion
 import emailVerificationRouter from './routes/emailVerificationRouter.js';
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 
+//TEST DEPLOY
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const allowedOrigins = [
   'http://localhost:5000',
 ];
@@ -61,6 +68,9 @@ app.use((req, _res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
   next();
 });
+
+//TEST DEPLOY
+app.use('/', express.static(path.join(__dirname, 'dist')));
 
 // API versioning
 const API_VERSION = 'v1';

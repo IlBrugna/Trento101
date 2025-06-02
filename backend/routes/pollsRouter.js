@@ -11,7 +11,7 @@ const router = express.Router(); //CREA ROUTER
 
 router.post('/',postPoll);
 router.post('/:pollId/vote', ipMiddleware, postVote);
-router.get('',getPolls);
+router.get('/',getPolls);
 router.get('/download', getDownloadPolls);
 
 export default router;
