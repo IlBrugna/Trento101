@@ -26,7 +26,7 @@ export async function fetchAllPolls() {
 
 export async function votePoll(pollId, optionId) {
   try {
-    const { data } = await api.post(`api/v1/polls/${pollId}/vote`, {
+    const { data } = await api.post(`api/v1/polls/${pollId}/votes`, {
       optionId: optionId
     });
     return data;
@@ -40,7 +40,7 @@ export async function votePoll(pollId, optionId) {
 
 export async function downloadAllPolls(format = 'json') {
   try {
-    const { data } = await api.get(`api/v1/polls/download?format=${format}`, {
+    const { data } = await api.get(`api/v1/polls/downloads?format=${format}`, {
       responseType: 'blob'
     });
     return data;
