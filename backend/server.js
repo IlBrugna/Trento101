@@ -88,6 +88,10 @@ app.use(`${API_BASE_PATH}/polls`, pollsRouter);
 app.use(`${API_BASE_PATH}/stats`, statisticsRouter);
 app.use(`${API_BASE_PATH}/email-verification`, emailVerificationRouter);
 
+// SPA fallback: restituisce index.html per ogni rotta non gestita
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 connectDB(); //CONNETTI AL DB
 
