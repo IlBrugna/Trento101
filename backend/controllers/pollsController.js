@@ -1,4 +1,5 @@
 import pollsModel from '../models/pollsModel.js';
+import XLSX from 'xlsx';
 import { recordEvent } from '../utils/recordEventUtils.js';
 
 export const postPoll = async (req, res) => {
@@ -72,5 +73,88 @@ export const postVote = async (req, res) => {
         res.status(200).json({ message: 'Voto registrato con successo' });
     } catch (error) {
         res.status(500).json({ message: 'Errore durante il voto' });
+    }
+};
+
+export const getDownloadPolls = async (req, res) => {
+    try {
+        const format = req.query.format || 'json';
+        const polls = await pollsModel.find({}).sort({ createdAt: -1 });
+        
+        const exportData = polls.map(poll => ({
+            id: poll._id,
+            title: poll.title,
+            description: poll.description || '',
+            totalVotes: poll.options.reduce((sum, opt) => sum + opt.votes, 0),
+            options: poll.options.map(opt => `${opt.text} (${opt.votes} voti)`).join('; '),
+            status: poll.status,
+            startDate: poll.startDate ? poll.startDate.toISOString() : '',
+            endDate: poll.endDate ? poll.endDate.toISOString() : '',
+            createdAt: poll.createdAt.toISOString(),
+            updatedAt: poll.updatedAt.toISOString()
+        }));
+
+        if (format === 'json') {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Disposition', 'attachment; filename="sondaggi.json"');
+            res.json({
+                exportDate: new Date().toISOString(),
+                totalPolls: polls.length,
+                polls: exportData
+            });
+        } 
+        else if (format === 'csv') {
+            const headers = ['ID', 'Titolo', 'Descrizione', 'Voti Totali', 'Opzioni', 'Status', 'Data Inizio', 'Data Fine', 'Creato', 'Aggiornato'];
+            const csvRows = [headers.join(',')];
+            
+            exportData.forEach(poll => {
+                const row = [
+                    poll.id,
+                    `"${poll.title.replace(/"/g, '""')}"`,
+                    `"${poll.description.replace(/"/g, '""')}"`,
+                    poll.totalVotes,
+                    `"${poll.options.replace(/"/g, '""')}"`,
+                    poll.status,
+                    poll.startDate,
+                    poll.endDate,
+                    poll.createdAt,
+                    poll.updatedAt
+                ];
+                csvRows.push(row.join(','));
+            });
+            
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', 'attachment; filename="sondaggi.csv"');
+            res.send(csvRows.join('\n'));
+        }
+        else if (format === 'excel') {
+            const worksheet = XLSX.utils.json_to_sheet(exportData.map(poll => ({
+                'ID': poll.id,
+                'Titolo': poll.title,
+                'Descrizione': poll.description,
+                'Voti Totali': poll.totalVotes,
+                'Opzioni': poll.options,
+                'Status': poll.status,
+                'Data Inizio': poll.startDate,
+                'Data Fine': poll.endDate,
+                'Creato': poll.createdAt,
+                'Aggiornato': poll.updatedAt
+            })));
+            
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sondaggi');
+            
+            const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+            
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-Disposition', 'attachment; filename="sondaggi.xlsx"');
+            res.send(buffer);
+        }
+        else {
+            res.status(400).json({ message: 'Formato non supportato' });
+        }
+    } catch (error) {
+        console.error('Download error:', error);
+        res.status(500).json({ message: 'Errore durante l\'esportazione dei sondaggi' });
     }
 };
