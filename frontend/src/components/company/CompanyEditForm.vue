@@ -78,6 +78,18 @@ const onDragLeave = (event) => {
   event.preventDefault();
   isDragOver.value = false;
 };
+
+const sectorOptions = [
+  'Agricoltura',
+  'Artigianato',
+  'Commercio',
+  'Costruzioni',
+  'Cultura e Turismo',
+  'Industria',
+  'Informatica',
+  'Servizi',
+  'Altro'
+];
 </script>
 
 <template>
@@ -136,6 +148,15 @@ const onDragLeave = (event) => {
           </div>
         </div>
       </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Settore Aziendale</label>
+      <select v-model="form.sector" class="border rounded w-full px-3 py-2" required>
+        <option v-for="option in sectorOptions" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </select>
     </div>
 
     <button

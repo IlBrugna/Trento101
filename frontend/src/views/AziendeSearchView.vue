@@ -14,13 +14,21 @@ const error = ref(null);
 // Variabili reattive per la ricerca e i filtri
 const searchQuery = ref('');
 const filters = ref({
-  industry: '',
-  location: '',
+  sector: ''
 });
 
 // Opzioni per i filtri
-const industryOptions = ['Technology', 'IT Services', 'Energy', 'Healthcare', 'Finance', 'Manufacturing', 'Education'];
-const locationOptions = ['Milano, IT', 'Roma, IT', 'Bologna, IT', 'Napoli, IT', 'Torino, IT', 'Firenze, IT'];
+const sectorOptions = [
+  'Agricoltura',
+  'Artigianato',
+  'Commercio',
+  'Costruzioni',
+  'Cultura e Turismo',
+  'Industria',
+  'Informatica',
+  'Servizi',
+  'Altro'
+];
 
 // Paginazione
 const currentPage = ref(1);
@@ -59,15 +67,10 @@ const applyFilters = () => {
       (company.description && company.description.toLowerCase().includes(searchQuery.value.toLowerCase()));
     
     // Filtro settore
-    const matchesIndustry = filters.value.industry === '' || 
-      company.industry === filters.value.industry;
+    const matchesSector = filters.value.sector === '' || 
+      company.sector === filters.value.sector;
     
-    // Filtro locazione
-    const matchesLocation = filters.value.location === '' || 
-      (company.location === filters.value.location) || 
-      (company.address && company.address.includes(filters.value.location));
-    
-    return matchesSearch && matchesIndustry && matchesLocation;
+    return matchesSearch && matchesSector;
   });
   
   // Reset alla prima pagina quando cambia il filtro
@@ -86,8 +89,7 @@ const handleSearchInput = (query) => {
 };
 
 const handleResetFilters = () => {
-  filters.value.industry = '';
-  filters.value.location = '';
+  filters.value.sector = '';
   searchQuery.value = '';
   applyFilters();
 };
@@ -139,8 +141,7 @@ watch(companies, () => {
       <SearchFilter 
         :search-query="searchQuery"
         :filters="filters"
-        :industry-options="industryOptions"
-        :location-options="locationOptions"
+        :sector-options="sectorOptions"
         @update-search="handleSearchInput"
         @update-filters="handleFilterChange"
         @reset="handleResetFilters"

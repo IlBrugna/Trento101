@@ -9,6 +9,18 @@ const description = ref('');
 const picture = ref('');
 const imageFile = ref(null);
 const isDragOver = ref(false);
+const sector = ref('Altro');
+const sectorOptions = [
+  'Agricoltura',
+  'Artigianato',
+  'Commercio',
+  'Costruzioni',
+  'Cultura e Turismo',
+  'Industria',
+  'Informatica',
+  'Servizi',
+  'Altro'
+];
 
 //UPLOADCARE INIT
 const uploadClient = new UploadClient({ 
@@ -63,7 +75,8 @@ const handleSubmit = async () => {
     website: website.value,
     address: address.value,
     description: description.value,
-    picture: finalPicture
+    picture: finalPicture,
+    sector: sector.value
   });
  };
 
@@ -136,6 +149,22 @@ const handleSubmit = async () => {
             placeholder="Scrivi una descrizione della tua azienda..."
             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-600 focus:border-emerald-600 sm:text-sm resize-none"
           ></textarea>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="sector" class="block text-sm font-medium text-gray-700">Settore Aziendale</label>
+        <div class="mt-1">
+          <select
+            id="sector"
+            name="sector"
+            v-model="sector"
+            required
+            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-600 focus:border-emerald-600 sm:text-sm"
+          >
+            <option v-for="option in sectorOptions" :key="option" :value="option">
+              {{ option }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="mb-6">
