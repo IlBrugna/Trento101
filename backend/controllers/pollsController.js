@@ -1,6 +1,7 @@
 import pollsModel from '../models/pollsModel.js';
 import XLSX from 'xlsx';
 import { recordEvent } from '../utils/recordEventUtils.js';
+import { logAction, recordPollCreation } from '../utils/logUtils.js';
 
 export const postPoll = async (req, res) => {
     try {
@@ -26,8 +27,15 @@ export const postPoll = async (req, res) => {
         });
 
         await newPoll.save();
+        
+        await recordPollCreation(req, newPoll._id.toString(), req.user?._id, req.user?.email);
+        
         res.status(201).json(newPoll);
     } catch (error) {
+        await logAction(req, 'poll_creation_failed', { 
+            status: 'error',
+            details: { error: error.message }
+        });
         res.status(500).json({ message: 'Errore durante la creazione del sondaggio' });
     }
 }
@@ -62,6 +70,7 @@ export const postVote = async (req, res) => {
         if (poll.votedIps.includes(req.clientIP)) {
             return res.status(400).json({ message: 'Hai già votato in questo sondaggio' });
         }
+        
         const option = poll.options.id(optionId);
         if (!option) {
             return res.status(400).json({ message: 'Opzione non valida' });
@@ -70,6 +79,7 @@ export const postVote = async (req, res) => {
         option.votes += 1; //Incrementa voto
         poll.votedIps.push(req.clientIP);
         await poll.save();
+        
         res.status(200).json({ message: 'Voto registrato con successo' });
     } catch (error) {
         res.status(500).json({ message: 'Errore durante il voto' });
@@ -151,10 +161,20 @@ export const getDownloadPolls = async (req, res) => {
             res.send(buffer);
         }
         else {
-            res.status(400).json({ message: 'Formato non supportato' });
+            return res.status(400).json({ message: 'Formato non supportato' });
         }
+        
+        // Log successful download
+        await logAction(req, 'polls_download', {
+            details: { format, pollsCount: polls.length }
+        });
+        
     } catch (error) {
         console.error('Download error:', error);
+        await logAction(req, 'polls_download_failed', {
+            status: 'error',
+            details: { error: error.message, format: req.query.format }
+        });
         res.status(500).json({ message: 'Errore durante l\'esportazione dei sondaggi' });
     }
 };

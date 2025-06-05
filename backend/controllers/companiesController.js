@@ -4,6 +4,8 @@ import { hashPassword } from '../utils/hashUtils.js';
 import { recordEvent } from "../utils/recordEventUtils.js"; // IMPORTA LA FUNZIONE PER REGISTRARE GLI EVENTI
 import { isEmailVerified } from '../utils/emailVerificationUtils.js';
 import deleteOldUploadcareImage from "../utils/deletePicture.js";
+import { recordCompanyCreation } from '../utils/logUtils.js';
+
 export const getCompanies = async (req, res) => {
   const { email, isActive } = req.query; // OTTENGO EMAIL DALLA RICHIESTA
   if (email) {
@@ -64,6 +66,7 @@ export const postCompany = async (req, res) => {
     const newCompany = new companyModel(companyData);
     await newCompany.save(); //SALVO AZIENDA
     const {password, ...company} = newCompany._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORD
+    await recordCompanyCreation(req, newCompany._id, req.user?._id, req.user?.email);
     await recordEvent(req, 'company_created', { companyId: newCompany._id });
     return res.status(201).json(company); 
   }catch(error){
