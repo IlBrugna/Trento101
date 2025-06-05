@@ -41,7 +41,14 @@ function closeMobileMenu() {
       <div class="flex items-center justify-between py-4">
         <!-- Logo -->
         <div class="flex items-center">
-          <img src="/logo.png" alt="Logo" class="h-8 w-auto" />
+          <RouterLink to="/">
+            <img
+              src="@/assets/logo-square.png"
+              alt="Logo"
+              class="h-10 md:h-14 w-auto"
+              style="background:none;"
+            />
+          </RouterLink>
         </div>
 
         <!-- Desktop Navigation (nascosto su mobile) -->
