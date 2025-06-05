@@ -124,7 +124,7 @@ watch(companies, () => {
     <!-- Loading indicator -->
     <template v-if="loading">
       <div class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
       </div>
     </template>
     
@@ -163,7 +163,7 @@ watch(companies, () => {
           <select 
             :value="itemsPerPage"
             @change="handleItemsPerPageChange($event.target.value)" 
-            class="p-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="p-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
           >
             <option v-for="option in itemsPerPageOptions" :key="option" :value="option">
               {{ option }}

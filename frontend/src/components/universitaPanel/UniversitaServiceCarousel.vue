@@ -109,7 +109,7 @@ onMounted(loadServices);
     >
       <div class="flex items-center">
         <div :class="`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 `" :style="{ backgroundColor: service.color }">
-            <span class="material-icons text-lg">{{ service.icon }}</span>
+            <span class="material-icons text-lg text-emerald-700">{{ service.icon }}</span>
         </div>
         <div class="ml-3">
           <h3 class="font-bold">{{ service.title }}</h3>

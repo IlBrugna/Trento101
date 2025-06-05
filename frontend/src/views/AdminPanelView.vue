@@ -12,7 +12,7 @@ const adminPanels = ref([
     title: 'Gestisci pagine aziendali',
     icon: 'users',
     content: 'Attivare, disattivare le pagine aziendali!',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/companyManager'
   },
@@ -21,7 +21,7 @@ const adminPanels = ref([
     title: 'Gestisci news',
     icon: 'users',
     content: 'Gestisci le news comunali',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminNewsManager'
   },
@@ -30,7 +30,7 @@ const adminPanels = ref([
     title: 'Gestisci pagina servizi',
     icon: 'users',
     content: 'Gestisci i servizi comunali',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminServicesManager'
   },
@@ -39,7 +39,7 @@ const adminPanels = ref([
     title: 'Gestisci sondaggi',
     icon: 'users',
     content: 'Crea polls di interesse per i cittadini',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminPollManager'
   },
@@ -48,7 +48,7 @@ const adminPanels = ref([
     title: 'Gestisci richieste di supporto',
     icon: 'users',
     content: 'Gestisci le richieste di supporto',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminSupportRequestManager'
   },
@@ -57,7 +57,7 @@ const adminPanels = ref([
     title: 'Gestisci servizi universitari',
     icon: 'school',
     content: 'Gestione CRUD dei servizi UniTrento',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminUniversitaServicesManager'
   },
@@ -66,7 +66,7 @@ const adminPanels = ref([
     title: 'Visualizza statistiche',
     icon: 'users',
     content: 'Visualizza le statistiche del sito',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminStatisticsManager'
   }

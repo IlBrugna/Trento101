@@ -38,18 +38,18 @@ const props = defineProps({
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
-          <a :href="company.website" target="_blank" class="hover:text-blue-500">{{ company.website }}</a>
+          <a :href="company.website" target="_blank" class="hover:text-emerald-700">{{ company.website }}</a>
         </div>
         <div v-if="company.email" class="flex items-center text-sm text-gray-500 mt-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
-          <a :href="`mailto:${company.email}`" class="hover:text-blue-500">{{ company.email }}</a>
+          <a :href="`mailto:${company.email}`" class="hover:text-emerald-700">{{ company.email }}</a>
         </div>
       </div>
       
       <!-- Bottone per visualizzare i dettagli -->
-      <router-link :to="{ name: 'company-page', params: { companyID: company._id } }" class="block mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md w-full text-center transition-colors duration-300">
+      <router-link :to="{ name: 'company-page', params: { companyID: company._id } }" class="block mt-4 bg-emerald-700 hover:bg-emerald-800 text-white font-medium py-2 px-4 rounded-md w-full text-center transition-colors duration-300">
         Visualizza dettagli
       </router-link>
     </div>

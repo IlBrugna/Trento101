@@ -152,7 +152,7 @@ onMounted(() => {
 
 <template>
   <section>
-    <h3 :class="[detailed ? 'text-2xl font-bold' : 'text-lg font-medium', 'mb-4']">
+    <h3 :class="[detailed ? 'text-2xl font-bold' : 'text-lg font-medium', 'mb-4 text-emerald-800']">
       {{ sectionTitle }}
     </h3>
     
@@ -172,21 +172,21 @@ onMounted(() => {
     
     <div v-else :class="[detailed ? 'space-y-6' : 'bg-white shadow rounded-lg divide-y']">
       <div v-for="poll in displayedPolls" :key="poll._id" 
-           :class="[detailed ? 'bg-white shadow rounded-lg p-6' : 'p-4']">
+           :class="[detailed ? 'bg-white shadow border border-emerald-100 rounded-lg p-6' : 'p-4']">
         
         <!-- Poll Header -->
         <div class="mb-4">
           <div class="flex justify-between items-start mb-2">
-            <h4 :class="[detailed ? 'text-xl font-semibold' : 'font-medium', 'text-gray-900']">
+            <h4 :class="[detailed ? 'text-xl font-semibold' : 'font-medium', 'text-emerald-900']">
               {{ poll.title }}
             </h4>
             <div class="flex items-center space-x-2">
               <span v-if="detailed" 
-                    :class="[
+                    :class="[ 
                       'text-xs font-medium px-2.5 py-0.5 rounded',
                       isActivePoll(poll) 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-gray-100 text-gray-800'
+                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' 
+                        : 'bg-gray-100 text-gray-800 border border-gray-200'
                     ]">
                 {{ isActivePoll(poll) ? 'Attivo' : 'Concluso' }}
               </span>
@@ -203,18 +203,18 @@ onMounted(() => {
         <div v-if="isActivePoll(poll) && showVoting && !poll.hasVoted" class="space-y-3">
           <div v-for="option in poll.options" :key="option._id" 
                @click="selectedOptions[poll._id] = option._id"
-               :class="[
+               :class=" [
                  'border rounded-lg p-3 cursor-pointer',
                  selectedOptions[poll._id] === option._id 
-                   ? 'border-blue-500 bg-blue-50' 
-                   : 'border-gray-200 hover:border-blue-300'
+                   ? 'border-emerald-600 bg-emerald-50' 
+                   : 'border-gray-200 hover:border-emerald-300'
                ]">
             <div class="flex items-center">
               <input 
                 type="radio" 
                 :name="`poll-${poll._id}`" 
                 :checked="selectedOptions[poll._id] === option._id"
-                class="h-4 w-4 text-blue-600 mr-3" readonly>
+                class="h-4 w-4 text-emerald-600 mr-3 accent-emerald-600" readonly>
               <span>{{ option.text }}</span>
             </div>
           </div>
@@ -222,7 +222,8 @@ onMounted(() => {
           <button 
             @click="submitVote(poll._id)"
             :disabled="voting[poll._id] || !selectedOptions[poll._id]"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400">
+            class="bg-emerald-700 text-white px-4 py-2 rounded hover:bg-emerald-800 disabled:bg-gray-400 transition"
+          >
             {{ voting[poll._id] ? 'Votando...' : 'Vota' }}
           </button>
         </div>
@@ -235,7 +236,7 @@ onMounted(() => {
         
         <!-- Risultati -->
         <div v-if="!isActivePoll(poll) || !showVoting || poll.hasVoted" class="space-y-2">
-          <h5 v-if="detailed" class="font-medium text-gray-900 mb-3">Risultati:</h5>
+          <h5 v-if="detailed" class="font-medium text-emerald-900 mb-3">Risultati:</h5>
           
           <div v-for="option in poll.options" :key="option._id" class="space-y-2">
             <div class="flex justify-between items-center">
@@ -250,7 +251,7 @@ onMounted(() => {
             
             <div class="w-full bg-gray-200 rounded-full h-3">
               <div 
-                class="bg-blue-600 h-3 rounded-full" 
+                class="bg-emerald-600 h-3 rounded-full transition-all duration-300" 
                 :style="{ width: getTotalVotes(poll.options) > 0 ? (option.votes / getTotalVotes(poll.options) * 100) + '%' : '0%' }"
               ></div>
             </div>

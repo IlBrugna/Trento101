@@ -28,7 +28,7 @@ const sizeToClass = (size) => {
 
 <template>
   <div
-    :class="[
+    :class=" [
       'rounded-lg shadow-md p-6 flex flex-col cursor-pointer transform transition-all hover:scale-105 hover:shadow-lg',
       panel.color,
       sizeToClass(panel.size)
@@ -41,13 +41,13 @@ const sizeToClass = (size) => {
     <div class="text-white flex-grow">{{ panel.content }}</div>
     <div class="flex justify-end gap-2 mt-4">
       <button
-        class="p-2 text-white hover:bg-white/20 rounded"
+        class="p-2 text-white hover:bg-emerald-800/40 rounded"
         @click.stop
       >
         <span class="i-heroicons-pencil-square w-5 h-5"></span>
       </button>
       <button
-        class="p-2 text-white hover:bg-white/20 rounded"
+        class="p-2 text-white hover:bg-emerald-800/40 rounded"
         @click.stop
       >
         <span class="i-heroicons-trash w-5 h-5"></span>

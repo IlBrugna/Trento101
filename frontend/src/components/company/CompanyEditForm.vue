@@ -140,7 +140,7 @@ const onDragLeave = (event) => {
 
     <button
       type="submit"
-      class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+      class="bg-emerald-700 text-white font-semibold px-4 py-2 rounded hover:bg-emerald-800 disabled:bg-gray-400"
       :disabled="isUploading"
     >
       {{ isUploading ? 'Caricamento...' : 'Salva Modifiche' }}

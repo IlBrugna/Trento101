@@ -117,14 +117,14 @@ const downloadPolls = async () => {
           <h1 class="text-3xl font-bold text-gray-900">Crea Nuovo Sondaggio</h1>
         </div>
 
-        <div class="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+        <div class="mb-6 bg-white rounded-lg shadow-sm border border-emerald-200 p-4">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center space-x-3">
-              <div class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
-                <span class="text-green-600 text-lg">📥</span>
+              <div class="flex items-center justify-center w-10 h-10 bg-emerald-100 rounded-full">
+                <span class="text-emerald-700 text-lg">📥</span>
               </div>
               <div>
-                <h3 class="text-sm font-medium text-gray-900">Esporta Sondaggi</h3>
+                <h3 class="text-sm font-medium text-emerald-900">Esporta Sondaggi</h3>
                 <p class="text-xs text-gray-500">Scarica tutti i sondaggi esistenti</p>
               </div>
             </div>
@@ -135,7 +135,7 @@ const downloadPolls = async () => {
                 <select 
                   id="format-select"
                   v-model="selectedFormat"
-                  class="px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
+                  class="px-3 py-2 text-sm border border-emerald-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
                 >
                   <option value="json">JSON</option>
                   <option value="csv">CSV</option>
@@ -146,7 +146,7 @@ const downloadPolls = async () => {
               <button
                 @click="downloadPolls"
                 :disabled="loading"
-                class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center space-x-2"
+                class="px-4 py-2 bg-emerald-700 text-white text-sm font-medium rounded-md hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center space-x-2"
               >
                 <span v-if="loading" class="flex items-center space-x-2">
                   <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
@@ -269,7 +269,7 @@ const downloadPolls = async () => {
               <button
                 type="button"
                 @click="goBack"
-                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-4 py-2 border border-emerald-300 text-emerald-700 rounded-md hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 Annulla
               </button>
@@ -277,7 +277,7 @@ const downloadPolls = async () => {
               <button
                 type="submit"
                 :disabled="loading"
-                class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="px-6 py-2 bg-emerald-700 text-white rounded-md hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span v-if="loading">Creazione...</span>
                 <span v-else>Crea Sondaggio</span>
