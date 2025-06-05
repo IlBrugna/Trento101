@@ -39,10 +39,11 @@ app.use(cookieParser()); // ATTIVA IL MIDDLEWARE PER LE COOKIES
 app.use(async (req, res, next) => {
     const isStats = req.originalUrl.startsWith('/api/v1/stats');
     const isAuth = req.originalUrl.startsWith('/api/v1/auth');
+    const isLogs = req.originalUrl.startsWith('/api/v1/logs');
     const isPage = req.originalUrl.startsWith('/api/v1/');
     res.on('finish', () => {
     // Registra un evento di visualizzazione della pagina solo per le richieste GET con successo
-    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && isPage) {
+    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && !isLogs && isPage) {
         recordEvent(req, 'page_view');
     }
     });
