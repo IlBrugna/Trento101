@@ -18,6 +18,8 @@ import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestMa
 import AdminStatisticsManager from '@/views/adminViews/AdminStatisticsManager.vue';
 import PollsPageView from '@/views/PollsPageView.vue';
 import AdminUniversitaServicesManager from '@/views/adminViews/AdminUniversitaServicesManager.vue';
+import AdminSupportAziendeManager from'@/views/adminViews/AdminCompanySupportRequestManager.vue'
+import AziendeSupportPageView from '@/views/CompanySupportRequestPageView.vue'
 
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
@@ -127,6 +129,16 @@ const router = createRouter({
             name: 'adminUniversitaServicesManager',
             component: AdminUniversitaServicesManager,
             meta: { requiresAuth: true, role: 'admin' }
+        },
+        {
+            path: '/adminCompanySupportRequestManager',
+            name: 'AdminCompanySupportRequestManager',
+            component: AdminSupportAziendeManager
+        },
+        {
+            path: '/companySupportRequest',
+            name: 'CompanySupportRequest',
+            component: AziendeSupportPageView
         }
     ],
     scrollBehavior (to, from, savedPosition) {

@@ -15,3 +15,18 @@ export async function sendSupportEmail({ requestId, to, subject, message }) {
     };
   }
 }
+
+export async function sendSupportEmailAzienda({ requestId, to, subject, message }) {
+  try {
+    const { data } = await api.post(
+      `api/v1/richieste-supporto-azienda/${requestId}/reply`,
+      { to, subject, message }
+    );
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
