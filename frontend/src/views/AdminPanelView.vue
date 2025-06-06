@@ -78,6 +78,15 @@ const adminPanels = ref([
     color: 'bg-emerald-700',
     size: 'md',
     route: '/adminStatisticsManager'
+  },
+  {
+    id: 8,
+    title: 'Visualizza log',
+    icon: 'users',
+    content: 'Visualizza i log degli eventi',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminLogManager'
   }
 ]);
 
