@@ -38,14 +38,28 @@ function closeDropdowns(event) {
 }
 
 const toggleLanguage = () => {
-  const lang = currentLang.value === 'it' ? 'en' : 'it';
-  translateTo(lang);
-  // Aggiorna currentLang dopo il cambio lingua
-  nextTick(() => {
-    setTimeout(() => {
-      currentLang.value = document.documentElement.lang || lang;
-    }, 300);
-  });
+  if (currentLang.value === 'it') {
+    const lang = 'en';
+    translateTo(lang);
+
+    // Forza il cambio lingua anche se Google Translate non risponde subito
+    let retries = 0;
+    const maxRetries = 5;
+    function ensureLangChanged() {
+      if (document.documentElement.lang !== lang && retries < maxRetries) {
+        translateTo(lang);
+        retries++;
+        setTimeout(ensureLangChanged, 400);
+      } else {
+        currentLang.value = document.documentElement.lang || lang;
+      }
+    }
+    nextTick(() => {
+      setTimeout(ensureLangChanged, 400);
+    });
+  } else {
+    resetTranslation();
+  }
 };
 
 const translateTo = (lang) => {
@@ -53,7 +67,13 @@ const translateTo = (lang) => {
   if (select) {
     select.value = lang;
     select.dispatchEvent(new Event('change'));
-    document.documentElement.lang = lang; 
+    document.documentElement.lang = lang;
+  } else {
+    // Se il selettore non esiste, prova a reinizializzare Google Translate
+    if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+      new window.google.translate.TranslateElement({pageLanguage: 'it'}, 'google_translate_element');
+      setTimeout(() => translateTo(lang), 500);
+    }
   }
 };
 
