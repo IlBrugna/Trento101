@@ -8,7 +8,7 @@ import {
 } from 'chart.js';
 
 import { useStats } from '@/api/statisticsAPI.js';
-import { fetchSpecificCompany } from '@/api/companyAPI.js';
+import { fetchSpecificCompany } from '@/api/companyApi.js';
 
 // ChartJS
 ChartJS.register(

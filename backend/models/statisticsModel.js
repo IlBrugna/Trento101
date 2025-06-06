@@ -34,6 +34,7 @@ statisticsSchema.statics.incrementCounter = async function(type, url = null, ser
       break;
     case 'page_view':
       updateQuery = { $inc: { [`pageViews.${url}`]: 1 } };
+      //updateQuery = { $unset: { pageViews: "" } };
       break;
     case 'service_click':
       updateQuery = { $inc: { [`serviceClicks.${serviceId}`]: 1 } };

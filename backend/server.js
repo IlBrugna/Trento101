@@ -13,10 +13,19 @@ import cookieParser from 'cookie-parser';
 import universitaRouter from './routes/serviziUniversitaRouter.js'; // Importa il router delle aziende 
 import { initMailer } from './utils/mailUtils.js'; // Importa la funzione per inizializzare il mailer
 import { recordEvent } from './utils/recordEventUtils.js'; // Importa la funzione per registrare gli eventi
+import emailVerificationRouter from './routes/emailVerificationRouter.js';
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
+
+//TEST DEPLOY
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
   'http://localhost:5000',
+  'https://trento101.onrender.com'
 ];
 
 const app = express();
@@ -61,6 +70,9 @@ app.use((req, _res, next) => {
   next();
 });
 
+//TEST DEPLOY
+app.use('/', express.static(path.join(__dirname, 'dist')));
+
 // API versioning
 const API_VERSION = 'v1';
 const API_BASE_PATH = `/api/${API_VERSION}`;
@@ -74,7 +86,12 @@ app.use(`${API_BASE_PATH}/serviziUniversita`, universitaRouter);
 app.use(`${API_BASE_PATH}/richiesteSupporto`, richiesteSupportoRouter);
 app.use(`${API_BASE_PATH}/polls`, pollsRouter);
 app.use(`${API_BASE_PATH}/stats`, statisticsRouter);
+app.use(`${API_BASE_PATH}/email-verification`, emailVerificationRouter);
 
+// SPA fallback: restituisce index.html per ogni rotta non gestita
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 connectDB(); //CONNETTI AL DB
 
