@@ -48,7 +48,7 @@ const adminPanels = ref([
     title: 'Crea sondaggi',
     icon: 'users',
     content: 'Crea polls di interesse per i cittadini',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminPollCreate'
   },
@@ -57,7 +57,7 @@ const adminPanels = ref([
     title: 'Monitora e chiudi sondaggi',
     icon: 'users',
     content: 'Quanti hanno votato? Devi chiudere il sondaggio prima del previsto?',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/AdminPollManager'
   },
@@ -71,20 +71,11 @@ const adminPanels = ref([
     route: '/adminUniversitaServicesManager'
   },
   {
-  id: 7,
-  title: 'Gestisci richieste di supporto aziendali',
-  icon: 'users',
-  content: 'Gestione delle richieste inviate dalle aziende',
-  color: 'bg-emerald-700',
-  size: 'md',
-  route: '/adminCompanySupportRequestManager'
-  },
-  {
     id: 8,
     title: 'Gestisci richieste di supporto aziendali',
     icon: 'users',
     content: 'Gestione delle richieste inviate dalle aziende',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-700',
     size: 'md',
     route: '/adminCompanySupportRequestManager'
   },
