@@ -13,7 +13,9 @@ import cookieParser from 'cookie-parser';
 import universitaRouter from './routes/serviziUniversitaRouter.js'; // Importa il router delle aziende 
 import { initMailer } from './utils/mailUtils.js'; // Importa la funzione per inizializzare il mailer
 import { recordEvent } from './utils/recordEventUtils.js'; // Importa la funzione per registrare gli eventi
-import emailVerificationRouter from './routes/emailVerificationRouter.js';import richiesteSupportoAziendaRouter from './routes/richiesteSupportoAziendaRouter.js';
+import logRouter from './routes/logRouter.js';
+import emailVerificationRouter from './routes/emailVerificationRouter.js';
+import richiesteSupportoAziendaRouter from './routes/richiesteSupportoAziendaRouter.js';
 
 dotenv.config({path:'./config/.env'}); // Carica le variabili d'ambiente dal file .env
 
@@ -39,9 +41,11 @@ app.use(cookieParser()); // ATTIVA IL MIDDLEWARE PER LE COOKIES
 app.use(async (req, res, next) => {
     const isStats = req.originalUrl.startsWith('/api/v1/stats');
     const isAuth = req.originalUrl.startsWith('/api/v1/auth');
+    const isLogs = req.originalUrl.startsWith('/api/v1/logs');
+    const isPage = req.originalUrl.startsWith('/api/v1/');
     res.on('finish', () => {
     // Registra un evento di visualizzazione della pagina solo per le richieste GET con successo
-    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth) {
+    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && !isLogs && isPage) {
         recordEvent(req, 'page_view');
     }
     });
@@ -89,9 +93,10 @@ app.use(`${API_BASE_PATH}/polls`, pollsRouter);
 app.use(`${API_BASE_PATH}/richieste-supporto-azienda`, richiesteSupportoAziendaRouter);
 app.use(`${API_BASE_PATH}/stats`, statisticsRouter);
 app.use(`${API_BASE_PATH}/email-verification`, emailVerificationRouter);
+app.use(`${API_BASE_PATH}/logs`, logRouter);
 
 // SPA fallback: restituisce index.html per ogni rotta non gestita
-app.get('*', (req, res) => {
+app.get('/{*any}', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 

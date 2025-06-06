@@ -18,6 +18,7 @@ import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestMa
 import AdminStatisticsManager from '@/views/adminViews/AdminStatisticsManager.vue';
 import PollsPageView from '@/views/PollsPageView.vue';
 import AdminUniversitaServicesManager from '@/views/adminViews/AdminUniversitaServicesManager.vue';
+import AdminLogManager from '@/views/adminViews/AdminLogManager.vue';
 import AdminSupportAziendeManager from'@/views/adminViews/AdminCompanySupportRequestManager.vue'
 import AziendeSupportPageView from '@/views/CompanySupportRequestPageView.vue'
 
@@ -128,6 +129,12 @@ const router = createRouter({
             path: '/adminUniversitaServicesManager',
             name: 'adminUniversitaServicesManager',
             component: AdminUniversitaServicesManager,
+            meta: { requiresAuth: true, role: 'admin' }
+        },
+        {
+            path: '/adminLogManager',
+            name: 'adminLogManager',
+            component: AdminLogManager,
             meta: { requiresAuth: true, role: 'admin' }
         },
         {
