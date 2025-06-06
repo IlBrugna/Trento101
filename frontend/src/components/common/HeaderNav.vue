@@ -28,6 +28,43 @@ function closeDropdowns(event) {
   }
 }
 
+const toggleLanguage = () => {
+  const currentLang = document.documentElement.lang || 'it';
+
+  if (currentLang === 'it') {
+    translateTo('en');
+  } else {
+    resetTranslation();
+  }
+};
+
+const translateTo = (lang) => {
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+    document.documentElement.lang = lang; 
+  }
+};
+
+const resetTranslation = () => {
+  // Cancella cookie traduzione google
+  deleteCookie('googtrans');
+  deleteCookie('googtrans', window.location.hostname);
+  deleteCookie('googtrans', '.' + window.location.hostname);
+
+  document.documentElement.lang = 'it';
+
+  location.reload();
+};
+
+const deleteCookie = (name, domain) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;${domain ? ` domain=${domain};` : ''}`;
+};
+
+
+
+
 function closeMobileMenu() {
   isMobileMenuOpen.value = false;
   isServicesDropdownOpen.value = false;
@@ -94,14 +131,13 @@ function closeMobileMenu() {
                 Servizi del Comune
               </RouterLink>
             </div>
-          </div>
-          
+          </div>  
           <RouterLink to="/polls" class="text-gray-700 hover:text-emerald-700 transition">Sondaggi</RouterLink>
           <RouterLink to="/contatti" class="text-gray-700 hover:text-emerald-700 transition">Contatti</RouterLink>
-        </nav>
-
+        </nav>             
         <!-- Desktop User Menu (nascosto su mobile) -->
         <div v-if="AuthStore.isLoggedIn" class="hidden md:flex items-center space-x-4">
+          <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
           <RouterLink v-if="AuthStore.role=='admin'" to="/adminPanel" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-700 transition">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
@@ -122,10 +158,11 @@ function closeMobileMenu() {
             </svg>
             <span>Logout</span>
           </button>
-        </div>
+        </div> 
 
         <!-- Desktop Login (nascosto su mobile) -->
-        <div v-else class="hidden md:block">
+        <div v-else class="hidden md:flex items-center space-x-4">
+          <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
           <RouterLink to="/login" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-700 transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c3.314 0 6.355 1.112 8.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -235,6 +272,7 @@ function closeMobileMenu() {
 
           <!-- Mobile User Menu -->
           <div v-if="AuthStore.isLoggedIn" class="border-t border-gray-200 pt-4 mt-4">
+            <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
             <RouterLink 
               v-if="AuthStore.role=='admin'" 
               to="/adminPanel" 
@@ -272,6 +310,7 @@ function closeMobileMenu() {
 
           <!-- Mobile Login -->
           <div v-else class="border-t border-gray-200 pt-4 mt-4">
+           <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
             <RouterLink 
               to="/login" 
               class="flex items-center px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"

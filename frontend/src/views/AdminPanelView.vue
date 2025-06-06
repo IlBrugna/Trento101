@@ -54,7 +54,7 @@ const adminPanels = ref([
   },
   {
     id: 6,
-    title: 'Gestisci servizi universitari',
+    title: 'Gestisci pagina servizi universitari',
     icon: 'school',
     content: 'Gestione CRUD dei servizi UniTrento',
     color: 'bg-emerald-700',
@@ -62,7 +62,16 @@ const adminPanels = ref([
     route: '/adminUniversitaServicesManager'
   },
   {
-    id: 7,
+  id: 7,
+  title: 'Gestisci richieste di supporto aziendali',
+  icon: 'users',
+  content: 'Gestione delle richieste inviate dalle aziende',
+  color: 'bg-blue-500',
+  size: 'md',
+  route: '/adminCompanySupportRequestManager'
+  },
+  {
+    id: 8,
     title: 'Visualizza statistiche',
     icon: 'users',
     content: 'Visualizza le statistiche del sito',

@@ -114,14 +114,6 @@ const retryStats = () => {
   fetchCompanyPageStats();
 };
 
-// Funzione per scrollare alla sezione del form di modifica
-const scrollToEditForm = () => {
-  const editForm = document.getElementById('company-edit-form');
-  if (editForm) {
-    editForm.scrollIntoView({ behavior: 'smooth' });
-  }
-};
-
 const formatDate = (dateString) => {
   if (!dateString) return '-';
   try {
@@ -256,13 +248,13 @@ const copyUrlToClipboard = async () => {
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-purple-700">Azioni Rapide</p>
-              <button 
-                @click="scrollToEditForm"
-                class="text-sm font-medium text-purple-900 hover:text-purple-700 underline focus:outline-none"
+              <RouterLink
+                to="/companySupportRequest"
+                class="block mt-2 text-sm font-medium text-purple-900 hover:text-purple-700 underline focus:outline-none"
               >
-                Modifica Profilo
-              </button>
-              <p class="text-xs text-purple-600 mt-1">aggiorna i tuoi dati</p>
+                Supporto Azienda
+              </RouterLink>
+              <p class="text-xs text-purple-600 mt-1">Contattaci per problemi tecnici!</p>
             </div>
           </div>
         </div>

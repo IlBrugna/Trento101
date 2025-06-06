@@ -26,4 +26,21 @@ onMounted(() => {
   </div>
 </template>
 <style scoped>
+iframe.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0;
+}
+
 </style>
