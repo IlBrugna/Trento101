@@ -178,3 +178,24 @@ export const getDownloadPolls = async (req, res) => {
         res.status(500).json({ message: 'Errore durante l\'esportazione dei sondaggi' });
     }
 };
+
+export const putPoll = async (req, res) => {
+    try {
+        const { pollId } = req.params;
+        const { status } = req.body;
+        if (!['attivo', 'chiuso'].includes(status)) {
+            return res.status(400).json({ message: 'Status non valido' });
+        }
+        const poll = await pollsModel.findByIdAndUpdate(
+            pollId,
+            { status },
+            { new: true }
+        );
+        if (!poll) {
+            return res.status(404).json({ message: 'Sondaggio non trovato' });
+        }
+        res.status(200).json(poll);
+    } catch (error) {
+        res.status(500).json({ message: "Errore durante l'aggiornamento dello status" });
+    }
+};

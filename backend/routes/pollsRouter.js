@@ -3,7 +3,8 @@ import {
     postPoll,
     getPolls,
     postVote,
-    getDownloadPolls
+    getDownloadPolls,
+    putPoll
 } from '../controllers/pollsController.js'; 
 import { ipMiddleware } from '../middleware/ipMiddleware.js';
 
@@ -13,5 +14,6 @@ router.post('/',postPoll);
 router.post('/:pollId/votes', ipMiddleware, postVote);
 router.get('',getPolls);
 router.get('/downloads', getDownloadPolls);
+router.put('/:pollId',putPoll);
 
 export default router;
