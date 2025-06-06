@@ -32,8 +32,8 @@ const sectorOptions = [
 
 // Paginazione
 const currentPage = ref(1);
-const itemsPerPage = ref(10);
-const itemsPerPageOptions = [5, 10, 15, 20];
+const itemsPerPage = ref(8);
+const itemsPerPageOptions = [4, 8, 16, 20];
 
 // Funzione per recuperare le aziende dal server
 const fetchAndSetCompanies = async () => {
