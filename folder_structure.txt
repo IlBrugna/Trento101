@@ -1,0 +1,179 @@
+﻿+-- Trento101
+|   +-- backend
+|   |   +-- config
+|   |   |   -- .env
+|   |   |   -- db.js
+|   |   +-- controllers
+|   |   |   -- authController.js
+|   |   |   -- companiesController.js
+|   |   |   -- emailVerificationController.js
+|   |   |   -- logController.js
+|   |   |   -- newsController.js
+|   |   |   -- pollsController.js
+|   |   |   -- richiesteSupportoAziendaController.js
+|   |   |   -- richiesteSupportoController.js
+|   |   |   -- serviziComuneController.js
+|   |   |   -- serviziUniversitaController.js
+|   |   |   -- statisticsController.js
+|   |   +-- middleware
+|   |   |   -- authInputMiddleware.js
+|   |   |   -- checkAuthMiddleware.js
+|   |   |   -- ipMiddleware.js
+|   |   +-- models
+|   |   |   -- adminModel.js
+|   |   |   -- companiesModel.js
+|   |   |   -- emailVerificationModel.js
+|   |   |   -- logModel.js
+|   |   |   -- newsModel.js
+|   |   |   -- pollsModel.js
+|   |   |   -- richiesteSupportoAziendaModel.js
+|   |   |   -- richiesteSupportoModel.js
+|   |   |   -- serviziComuneModel.js
+|   |   |   -- serviziUniversitaModel.js
+|   |   |   -- statisticsModel.js
+|   |   +-- routes
+|   |   |   -- authRouter.js
+|   |   |   -- companiesRouter.js
+|   |   |   -- emailVerificationRouter.js
+|   |   |   -- logRouter.js
+|   |   |   -- newsRouter.js
+|   |   |   -- pollsRouter.js
+|   |   |   -- richiesteSupportoAziendaRouter.js
+|   |   |   -- richiesteSupportoRouter.js
+|   |   |   -- serviziComuneRouter.js
+|   |   |   -- serviziUniversitaRouter.js
+|   |   |   -- statisticsRouter.js
+|   |   +-- tests
+|   |   |   -- company.routes.test.js
+|   |   +-- utils
+|   |   |   -- deletePicture.js
+|   |   |   -- emailVerificationUtils.js
+|   |   |   -- hashUtils.js
+|   |   |   -- logUtils.js
+|   |   |   -- mailUtils.js
+|   |   |   -- recordEventUtils.js
+|   |   -- jest.config.js
+|   |   -- package-lock.json
+|   |   -- package.json
+|   |   -- server.js
+|   +-- frontend
+|   |   +-- coverage
+|   |   |   +-- lcov-report
+|   |   |   |   -- base.css
+|   |   |   |   -- block-navigation.js
+|   |   |   |   -- favicon.png
+|   |   |   |   -- index.html
+|   |   |   |   -- prettify.css
+|   |   |   |   -- prettify.js
+|   |   |   |   -- sort-arrow-sprite.png
+|   |   |   |   -- sorter.js
+|   |   |   |   -- sum.js.html
+|   |   |   -- clover.xml
+|   |   |   -- coverage-final.json
+|   |   |   -- lcov.info
+|   |   +-- public
+|   |   |   -- aziende.jpg
+|   |   |   -- favicon.ico
+|   |   |   -- logo.png
+|   |   |   -- placeholder-logo.png
+|   |   |   -- serviziComune.jpg
+|   |   |   -- serviziUniversita.jpg
+|   |   +-- src
+|   |   |   +-- api
+|   |   |   |   -- authApi.js
+|   |   |   |   -- companyApi.js
+|   |   |   |   -- comuneNewsAPI.js
+|   |   |   |   -- comuneServicesAPI.js
+|   |   |   |   -- emailAPI.js
+|   |   |   |   -- emailVerificationApi.js
+|   |   |   |   -- logApi.js
+|   |   |   |   -- pollsApi.js
+|   |   |   |   -- richiestaSupportoAPI.js
+|   |   |   |   -- richiestaSupportoAziendaleAPI.js
+|   |   |   |   -- statisticsAPI.js
+|   |   |   |   -- universitaServicesAPI.js
+|   |   |   +-- assets
+|   |   |   |   -- main.css
+|   |   |   +-- components
+|   |   |   |   +-- adminPanel
+|   |   |   |   |   -- AdminPanelCard.vue
+|   |   |   |   |   -- AdminPanelGrid.vue
+|   |   |   |   |   -- AdminPanelHeader.vue
+|   |   |   |   +-- common
+|   |   |   |   |   -- HeaderNav.vue
+|   |   |   |   |   -- LatestSurvey.vue
+|   |   |   |   |   -- SectionCards.vue
+|   |   |   |   +-- company
+|   |   |   |   |   -- CompanyContacts.vue
+|   |   |   |   |   -- CompanyEditForm.vue
+|   |   |   |   |   -- CompanyInfo.vue
+|   |   |   |   +-- companySearch
+|   |   |   |   |   -- CompanyCard.vue
+|   |   |   |   |   -- Pagination.vue
+|   |   |   |   |   -- SearchFilter.vue
+|   |   |   |   +-- comunePanel
+|   |   |   |   |   -- HeroSection.vue
+|   |   |   |   |   -- NewsCarousel.vue
+|   |   |   |   |   -- ServiceCarousel.vue
+|   |   |   |   +-- login
+|   |   |   |   |   -- LoginForm.vue
+|   |   |   |   +-- registration
+|   |   |   |   |   -- CompanyDetails.vue
+|   |   |   |   |   -- EmailVerification.vue
+|   |   |   |   |   -- InitialRegistration.vue
+|   |   |   |   +-- universitaPanel
+|   |   |   |   |   -- UniversitaHeroSection.vue
+|   |   |   |   |   -- UniversitaServiceCarousel.vue
+|   |   |   +-- router
+|   |   |   |   -- index.js
+|   |   |   +-- services
+|   |   |   |   -- api.js
+|   |   |   +-- store
+|   |   |   |   -- authStore.js
+|   |   |   +-- views
+|   |   |   |   +-- adminViews
+|   |   |   |   |   -- AdminCompanySupportRequestManager.vue
+|   |   |   |   |   -- AdminLogManager.vue
+|   |   |   |   |   -- AdminNewsManager.vue
+|   |   |   |   |   -- AdminPollManager.vue
+|   |   |   |   |   -- AdminServicesManager.vue
+|   |   |   |   |   -- AdminStatisticsManager.vue
+|   |   |   |   |   -- AdminSupportRequestManager.vue
+|   |   |   |   |   -- AdminUniversitaServicesManager.vue
+|   |   |   |   |   -- companyManagerView.vue
+|   |   |   |   -- AdminPanelView.vue
+|   |   |   |   -- AziendePageView.vue
+|   |   |   |   -- AziendeSearchView.vue
+|   |   |   |   -- CompanyDashboardView.vue
+|   |   |   |   -- CompanyLoginView.vue
+|   |   |   |   -- CompanyRegistration.vue
+|   |   |   |   -- CompanySupportRequestForm.vue
+|   |   |   |   -- CompanySupportRequestPageView.vue
+|   |   |   |   -- ComunePageView.vue
+|   |   |   |   -- ContactsPageView.vue
+|   |   |   |   -- HomeView.vue
+|   |   |   |   -- PollsPageView.vue
+|   |   |   |   -- UniversitaPageView.vue
+|   |   |   -- App.vue
+|   |   |   -- main.js
+|   |   +-- tests
+|   |   |   -- company.routes.test.js
+|   |   |   -- sum.test.js
+|   |   -- .env
+|   |   -- babel.config.js
+|   |   -- index.html
+|   |   -- jest.config.js
+|   |   -- jsconfig.json
+|   |   -- package-lock.json
+|   |   -- package.json
+|   |   -- postcss.config.js
+|   |   -- README.md
+|   |   -- sum.js
+|   |   -- tailwind.config.js
+|   |   -- vite.config.js
+|   -- .gitignore
+|   -- D1 group 19.docx
+|   -- D2 group 19.docx
+|   -- folder_structure.txt
+|   -- jest.config.base.js
+|   -- README.md

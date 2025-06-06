@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
@@ -20,10 +21,17 @@
     "vue3-icon-picker": "^0.1.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "@pinia/testing": "^1.0.2",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.21",
+    "jsdom": "^26.1.0",
+    "node-fetch": "^3.3.2",
     "tailwindcss": "^3.4.17",
     "vite": "^6.2.4",
-    "vite-plugin-vue-devtools": "^7.7.2"
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vitest": "^3.2.2"
   }
 }
