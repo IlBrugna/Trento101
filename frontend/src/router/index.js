@@ -15,8 +15,14 @@ import UniversitaPageView from '@/views/UniversitaPageView.vue';
 import ContactsPageView from '@/views/ContactsPageView.vue';
 import adminPollCreateView from '@/views/adminViews/AdminPollCreate.vue';
 import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
+import AdminStatisticsManager from '@/views/adminViews/AdminStatisticsManager.vue';
 import PollsPageView from '@/views/PollsPageView.vue';
 import AdminPollManager from '@/views/adminViews/AdminPollManager.vue';
+import AdminUniversitaServicesManager from '@/views/adminViews/AdminUniversitaServicesManager.vue';
+import AdminLogManager from '@/views/adminViews/AdminLogManager.vue';
+import AdminSupportAziendeManager from'@/views/adminViews/AdminCompanySupportRequestManager.vue'
+import AziendeSupportPageView from '@/views/CompanySupportRequestPageView.vue'
+
 const router = createRouter({
     history:createWebHistory(import.meta.env.BASE_URL), //PER FAR FUNZIONARE TASTO INDIETRO
     routes:[
@@ -109,6 +115,12 @@ const router = createRouter({
             component: adminPollCreateView
         },
         {
+            path: '/adminStatisticsManager',
+            name: 'adminStatisticsManager',
+            meta: { requiresAuth: true, role: 'admin' },
+            component: AdminStatisticsManager
+        },
+        {
             path: '/polls',
             name: 'polls',
             meta: { requiresAuth: false },
@@ -119,6 +131,30 @@ const router = createRouter({
             name: 'adminPollManager',
             component: AdminPollManager,
             meta: { requiresAuth: true, role: 'admin' }
+        },
+        {   
+            path: '/adminUniversitaServicesManager',
+            name: 'adminUniversitaServicesManager',
+            component: AdminUniversitaServicesManager,
+            meta: { requiresAuth: true, role: 'admin' }
+        },
+        {
+            path: '/adminLogManager',
+            name: 'adminLogManager',
+            component: AdminLogManager,
+            meta: { requiresAuth: true, role: 'admin' }
+        },
+        {
+            path: '/adminCompanySupportRequestManager',
+            name: 'AdminCompanySupportRequestManager',
+            component: AdminSupportAziendeManager,
+            meta: { requiresAuth: true, role: 'admin' }
+        },
+        {
+            path: '/companySupportRequest',
+            name: 'CompanySupportRequest',
+            component: AziendeSupportPageView,
+            meta: { requiresAuth: true, role: 'company' }
         }
     ],
     scrollBehavior (to, from, savedPosition) {

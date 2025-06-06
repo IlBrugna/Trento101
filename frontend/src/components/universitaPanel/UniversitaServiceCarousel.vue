@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { fetchAllUniversitaServices } from '@/api/universitaServicesAPI';
+import { useStats } from '@/api/statisticsAPI';
 
 
 const props = defineProps({
@@ -15,6 +16,20 @@ const props = defineProps({
 const services = ref([]);
 const loading  = ref(true);
 const error    = ref(null);
+
+const stats = useStats();
+
+// Funzione per tracciare i click sui servizi
+const trackServiceClick = async (serviceId, serviceName) => {
+  try {
+    await stats.trackUniversitaServiceClick({
+      serviceId: serviceId,
+      serviceName: serviceName
+    });
+  } catch (error) {
+    console.error('Failed to track service click:', error);
+  }
+};
 
 // Fetch dei servizi
 const loadServices = async () => {
@@ -59,6 +74,7 @@ onMounted(loadServices);
       :href="service.url"
       target="_blank"
       rel="noopener noreferrer"
+      @click="trackServiceClick(service._id, service.title)"
       class="flex-shrink-0 w-80 snap-start rounded-lg overflow-hidden shadow-md hover:shadow-lg transition bg-white"
     >
       <div class="flex items-center h-24 ">
@@ -79,7 +95,29 @@ onMounted(loadServices);
       </div>
     </a>
   </div>
- 
+  
+   <!-- Secondary Services (Grid) -->
+  <div v-else class="flex flex-wrap gap-3">
+    <a
+      v-for="service in services"
+      :key="service._id"
+      :href="service.url"
+      target="_blank"
+      rel="noopener noreferrer"
+      @click="trackServiceClick(service._id, service.title)"
+      class="flex-grow-0 flex-shrink-0 basis-auto w-full md:w-auto p-4 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition"
+    >
+      <div class="flex items-center">
+        <div :class="`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 `" :style="{ backgroundColor: service.color }">
+            <span class="material-icons text-lg">{{ service.icon }}</span>
+        </div>
+        <div class="ml-3">
+          <h3 class="font-bold">{{ service.title }}</h3>
+          <p class="text-gray-600 text-sm mt-1">{{ service.description }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
 </template>
 
 <style scoped>

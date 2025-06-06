@@ -15,7 +15,7 @@ const props = defineProps({
       <div class="w-full h-32 flex items-center justify-center mb-4">
         <img :src="company.picture || '/placeholder-logo.png'" 
              alt="Company Logo" 
-             class="w-full h-full object-contain rounded-md" 
+             class="w-full h-full object-cover rounded-md" 
              @error="$event.target.src='/placeholder-logo.png'" />
       </div>
       

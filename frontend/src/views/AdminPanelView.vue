@@ -50,16 +50,52 @@ const adminPanels = ref([
     content: 'Crea polls di interesse per i cittadini',
     color: 'bg-blue-500',
     size: 'md',
-    route: '/adminPollCreate'
+    route: '/adminPollManager'
   },
   {
-    id: 6,
-    title: 'Monitora e chiudi sondaggi',
+    id: 5,
+    title: 'Gestisci richieste di supporto',
     icon: 'users',
-    content: 'Quanti hanno votato? Devi chiudere il sondaggio prima del previsto?',
+    content: 'Gestisci le richieste di supporto',
     color: 'bg-blue-500',
     size: 'md',
     route: '/AdminPollManager'
+  },
+  {
+    id: 6,
+    title: 'Gestisci pagina servizi universitari',
+    icon: 'school',
+    content: 'Gestisci i servizi universitari',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminUniversitaServicesManager'
+  },
+  {
+  id: 7,
+  title: 'Gestisci richieste di supporto aziendali',
+  icon: 'users',
+  content: 'Gestione delle richieste inviate dalle aziende',
+  color: 'bg-blue-500',
+  size: 'md',
+  route: '/adminCompanySupportRequestManager'
+  },
+  {
+    id: 8,
+    title: 'Visualizza statistiche',
+    icon: 'users',
+    content: 'Visualizza le statistiche del sito',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminStatisticsManager'
+  },
+  {
+    id: 8,
+    title: 'Visualizza log',
+    icon: 'users',
+    content: 'Visualizza i log degli eventi',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminLogManager'
   }
 ]);
 

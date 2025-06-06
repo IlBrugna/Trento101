@@ -8,7 +8,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
     <router-link
       to="/serviziComune"
       class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
-      style="background-image: url('public/serviziComune.jpg');"
+      style="background-image: url('/serviziComune.jpg');"
     >
       <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
         <h2 class="text-2xl font-semibold text-white drop-shadow mb-2">Servizi Comune</h2>
@@ -19,7 +19,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
     <router-link
       to="/aziende"
       class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
-      style="background-image: url('public/aziende.jpg');"
+      style="background-image: url('/aziende.jpg');"
     >
       <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
         <h2 class="text-2xl font-semibold text-white drop-shadow mb-2">Aziende</h2>
@@ -30,7 +30,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
     <router-link
       to="/serviziUniversita"
       class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
-      style="background-image: url('public/serviziUniversita.jpg');"
+      style="background-image: url('/serviziUniversita.jpg');"
     >
       <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
         <h2 class="text-2xl font-semibold text-white drop-shadow mb-2">Servizi Università</h2>
