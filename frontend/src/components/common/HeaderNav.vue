@@ -94,6 +94,14 @@ function closeDropdowns(event) {
           </svg>
           <span>Modifica la tua Pagina</span>
         </RouterLink>
+        <RouterLink
+          v-if="AuthStore.isLoggedIn && AuthStore.role === 'company'"
+          to="/companySupportRequest"
+          class="text-gray-700 hover:text-blue-600" 
+          >
+          Supporto Tecnico
+        </RouterLink>
+
         <button @click="handleLogout" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h6a2 2 0 002-2v-1" />
