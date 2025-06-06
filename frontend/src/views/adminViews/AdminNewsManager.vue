@@ -5,7 +5,7 @@ import {
   createNews,
   updateNews,
   deleteNews
-} from '@/api/comuneNewsAPI';
+} from '@/api/newsAPI';
 
 // ───────────────── state
 const news        = ref([]);
