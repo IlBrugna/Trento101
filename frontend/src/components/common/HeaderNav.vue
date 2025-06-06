@@ -8,7 +8,8 @@ import usFlag from '@/assets/flag-us.svg';
 
 const router = useRouter()
 const AuthStore = useAuthStore(); // store per gestire l'autenticazione
-const isServicesDropdownOpen = ref(false);
+const isServicesDropdownOpen = ref(false); // desktop dropdown
+const isMobileServicesDropdownOpen = ref(false); // mobile dropdown
 const isMobileMenuOpen = ref(false); // stato per il menu mobile
 const currentLang = ref(document.documentElement.lang || 'it');
 
@@ -19,6 +20,10 @@ async function handleLogout() {
 
 function toggleServicesDropdown() {
   isServicesDropdownOpen.value = !isServicesDropdownOpen.value;
+}
+
+function toggleMobileServicesDropdown() {
+  isMobileServicesDropdownOpen.value = !isMobileServicesDropdownOpen.value;
 }
 
 function toggleMobileMenu() {
@@ -68,6 +73,7 @@ const deleteCookie = (name, domain) => {
 
 function closeMobileMenu() {
   isMobileMenuOpen.value = false;
+  isMobileServicesDropdownOpen.value = false;
   isServicesDropdownOpen.value = false;
 }
 
@@ -85,7 +91,7 @@ window.addEventListener('languagechange', updateLang);
         <div class="flex items-center space-x-8">
           <RouterLink to="/">
             <img
-              src="@/assets/logo-square.png"
+              src="@/assets/logo-mountains.png"
               alt="Trento101 Logo"
               class="h-12 md:h-16 w-auto"
               style="background:none;"
@@ -241,7 +247,7 @@ window.addEventListener('languagechange', updateLang);
           <!-- Mobile Services Dropdown -->
           <div>
             <button 
-              @click="toggleServicesDropdown" 
+              @click="toggleMobileServicesDropdown" 
               class="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             >
               <span>Servizi</span>
@@ -251,12 +257,12 @@ window.addEventListener('languagechange', updateLang);
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
-                :class="{'rotate-180': isServicesDropdownOpen}"
+                :class="{'rotate-180': isMobileServicesDropdownOpen}"
               >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div v-if="isServicesDropdownOpen" class="ml-4 mt-1 space-y-1">
+            <div v-if="isMobileServicesDropdownOpen" class="ml-4 mt-1 space-y-1">
               <RouterLink 
                 to="/serviziUniversita" 
                 class="block px-3 py-2 text-gray-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
