@@ -1,12 +1,13 @@
 <script setup>
 import { ref, nextTick } from 'vue';
-import { useRouter, RouterLink, RouterView } from 'vue-router';
+import { useRouter, useRoute, RouterLink, RouterView } from 'vue-router';
 import { useAuthStore } from '@/store/authStore.js';
 import { companyLogout } from '@/api/authApi';
 import itFlag from '@/assets/flag-it.svg';
 import usFlag from '@/assets/flag-us.svg';
 
 const router = useRouter()
+const route = useRoute();
 const AuthStore = useAuthStore(); // store per gestire l'autenticazione
 const isServicesDropdownOpen = ref(false); // desktop dropdown
 const isMobileServicesDropdownOpen = ref(false); // mobile dropdown
@@ -99,50 +100,96 @@ window.addEventListener('languagechange', updateLang);
           </RouterLink>
           <!-- Main Navigation (now left, after logo) -->
           <nav class="hidden md:flex items-center space-x-6">
-            <RouterLink to="/" class="text-gray-700 hover:text-emerald-700 transition">Home</RouterLink>
-            <RouterLink to="/aziende" class="text-gray-700 hover:text-emerald-700 transition">Aziende</RouterLink>
-            
+            <RouterLink
+              to="/"
+              :class="[
+                $route.path === '/' 
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Home</RouterLink>
+            <RouterLink
+              to="/aziende"
+              :class="[
+                $route.path.startsWith('/aziende')
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Aziende</RouterLink>
             <!-- Dropdown menu -->
             <div class="relative dropdown-container">
-              <button 
-                @click.stop="toggleServicesDropdown" 
-                class="flex items-center text-gray-700 hover:text-emerald-700 transition"
+              <button
+                @click.stop="toggleServicesDropdown"
+                class="flex items-center transition"
+                :class="[
+                  ['/serviziUniversita', '/serviziComune'].includes($route.path)
+                    ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                    : 'text-gray-700',
+                  'hover:text-emerald-700'
+                ]"
               >
                 Servizi
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  class="h-4 w-4 ml-1 transition-transform duration-200" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-1 transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
                   stroke="currentColor"
                   :class="{'rotate-180': isServicesDropdownOpen}"
                 >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
-              <div 
-                v-if="isServicesDropdownOpen" 
+              <div
+                v-if="isServicesDropdownOpen"
                 class="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-emerald-100"
               >
-                <RouterLink 
-                  to="/serviziUniversita" 
-                  class="block px-4 py-2 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700"
+                <RouterLink
+                  to="/serviziUniversita"
+                  :class="[
+                    $route.path === '/serviziUniversita'
+                      ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full'
+                      : 'text-gray-700',
+                    'block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700'
+                  ]"
                   @click="isServicesDropdownOpen = false"
                 >
                   Servizi Universitari
                 </RouterLink>
-                <RouterLink 
-                  to="/serviziComune" 
-                  class="block px-4 py-2 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700"
+                <RouterLink
+                  to="/serviziComune"
+                  :class="[
+                    $route.path === '/serviziComune'
+                      ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full'
+                      : 'text-gray-700',
+                    'block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700'
+                  ]"
                   @click="isServicesDropdownOpen = false"
                 >
                   Servizi del Comune
                 </RouterLink>
               </div>
-            </div>  
-            <RouterLink to="/polls" class="text-gray-700 hover:text-emerald-700 transition">Sondaggi</RouterLink>
-            <RouterLink to="/contatti" class="text-gray-700 hover:text-emerald-700 transition">Contatti</RouterLink>
+            </div>
+            <RouterLink
+              to="/polls"
+              :class="[
+                $route.path.startsWith('/polls')
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Sondaggi</RouterLink>
+            <RouterLink
+              to="/contatti"
+              :class="[
+                $route.path.startsWith('/contatti')
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Contatti</RouterLink>
           </nav>
         </div>
         <!-- Language Switcher and User/Login Menu (right) -->
