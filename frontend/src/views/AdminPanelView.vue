@@ -66,7 +66,7 @@ const adminPanels = ref([
   title: 'Gestisci richieste di supporto aziendali',
   icon: 'users',
   content: 'Gestione delle richieste inviate dalle aziende',
-  color: 'bg-blue-500',
+  color: 'bg-emerald-700',
   size: 'md',
   route: '/adminCompanySupportRequestManager'
   },
