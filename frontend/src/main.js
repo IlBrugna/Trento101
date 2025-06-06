@@ -11,9 +11,7 @@ app.use(createPinia())
 async function startApp() {
   await checkAuthOnAppLoad();
   app.use(router);
+  app.mount('#app');
 }
 
 startApp();
-
-app.use(router) //aggiungiamo il router all'app
-app.mount('#app')

@@ -13,10 +13,11 @@ import AdminServicesManager from '@/views/adminViews/AdminServicesManager.vue';
 import CompanyDashboardView from '@/views/CompanyDashboardView.vue';
 import UniversitaPageView from '@/views/UniversitaPageView.vue';
 import ContactsPageView from '@/views/ContactsPageView.vue';
-import AdminPollMangerView from '@/views/adminViews/AdminPollManager.vue';
+import adminPollCreateView from '@/views/adminViews/AdminPollCreate.vue';
 import AdminSupportRequestManager from '@/views/adminViews/AdminSupportRequestManager.vue';
 import AdminStatisticsManager from '@/views/adminViews/AdminStatisticsManager.vue';
 import PollsPageView from '@/views/PollsPageView.vue';
+import AdminPollManager from '@/views/adminViews/AdminPollManager.vue';
 import AdminUniversitaServicesManager from '@/views/adminViews/AdminUniversitaServicesManager.vue';
 import AdminLogManager from '@/views/adminViews/AdminLogManager.vue';
 import AdminSupportAziendeManager from'@/views/adminViews/AdminCompanySupportRequestManager.vue'
@@ -108,10 +109,10 @@ const router = createRouter({
             component: UniversitaPageView 
         },
         {
-            path: '/adminPollManager',
-            name: 'adminPollManager',
+            path: '/adminPollCreate',
+            name: 'adminPollCreate',
             meta: { requiresAuth: true, role: 'admin' },
-            component: AdminPollMangerView
+            component: adminPollCreateView
         },
         {
             path: '/adminStatisticsManager',
@@ -126,6 +127,12 @@ const router = createRouter({
             component: PollsPageView
         },
         {
+            path: '/adminPollManager',
+            name: 'adminPollManager',
+            component: AdminPollManager,
+            meta: { requiresAuth: true, role: 'admin' }
+        },
+        {   
             path: '/adminUniversitaServicesManager',
             name: 'adminUniversitaServicesManager',
             component: AdminUniversitaServicesManager,
@@ -140,12 +147,14 @@ const router = createRouter({
         {
             path: '/adminCompanySupportRequestManager',
             name: 'AdminCompanySupportRequestManager',
-            component: AdminSupportAziendeManager
+            component: AdminSupportAziendeManager,
+            meta: { requiresAuth: true, role: 'admin' }
         },
         {
             path: '/companySupportRequest',
             name: 'CompanySupportRequest',
-            component: AziendeSupportPageView
+            component: AziendeSupportPageView,
+            meta: { requiresAuth: true, role: 'company' }
         }
     ],
     scrollBehavior (to, from, savedPosition) {

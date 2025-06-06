@@ -1,12 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
+import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
 import HeaderNav from './components/common/HeaderNav.vue';
 import { RouterView } from 'vue-router';
-import { checkAuthOnAppLoad } from './api/authApi.js';
-
-onMounted(() => {
-  checkAuthOnAppLoad();
-});
 </script>
 
 <template>

@@ -20,31 +20,22 @@ const adminPanels = ref([
     id: 2,
     title: 'Gestisci news',
     icon: 'users',
-    content: 'Gestisci le news comunali',
+    content: 'Aggiungi, rimuovi o modifica le news comunali',
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminNewsManager'
   },
   {
     id: 3,
-    title: 'Gestisci pagina servizi',
+    title: 'Gestisci pagina servizi comunali',
     icon: 'users',
-    content: 'Gestisci i servizi comunali',
+    content: 'Aggiungi, rimuovi o modifica i servizi comunali',
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminServicesManager'
   },
   {
     id: 4,
-    title: 'Gestisci sondaggi',
-    icon: 'users',
-    content: 'Crea polls di interesse per i cittadini',
-    color: 'bg-blue-500',
-    size: 'md',
-    route: '/adminPollManager'
-  },
-  {
-    id: 5,
     title: 'Gestisci richieste di supporto',
     icon: 'users',
     content: 'Gestisci le richieste di supporto',
@@ -53,7 +44,25 @@ const adminPanels = ref([
     route: '/adminSupportRequestManager'
   },
   {
+    id: 5,
+    title: 'Crea sondaggi',
+    icon: 'users',
+    content: 'Crea polls di interesse per i cittadini',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminPollCreate'
+  },
+  {
     id: 6,
+    title: 'Monitora e chiudi sondaggi',
+    icon: 'users',
+    content: 'Quanti hanno votato? Devi chiudere il sondaggio prima del previsto?',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/AdminPollManager'
+  },
+  {
+    id: 7,
     title: 'Gestisci pagina servizi universitari',
     icon: 'school',
     content: 'Gestisci i servizi universitari',
@@ -62,16 +71,16 @@ const adminPanels = ref([
     route: '/adminUniversitaServicesManager'
   },
   {
-  id: 7,
-  title: 'Gestisci richieste di supporto aziendali',
-  icon: 'users',
-  content: 'Gestione delle richieste inviate dalle aziende',
-  color: 'bg-blue-500',
-  size: 'md',
-  route: '/adminCompanySupportRequestManager'
+    id: 8,
+    title: 'Gestisci richieste di supporto aziendali',
+    icon: 'users',
+    content: 'Gestione delle richieste inviate dalle aziende',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminCompanySupportRequestManager'
   },
   {
-    id: 8,
+    id: 9,
     title: 'Visualizza statistiche',
     icon: 'users',
     content: 'Visualizza le statistiche del sito',
@@ -80,7 +89,7 @@ const adminPanels = ref([
     route: '/adminStatisticsManager'
   },
   {
-    id: 8,
+    id: 10,
     title: 'Visualizza log',
     icon: 'users',
     content: 'Visualizza i log degli eventi',
