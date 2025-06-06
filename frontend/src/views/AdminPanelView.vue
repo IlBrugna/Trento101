@@ -60,7 +60,16 @@ const adminPanels = ref([
     color: 'bg-blue-500',
     size: 'md',
     route: '/adminUniversitaServicesManager'
-  }
+  },
+  {
+  id: 7,
+  title: 'Gestisci richieste di supporto aziendali',
+  icon: 'users',
+  content: 'Gestione delle richieste inviate dalle aziende',
+  color: 'bg-blue-500',
+  size: 'md',
+  route: '/adminCompanySupportRequestManager'
+}
 ]);
 
 </script>
