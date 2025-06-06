@@ -26,8 +26,22 @@ export async function fetchAllPolls() {
 
 export async function votePoll(pollId, optionId) {
   try {
-    const { data } = await api.post(`api/v1/polls/${pollId}/vote`, {
+    const { data } = await api.post(`api/v1/polls/${pollId}/votes`, {
       optionId: optionId
+    });
+    return data;
+  } catch (error) {
+    throw {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+}
+
+export async function downloadAllPolls(format = 'json') {
+  try {
+    const { data } = await api.get(`api/v1/polls/downloads?format=${format}`, {
+      responseType: 'blob'
     });
     return data;
   } catch (error) {

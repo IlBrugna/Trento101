@@ -41,7 +41,6 @@ const initMap = async () => {
     if (data && data[0]) {
       const lat = parseFloat(data[0].lat);
       const lon = parseFloat(data[0].lon);
-
       //INIT
       const map = L.map(mapContainer.value).setView([lat, lon], 15);
 
@@ -76,7 +75,7 @@ onMounted(async () => {
   // TIMEOUT PER GARANTIRE CHE SIA PRONTO
   setTimeout(() => {
     initMap();
-  }, 100);
+  }, 400);
 });
 </script>
 

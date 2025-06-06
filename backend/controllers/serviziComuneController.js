@@ -1,5 +1,6 @@
 import serviziComuneModel from '../models/serviziComuneModel.js'; // importa il modello
 import { Types } from 'mongoose';
+import { recordEvent } from '../utils/recordEventUtils.js'; // importa la funzione per registrare gli eventi
 
 export const getServiziComune = async (req, res) => {
   const { title } = req.query;
@@ -34,6 +35,12 @@ export const getServizioComune = async (req, res) => {
     if (!service) {
       return res.status(404).json({ message: 'Servizio non trovato' });
     }
+
+    await recordEvent(req, 'service_click', {
+      serviceId: service._id,
+      serviceName: service.title || service.name
+    });
+
     return res.status(200).json(service);
   } catch (err) {
     return res.status(500).json({ message: 'Errore durante il recupero del servizio' });

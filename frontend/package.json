@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
+    "@uploadcare/upload-client": "^6.14.3",
     "axios": "^1.9.0",
+    "chart.js": "^4.4.9",
     "pinia": "^3.0.2",
     "vue": "^3.5.13",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.5.1",
     "vue3-icon-picker": "^0.1.4"
   },

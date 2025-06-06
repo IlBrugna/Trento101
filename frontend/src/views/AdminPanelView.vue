@@ -69,7 +69,16 @@ const adminPanels = ref([
   color: 'bg-blue-500',
   size: 'md',
   route: '/adminCompanySupportRequestManager'
-}
+  },
+  {
+    id: 8,
+    title: 'Visualizza statistiche',
+    icon: 'users',
+    content: 'Visualizza le statistiche del sito',
+    color: 'bg-blue-500',
+    size: 'md',
+    route: '/adminStatisticsManager'
+  }
 ]);
 
 </script>
