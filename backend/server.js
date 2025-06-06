@@ -96,7 +96,7 @@ app.use(`${API_BASE_PATH}/email-verification`, emailVerificationRouter);
 app.use(`${API_BASE_PATH}/logs`, logRouter);
 
 // SPA fallback: restituisce index.html per ogni rotta non gestita
-app.get('/{*any}', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
