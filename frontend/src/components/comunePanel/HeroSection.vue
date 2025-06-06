@@ -7,9 +7,6 @@
           Servizi e informazioni per i cittadini di Trento: trasporti, ambiente, cultura e molto altro
         </p>
         <div class="mt-6 flex flex-wrap gap-4">
-          <a href="#contatti" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-emerald-700 text-white font-medium hover:bg-emerald-800 transition">
-            Contatti
-          </a>
         </div>
       </div>
     </div>

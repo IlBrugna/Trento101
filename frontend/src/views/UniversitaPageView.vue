@@ -1,6 +1,6 @@
 <script setup>
 import UniversitaHeroSection from '@/components/universitaPanel/UniversitaHeroSection.vue';
-import UniversitaServiceCarousel from '@/components/universitaPanel/UniversitaServiceCarousel.vue';
+import ServiceCarousel from '@/components/comunePanel/ServiceCarousel.vue';
 </script>
 
 <template>
@@ -9,11 +9,11 @@ import UniversitaServiceCarousel from '@/components/universitaPanel/UniversitaSe
 
     <section id="servizi" class="mb-12">
       <h2 class="text-2xl font-bold text-emerald-800 mb-4">Servizi Offerti</h2>
-      <UniversitaServiceCarousel />
+      <ServiceCarousel type="universita" />
     </section>
     <section class="mb-12">
       <h2 class="text-2xl font-bold text-emerald-800 mb-4">Altri Servizi</h2>
-      <UniversitaServiceCarousel :secondary="true" />
+      <ServiceCarousel type="universita" :secondary="true" />
     </section>
   </main>
 </template>
