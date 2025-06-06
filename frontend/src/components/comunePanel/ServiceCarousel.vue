@@ -25,23 +25,40 @@ const error    = ref(null);
 const stats = useStats();
 
 // Function to track service clicks
-const trackServiceClick = async (service) => {
+const trackComuneServiceClick = async (service) => {
   try {
-    await stats.trackServiceClick({
+    await stats.trackComuneServiceClick({
       serviceId: service._id,
       serviceName: service.title,
       serviceUrl: service.url,
       isPrimary: !props.secondary
     });
   } catch (error) {
-    console.error('Failed to track service click:', error);
+    console.error('Failed to track comune service click:', error);
+  }
+};
+
+const trackUniversitaServiceClick = async (service) => {
+  try {
+    await stats.trackUniversitaServiceClick({
+      serviceId: service._id,
+      serviceName: service.title,
+      serviceUrl: service.url,
+      isPrimary: !props.secondary
+    });
+  } catch (error) {
+    console.error('Failed to track universita service click:', error);
   }
 };
 
 // Handle service click
 const handleServiceClick = async (service, e) => {
   e.preventDefault();                // blocca la navigazione
-  await trackServiceClick(service);  // aspetta la POST
+  if (props.type === 'universita') {
+    await trackUniversitaServiceClick(service);
+  } else {
+    await trackComuneServiceClick(service);
+  }
   window.open(service.url, '_blank'); // poi apri la pagina
 };
 

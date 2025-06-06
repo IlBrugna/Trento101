@@ -5,7 +5,7 @@ import {
   getEventBreakdown,
   getCompanyStats,
   getServiceStats,
-  trackServiceClick,
+  trackComuneServiceClick,
   trackUniversitaServiceClick
 } from '../controllers/statisticsController.js';
 
@@ -16,7 +16,7 @@ router.get('/top-pages', getTopPages);
 router.get('/event-breakdown', getEventBreakdown);
 router.get('/companies', getCompanyStats);
 router.get('/services', getServiceStats);
-router.post('/service-click', trackServiceClick);
+router.post('/comune-service-click', trackComuneServiceClick);
 router.post('/universita-service-click', trackUniversitaServiceClick);
 
 export default router;

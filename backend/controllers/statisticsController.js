@@ -110,7 +110,7 @@ export async function getServiceStats(req, res) {
   }
 }
 
-export async function trackServiceClick(req, res) {
+export async function trackComuneServiceClick(req, res) {
   try {
     const { serviceId, serviceName } = req.body;
     if (!serviceId) {
