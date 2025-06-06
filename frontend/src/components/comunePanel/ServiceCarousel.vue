@@ -27,8 +27,7 @@ const stats = useStats();
 // Function to track service clicks
 const trackComuneServiceClick = async (service) => {
   try {
-    await stats.trackComuneServiceClick({
-      serviceId: service._id,
+    await stats.trackComuneServiceClick(service._id, {
       serviceName: service.title,
       serviceUrl: service.url,
       isPrimary: !props.secondary
@@ -40,8 +39,7 @@ const trackComuneServiceClick = async (service) => {
 
 const trackUniversitaServiceClick = async (service) => {
   try {
-    await stats.trackUniversitaServiceClick({
-      serviceId: service._id,
+    await stats.trackUniversitaServiceClick(service._id, {
       serviceName: service.title,
       serviceUrl: service.url,
       isPrimary: !props.secondary
