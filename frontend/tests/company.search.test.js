@@ -1,4 +1,3 @@
-// tests/companySearch.search.test.js
 import { mount } from '@vue/test-utils';
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
 import AziendeSearchView from '@/views/AziendeSearchView.vue'; // adjust path if needed
@@ -91,7 +90,7 @@ describe('AziendeSearchView - Ricerca aziende', () => {
     expect(emptyMessage.exists()).toBe(true);
     expect(emptyMessage.text()).toContain('Nessuna azienda trovata');
   });
-  
+
   // Ricerca con keyword vuota
   test('Ricerca senza keyword', async () => {
     await wrapper.vm.handleSearchInput('');

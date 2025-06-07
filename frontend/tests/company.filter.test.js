@@ -1,4 +1,3 @@
-// tests/companySearch.filter.test.js
 import { mount } from '@vue/test-utils';
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
 import AziendeSearchView from '@/views/AziendeSearchView.vue';
