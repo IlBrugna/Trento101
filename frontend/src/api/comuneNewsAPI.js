@@ -2,7 +2,7 @@ import api from "@/services/api";
 
 export async function fetchAllNews() {
   try {
-    const { data } = await api.get("api/v1/comuneNews");
+    const { data } = await api.get("api/v1/news");
     return data;
   } catch (error) {
     throw {
@@ -14,7 +14,7 @@ export async function fetchAllNews() {
 
 export async function fetchSpecificNews(id) {
   try {
-    const { data } = await api.get(`api/v1/comuneNews/${id}`);
+    const { data } = await api.get(`api/v1/news/${id}`);
     return data;
   } catch (error) {
     throw {
@@ -26,7 +26,7 @@ export async function fetchSpecificNews(id) {
 
 export async function createNews(newsData) {
   try {
-    const { data } = await api.post("api/v1/comuneNews", newsData);
+    const { data } = await api.post("api/v1/news", newsData);
     return data;
   } catch (error) {
     throw {
@@ -38,7 +38,7 @@ export async function createNews(newsData) {
 
 export async function updateNews(id, newsData) {
   try {
-    const { data } = await api.put(`api/v1/comuneNews/${id}`, newsData);
+    const { data } = await api.put(`api/v1/news/${id}`, newsData);
     return data;
   } catch (error) {
     throw {
@@ -50,7 +50,7 @@ export async function updateNews(id, newsData) {
 
 export async function deleteNews(id) {
   try {
-    const { data } = await api.delete(`api/v1/comuneNews/${id}`);
+    const { data } = await api.delete(`api/v1/news/${id}`);
     return data;
   } catch (error) {
     throw {
@@ -59,3 +59,5 @@ export async function deleteNews(id) {
     };
   }
 }
+
+// This file should be renamed to newsAPI.js

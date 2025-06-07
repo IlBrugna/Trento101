@@ -85,7 +85,7 @@ const API_BASE_PATH = `/api/${API_VERSION}`;
 // Routes with versioning
 app.use(`${API_BASE_PATH}/companies`, companyRouter);
 app.use(`${API_BASE_PATH}/serviziComune`, comuneRouter);
-app.use(`${API_BASE_PATH}/comuneNews`, newsRouter);
+app.use(`${API_BASE_PATH}/news`, newsRouter);
 app.use(`${API_BASE_PATH}/auth`, authRouter);
 app.use(`${API_BASE_PATH}/serviziUniversita`, universitaRouter);
 app.use(`${API_BASE_PATH}/richiesteSupporto`, richiesteSupportoRouter);
@@ -96,7 +96,7 @@ app.use(`${API_BASE_PATH}/email-verification`, emailVerificationRouter);
 app.use(`${API_BASE_PATH}/logs`, logRouter);
 
 // SPA fallback: restituisce index.html per ogni rotta non gestita
-app.get('/{*any}', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 

@@ -110,16 +110,15 @@ export async function getServiceStats(req, res) {
   }
 }
 
-export async function trackServiceClick(req, res) {
+export async function trackComuneServiceClick(req, res) {
   try {
-    const { serviceId, serviceName } = req.body;
+    const serviceId = req.params.serviceID;
+    const { serviceName } = req.body;
     if (!serviceId) {
-      return res.status(400).json({ message: 'serviceId is required' });
+      return res.status(400).json({ message: 'serviceID is required' });
     }
-    
     const keyToStore = serviceName || serviceId;
     await Statistics.incrementCounter('service_click', null, keyToStore);
-    
     res.status(201).json({ message: 'Service click tracked successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to track service click', error: err.message });
@@ -128,14 +127,13 @@ export async function trackServiceClick(req, res) {
 
 export async function trackUniversitaServiceClick(req, res) {
   try {
-    const { serviceId, serviceName } = req.body;
+    const serviceId = req.params.serviceID;
+    const { serviceName } = req.body;
     if (!serviceId) {
-      return res.status(400).json({ message: 'serviceId is required' });
+      return res.status(400).json({ message: 'serviceID is required' });
     }
-   
     const keyToStore = serviceName || serviceId;
     await Statistics.incrementCounter('universita_service_click', null, keyToStore);
-   
     res.status(201).json({ message: 'University service click tracked successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to track university service click', error: err.message });

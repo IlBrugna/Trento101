@@ -28,7 +28,7 @@ import NewsCarousel from '@/components/comunePanel/NewsCarousel.vue';
     <section class="mb-12">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Ultime Notizie</h2>
-        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Tutte le notizie</a>
+        <a href="#" class="text-emerald-700 hover:text-emerald-900 text-sm font-medium">Tutte le notizie</a>
       </div>
       <NewsCarousel/>
     </section>

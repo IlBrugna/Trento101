@@ -126,7 +126,7 @@ const formatUrl = (url) => {
     'auth': '🔐 Autenticazione', 
     'companies': '🏢 Aziende',
     'stats/top-pages': '📈 Statistiche - Top Pagine',
-    'comuneNews': '📰 News Comune',
+    'news': '📰 News Comune',
     'serviziComune': '🏛️ Servizi Comunali',
     'serviziUniversita': '📓 Servizi Universitari',
     'stats/overview': '📊 Statistiche - Panoramica',
@@ -173,6 +173,7 @@ const doughnutData = computed(() => ({
       'rgba(16, 185, 129, 0.8)',
       'rgba(239, 68, 68, 0.8)',
       'rgba(245, 158, 11, 0.8)',
+      'rgba(16, 185, 129, 0.8)', // emerald
       'rgba(139, 92, 246, 0.8)',
       'rgba(236, 72, 153, 0.8)',
       'rgba(34, 197, 94, 0.8)'
@@ -182,6 +183,7 @@ const doughnutData = computed(() => ({
       'rgb(16, 185, 129)',
       'rgb(239, 68, 68)',
       'rgb(245, 158, 11)',
+      'rgb(16, 185, 129)', // emerald
       'rgb(139, 92, 246)',
       'rgb(236, 72, 153)',
       'rgb(34, 197, 94)'
@@ -423,7 +425,7 @@ onMounted(fetchStats);
                 <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-              </div>
+                </div>
             </div>
             <div class="ml-4">
               <p class="text-sm font-medium text-gray-500">Richieste di Supporto Create</p>

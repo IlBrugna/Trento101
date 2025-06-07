@@ -1,45 +1,43 @@
 <template>
   <div class="bg-white rounded-2xl shadow-xl p-8">
-    <h2 class="text-2xl font-bold text-gray-900 text-center">Richiesta di supporto tecnico aziendale</h2>
-      <p class="text-center text-gray-600 text-sm mt-2 mb-6">
-        Stai avendo difficoltà tecniche con Trento101? Compila il form, descrivendo la problematica e la contatteremo il prima possibile.
-      </p>
-
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+      Richiesta di supporto tecnico aziendale
+    </h2>
     <form @submit.prevent="onSubmit" novalidate class="space-y-6">
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Oggetto -->
         <div>
           <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">
-            Oggetto *
+            Oggetto <span class="text-red-500">*</span>
           </label>
           <input
             id="subject"
             v-model="form.subject"
             type="text"
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all text-base"
             :class="{ 'border-red-500 focus:ring-red-500': errors.subject }"
             placeholder="Oggetto della richiesta"
             required
           />
-          <p v-if="errors.subject" class="text-red-500 text-sm mt-1">{{ errors.subject }}</p>
+          <p v-if="errors.subject" class="text-red-500 text-xs mt-1">{{ errors.subject }}</p>
         </div>
       </div>
 
       <!-- Descrizione -->
       <div>
         <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-          Descrizione *
+          Descrizione <span class="text-red-500">*</span>
         </label>
         <textarea
           id="description"
           v-model="form.description"
           rows="6"
-          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all resize-none text-base"
           :class="{ 'border-red-500 focus:ring-red-500': errors.description }"
           placeholder="Descrivi nel dettaglio la tua richiesta aziendale..."
           required
         ></textarea>
-        <p v-if="errors.description" class="text-red-500 text-sm mt-1">{{ errors.description }}</p>
+        <p v-if="errors.description" class="text-red-500 text-xs mt-1">{{ errors.description }}</p>
       </div>
 
       <!-- Pulsante invio -->
@@ -47,7 +45,7 @@
         <button
           type="submit"
           :disabled="loading"
-          class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
+          class="px-8 py-3 bg-gradient-to-r from-emerald-700 to-emerald-600 text-white font-medium rounded-lg hover:from-emerald-800 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform transition-all duration-200 hover:scale-105 disabled:hover:scale-100 inline-flex items-center"
         >
           <span v-if="loading" class="flex items-center">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -67,7 +65,7 @@
         <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p class="text-red-700">{{ serverError }}</p>
+        <p class="text-red-700 text-sm">{{ serverError }}</p>
       </div>
     </div>
 
@@ -76,7 +74,7 @@
         <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p class="text-green-700">Richiesta inviata con successo! Ti ricontatteremo a breve.</p>
+        <p class="text-green-700 text-sm">Richiesta inviata con successo! Ti ricontatteremo a breve.</p>
       </div>
     </div>
   </div>

@@ -63,6 +63,11 @@ export const postCompany = async (req, res) => {
     
     companyData.password = await hashPassword(companyData.password); //hash password presalvataggio
 
+    // Sector validation
+    if (!companyData.sector) {
+      return res.status(400).json({ message: 'Il settore aziendale è obbligatorio.' });
+    }
+
     const newCompany = new companyModel(companyData);
     await newCompany.save(); //SALVO AZIENDA
     const {password, ...company} = newCompany._doc; //DESTRUTTURAZIONE PER NON RITORNARE LA PASSWORD
@@ -82,7 +87,12 @@ export const putCompany = async (req, res) => {
       return res.status(400).json({ message: 'ID non valido' });
     }  
     const dati=req.body;
-    
+
+    // Sector validation (optional, but recommended)
+    if (dati.sector && !companyModel.schema.path('sector').enumValues.includes(dati.sector)) {
+      return res.status(400).json({ message: 'Settore non valido.' });
+    }
+
     //SE PICTURE VIENE MODIFICATA DEVO CANCELLARLA DA UPLOADCARE
     if (dati.picture) {
       //HO BISOGNO DEL LINK DELLA VECCHIA FOTO

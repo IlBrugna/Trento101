@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+  <div class="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-12 px-4">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">Contattaci</h1>
@@ -25,7 +25,7 @@
                   id="email"
                   v-model="form.requesterEmail"
                   type="email"
-                  class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all"
                   :class="{ 'border-red-500 focus:ring-red-500': errors.requesterEmail }"
                   placeholder="tua@email.com"
                   required
@@ -48,7 +48,7 @@
                 id="subject"
                 v-model="form.subject"
                 type="text"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all"
                 :class="{ 'border-red-500 focus:ring-red-500': errors.subject }"
                 placeholder="Oggetto della tua richiesta"
                 required
@@ -66,7 +66,7 @@
               id="description"
               v-model="form.description"
               rows="6"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all resize-none"
               :class="{ 'border-red-500 focus:ring-red-500': errors.description }"
               placeholder="Descrivi la tua richiesta nel dettaglio..."
               required
@@ -79,7 +79,7 @@
             <button
               type="submit"
               :disabled="loading"
-              class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
+              class="px-8 py-3 bg-gradient-to-r from-emerald-700 to-emerald-600 text-white font-medium rounded-lg hover:from-emerald-800 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
             >
               <span v-if="loading" class="flex items-center">
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

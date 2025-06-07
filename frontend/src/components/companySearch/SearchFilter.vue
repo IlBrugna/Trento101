@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, toRefs, reactive } from 'vue';
+import { defineProps, defineEmits, toRefs } from 'vue';
 
 const props = defineProps({
   searchQuery: {
@@ -9,15 +9,10 @@ const props = defineProps({
   filters: {
     type: Object,
     default: () => ({
-      industry: '',
-      location: ''
+      sector: ''
     })
   },
-  industryOptions: {
-    type: Array,
-    default: () => []
-  },
-  locationOptions: {
+  sectorOptions: {
     type: Array,
     default: () => []
   }
@@ -62,29 +57,15 @@ const resetFilters = () => {
         </div>
       </div>
       
-      <!-- Filtri per tipo di industria -->
+      <!-- Filtri per tipo di settore -->
       <div class="w-full md:w-1/4">
         <select 
-          :value="filters.industry"
-          @change="handleFilterChange('industry', $event.target.value)"
+          :value="filters.sector"
+          @change="handleFilterChange('sector', $event.target.value)"
           class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Tutti i settori</option>
-          <option v-for="option in industryOptions" :key="option" :value="option">
-            {{ option }}
-          </option>
-        </select>
-      </div>
-      
-      <!-- Filtri per locazione -->
-      <div class="w-full md:w-1/4">
-        <select 
-          :value="filters.location"
-          @change="handleFilterChange('location', $event.target.value)"
-          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Tutte le località</option>
-          <option v-for="option in locationOptions" :key="option" :value="option">
+          <option v-for="option in sectorOptions" :key="option" :value="option">
             {{ option }}
           </option>
         </select>

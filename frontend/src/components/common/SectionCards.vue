@@ -7,7 +7,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
     
     <router-link
       to="/serviziComune"
-      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
+      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center transform hover:scale-105 border border-emerald-100"
       style="background-image: url('/serviziComune.jpg');"
     >
       <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
@@ -18,7 +18,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
 
     <router-link
       to="/aziende"
-      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
+      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center transform hover:scale-105 border border-emerald-100"
       style="background-image: url('/aziende.jpg');"
     >
       <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
@@ -29,7 +29,7 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
 
     <router-link
       to="/serviziUniversita"
-      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center"
+      class="relative rounded-lg overflow-hidden shadow hover:shadow-xl transition aspect-[4/5] bg-cover bg-center transform hover:scale-105 border border-emerald-100"
       style="background-image: url('/serviziUniversita.jpg');"
     >
       <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center p-6 text-center">
@@ -41,4 +41,4 @@ import { ref } from 'vue'; //REF è WRAPPER PER VARIBILI, LE RENDE REATTIVE
   </div>
 </template>
 
-  
+

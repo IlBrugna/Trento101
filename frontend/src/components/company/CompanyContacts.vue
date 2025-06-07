@@ -137,14 +137,14 @@ onMounted(async () => {
     <!-- SEZIONE MAPPA -->
     <div class="border-t pt-6">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-md font-medium text-gray-800">Posizione</h3>
+        <h3 class="text-md font-medium text-emerald-800">Posizione</h3>
       </div>
 
       <!-- Mappa -->
       <div class="relative">
         <div v-if="isLoading" class="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
           <div class="text-center">
-            <div class="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-2"></div>
+            <div class="animate-spin w-6 h-6 border-2 border-emerald-700 border-t-transparent rounded-full mx-auto mb-2"></div>
             <p class="text-sm text-gray-600">Caricamento mappa...</p>
           </div>
         </div>
