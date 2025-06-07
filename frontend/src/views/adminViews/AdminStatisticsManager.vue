@@ -93,7 +93,11 @@ async function getCompanyName(id) {
   if (companyNameCache.value[id]) return companyNameCache.value[id];
 
   try {
-    const company = await fetchSpecificCompany(id);
+    const company = await fetchSpecificCompany(id, {
+      headers: {
+        'X-Requested-By': 'statistics-dashboard'
+      }
+    });
     const name    = company?.name || id;
     companyNameCache.value[id] = name;
     return name;

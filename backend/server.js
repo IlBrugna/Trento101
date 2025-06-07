@@ -43,9 +43,10 @@ app.use(async (req, res, next) => {
     const isAuth = req.originalUrl.startsWith('/api/v1/auth');
     const isLogs = req.originalUrl.startsWith('/api/v1/logs');
     const isPage = req.originalUrl.startsWith('/api/v1/');
+    const isDashboardRequest = req.headers['x-requested-by'] === 'statistics-dashboard';
     res.on('finish', () => {
     // Registra un evento di visualizzazione della pagina solo per le richieste GET con successo
-    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && !isLogs && isPage) {
+    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && !isLogs && isPage && !isDashboardRequest) {
         recordEvent(req, 'page_view');
     }
     });

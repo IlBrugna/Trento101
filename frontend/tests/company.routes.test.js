@@ -4,10 +4,10 @@ import AziendePageView from '@/views/AziendePageView.vue';
 import { fetchSpecificCompany } from '@/api/companyApi.js';
 import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 
-// Mock the API
+// Mock API
 vi.mock('@/api/companyApi.js');
 
-// Mock public authApi
+// Mock authApi
 vi.mock('@/api/authApi', () => ({
   checkAuthOnAppLoad: vi.fn().mockResolvedValue({ user: { id: '6841fa843f9fbcee1ab02002', role: 'company' } })
 }));
@@ -56,7 +56,8 @@ describe('Company Information Page Tests', () => {
     vi.clearAllMocks();
   });
 
-  test('should load company information page successfully with valid company ID', async () => {
+  // Testa il caso di successo del caricamento della pagina delle informazioni dell'azienda
+  test('dovrebbe caricare le informazione delle compagnia con successo se si ha un id valido', async () => {
     const validCompanyId = '6841fa843f9fbcee1ab02002';
     const mockCompanyData = {
       id: validCompanyId,
@@ -96,7 +97,8 @@ describe('Company Information Page Tests', () => {
     expect(wrapper.find('.text-red-500').exists()).toBe(false);
   });
 
-  test('should display 404 error when accessing non-existent company page', async () => {
+  // Testa il caso di errore quando l'azienda non esiste o non è attiva
+  test('dovrebbe dare errore 404 se l azienda non esiste o non attiva', async () => {
     const invalidCompanyId = 'non-existent-id';
     const mockApiError = {
       status: 404,
@@ -128,7 +130,8 @@ describe('Company Information Page Tests', () => {
     expect(wrapper.findComponent({ name: 'CompanyContacts' }).exists()).toBe(false);
   });
 
-  test('should display 404 error when company exists but is inactive', async () => {
+  // Testa il caso di errore quando l'azienda esiste ma è inattiva
+  test('dovrebbe dare errore 404 se esiste ma è inattiva', async () => {
     const companyId = '456';
     const mockInactiveCompany = {
       id: companyId,
@@ -160,6 +163,7 @@ describe('Company Information Page Tests', () => {
     expect(wrapper.findComponent({ name: 'CompanyContacts' }).exists()).toBe(false);
   });
 
+  // Testa il caso di errore del server (500)
   test('should display server error when API returns 500', async () => {
     const companyId = '789';
     const mockServerError = {
