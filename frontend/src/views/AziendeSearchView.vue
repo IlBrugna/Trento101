@@ -14,18 +14,26 @@ const error = ref(null);
 // Variabili reattive per la ricerca e i filtri
 const searchQuery = ref('');
 const filters = ref({
-  industry: '',
-  location: '',
+  sector: ''
 });
 
 // Opzioni per i filtri
-const industryOptions = ['Technology', 'IT Services', 'Energy', 'Healthcare', 'Finance', 'Manufacturing', 'Education'];
-const locationOptions = ['Milano, IT', 'Roma, IT', 'Bologna, IT', 'Napoli, IT', 'Torino, IT', 'Firenze, IT'];
+const sectorOptions = [
+  'Agricoltura',
+  'Artigianato',
+  'Commercio',
+  'Costruzioni',
+  'Cultura e Turismo',
+  'Industria',
+  'Informatica',
+  'Servizi',
+  'Altro'
+];
 
 // Paginazione
 const currentPage = ref(1);
-const itemsPerPage = ref(10);
-const itemsPerPageOptions = [5, 10, 15, 20];
+const itemsPerPage = ref(8);
+const itemsPerPageOptions = [4, 8, 16, 20];
 
 // Funzione per recuperare le aziende dal server
 const fetchAndSetCompanies = async () => {
@@ -59,15 +67,10 @@ const applyFilters = () => {
       (company.description && company.description.toLowerCase().includes(searchQuery.value.toLowerCase()));
     
     // Filtro settore
-    const matchesIndustry = filters.value.industry === '' || 
-      company.industry === filters.value.industry;
+    const matchesSector = filters.value.sector === '' || 
+      company.sector === filters.value.sector;
     
-    // Filtro locazione
-    const matchesLocation = filters.value.location === '' || 
-      (company.location === filters.value.location) || 
-      (company.address && company.address.includes(filters.value.location));
-    
-    return matchesSearch && matchesIndustry && matchesLocation;
+    return matchesSearch && matchesSector;
   });
   
   // Reset alla prima pagina quando cambia il filtro
@@ -86,8 +89,7 @@ const handleSearchInput = (query) => {
 };
 
 const handleResetFilters = () => {
-  filters.value.industry = '';
-  filters.value.location = '';
+  filters.value.sector = '';
   searchQuery.value = '';
   applyFilters();
 };
@@ -124,7 +126,7 @@ watch(companies, () => {
     <!-- Loading indicator -->
     <template v-if="loading">
       <div class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
       </div>
     </template>
     
@@ -139,8 +141,7 @@ watch(companies, () => {
       <SearchFilter 
         :search-query="searchQuery"
         :filters="filters"
-        :industry-options="industryOptions"
-        :location-options="locationOptions"
+        :sector-options="sectorOptions"
         @update-search="handleSearchInput"
         @update-filters="handleFilterChange"
         @reset="handleResetFilters"
@@ -163,7 +164,7 @@ watch(companies, () => {
           <select 
             :value="itemsPerPage"
             @change="handleItemsPerPageChange($event.target.value)" 
-            class="p-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="p-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
           >
             <option v-for="option in itemsPerPageOptions" :key="option" :value="option">
               {{ option }}

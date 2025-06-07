@@ -92,7 +92,7 @@ const getStepTitle = () => {
           <div class="flex items-center">
             <div :class="[
               'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
+              currentStep >= 1 ? 'bg-emerald-700 text-white' : 'bg-gray-200 text-gray-600'
             ]">
               1
             </div>
@@ -102,7 +102,7 @@ const getStepTitle = () => {
           <div class="flex items-center">
             <div :class="[
               'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
+              currentStep >= 2 ? 'bg-emerald-700 text-white' : 'bg-gray-200 text-gray-600'
             ]">
               2
             </div>
@@ -112,7 +112,7 @@ const getStepTitle = () => {
           <div class="flex items-center">
             <div :class="[
               'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-              currentStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
+              currentStep >= 3 ? 'bg-emerald-700 text-white' : 'bg-gray-200 text-gray-600'
             ]">
               3
             </div>

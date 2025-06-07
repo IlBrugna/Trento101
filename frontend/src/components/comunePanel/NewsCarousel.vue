@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchAllNews } from '@/api/comuneNewsAPI';
+import { fetchAllNews } from '@/api/newsAPI';
 
 const news     = ref([]);
 const loading  = ref(true);

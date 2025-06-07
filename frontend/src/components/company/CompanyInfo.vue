@@ -24,14 +24,15 @@ const props = defineProps({
         :src="props.picture || '/placeholder-logo.png'"
         :alt="name" 
         class="w-full h-full object-cover"
+        @error="$event.target.src='/placeholder-logo.png'"
       />
     </div>
     <!-- INFORMAZIONI AZIENDA -->
     <div class="p-6">
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ name }}</h1>
+      <h1 class="text-2xl font-bold text-emerald-900 mb-4">{{ name }}</h1>
       
       <div class="mb-6">
-        <h2 class="text-lg font-medium text-gray-700 mb-2">Descrizione</h2>
+        <h2 class="text-lg font-medium text-emerald-800 mb-2">Descrizione</h2>
         <p class="text-gray-600">{{ description }}</p>
       </div>
     </div>

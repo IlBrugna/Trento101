@@ -277,7 +277,7 @@ onMounted(fetchAndFill);
       <div class="mt-4 flex gap-3">
         <button 
           @click="submitForm"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
           :disabled="loading"
         >
           <span v-if="loading">Salvataggio...</span>
@@ -337,7 +337,7 @@ onMounted(fetchAndFill);
             <td class="px-4 py-2 flex gap-2">
               <button 
                 @click="editItem(svc)"
-                class="text-blue-600 hover:underline text-sm"
+                class="text-green-600 hover:underline text-sm"
                 :disabled="loading"
               >
                 Modifica

@@ -1,6 +1,18 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
+const SECTOR_ENUM = [
+    'Agricoltura',
+    'Artigianato',
+    'Commercio',
+    'Costruzioni',
+    'Cultura e Turismo',
+    'Industria',
+    'Informatica',
+    'Servizi',
+    'Altro'
+];
+
 const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
     name: {
         type: String,
@@ -43,6 +55,12 @@ const companySchema = new mongoose.Schema({ //CREO SCHEMA COMPANY
         type: Boolean,
         default: false, //COSì NON VIENE RITORNATO NELLA RISPOSTA
     },
+    sector: {
+        type: String,
+        enum: SECTOR_ENUM,
+        required: true,
+        default: 'Altro'
+    },
     },
     { timestamps: true }
 );
@@ -55,4 +73,4 @@ companySchema.methods.generateAuthToken = function () { //CREO IL TOKEN
 };
 
 const companyModel = mongoose.model('companies', companySchema); //CREO IL MODELLO DELLE COMPANY
-export default companyModel; 
+export default companyModel;

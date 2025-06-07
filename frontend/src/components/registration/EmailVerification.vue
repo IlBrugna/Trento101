@@ -85,7 +85,7 @@ onMounted(() => {
       <p class="text-sm text-gray-600">
         Abbiamo inviato un codice di verifica a:
       </p>
-      <p class="text-sm font-medium text-blue-600 mt-1">
+      <p class="text-sm font-medium text-emerald-700 mt-1">
         {{ email }}
       </p>
     </div>
@@ -102,7 +102,7 @@ onMounted(() => {
           v-model="verificationCode"
           @input="formatCode"
           placeholder="123456"
-          class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-center text-xl font-mono tracking-widest"
+          class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-600 focus:border-emerald-600 text-center text-xl font-mono tracking-widest"
           :disabled="isLoading"
         />
       </div>
@@ -118,11 +118,10 @@ onMounted(() => {
         <button 
           type="submit" 
           :disabled="isLoading || verificationCode.length !== 6"
-          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-700 hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed">
           <span v-if="isLoading">Verificando...</span>
           <span v-else>Verifica Codice</span>
         </button>
-
       </div>
     </form>
 

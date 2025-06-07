@@ -170,7 +170,7 @@ const copyUrlToClipboard = async () => {
       <h2 class="text-xl font-semibold text-gray-900 mb-4">Statistiche della Pagina Aziendale</h2>
       
       <div v-if="loadingStats" class="flex items-center justify-center py-8">
-        <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+        <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-600"></div>
         <span class="ml-2 text-gray-600">Caricamento statistiche...</span>
       </div>
       
@@ -184,7 +184,7 @@ const copyUrlToClipboard = async () => {
             <p class="text-red-800 text-sm font-medium">{{ statsError }}</p>
             <button 
               @click="retryStats"
-              class="mt-2 text-red-600 hover:text-red-800 text-sm underline focus:outline-none"
+              class="mt-2 text-emerald-700 hover:text-emerald-900 text-sm underline focus:outline-none"
             >
               Riprova
             </button>
@@ -194,23 +194,23 @@ const copyUrlToClipboard = async () => {
       
       <!-- Stats -->
       <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6">
+        <div class="bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-lg p-6">
           <div class="flex items-center">
             <div class="flex-shrink-0">
-              <div class="w-10 h-10 bg-blue-200 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 bg-emerald-200 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                 </svg>
               </div>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-blue-700">Visite Totali</p>
-              <p class="text-3xl font-bold text-blue-900">{{ companyPageViews.toLocaleString() }}</p>
-              <p class="text-xs text-blue-600 mt-1">alla tua pagina aziendale</p>
+              <p class="text-sm font-medium text-emerald-700">Visite Totali</p>
+              <p class="text-3xl font-bold text-emerald-900">{{ companyPageViews.toLocaleString() }}</p>
+              <p class="text-xs text-emerald-600 mt-1">alla tua pagina aziendale</p>
               <button 
                 @click="loadStats"
-                class="mt-2 text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 focus:outline-none"
+                class="mt-2 text-xs bg-emerald-700 text-white px-2 py-1 rounded hover:bg-emerald-800 focus:outline-none"
               >
                 Aggiorna Statistiche
               </button>
@@ -271,7 +271,7 @@ const copyUrlToClipboard = async () => {
           </div>
           <button 
             @click="copyUrlToClipboard"
-            class="ml-4 px-3 py-2 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="ml-4 px-3 py-2 bg-emerald-700 text-white text-xs rounded hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
           >
             Copia
           </button>
@@ -305,7 +305,7 @@ const copyUrlToClipboard = async () => {
     <!-- Caricamento -->
     <div v-else-if="!error && auth.user?._id" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div class="text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mb-4"></div>
         <p class="text-gray-600">Caricamento dati aziendali...</p>
       </div>
     </div>

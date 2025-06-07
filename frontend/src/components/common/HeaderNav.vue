@@ -1,13 +1,18 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter, RouterLink, RouterView } from 'vue-router';
+import { ref, nextTick } from 'vue';
+import { useRouter, useRoute, RouterLink, RouterView } from 'vue-router';
 import { useAuthStore } from '@/store/authStore.js';
 import { companyLogout } from '@/api/authApi';
+import itFlag from '@/assets/flag-it.svg';
+import usFlag from '@/assets/flag-us.svg';
 
 const router = useRouter()
+const route = useRoute();
 const AuthStore = useAuthStore(); // store per gestire l'autenticazione
-const isServicesDropdownOpen = ref(false);
+const isServicesDropdownOpen = ref(false); // desktop dropdown
+const isMobileServicesDropdownOpen = ref(false); // mobile dropdown
 const isMobileMenuOpen = ref(false); // stato per il menu mobile
+const currentLang = ref(document.documentElement.lang || 'it');
 
 async function handleLogout() {
   await companyLogout()
@@ -16,6 +21,10 @@ async function handleLogout() {
 
 function toggleServicesDropdown() {
   isServicesDropdownOpen.value = !isServicesDropdownOpen.value;
+}
+
+function toggleMobileServicesDropdown() {
+  isMobileServicesDropdownOpen.value = !isMobileServicesDropdownOpen.value;
 }
 
 function toggleMobileMenu() {
@@ -29,10 +38,25 @@ function closeDropdowns(event) {
 }
 
 const toggleLanguage = () => {
-  const currentLang = document.documentElement.lang || 'it';
+  if (currentLang.value === 'it') {
+    const lang = 'en';
+    translateTo(lang);
 
-  if (currentLang === 'it') {
-    translateTo('en');
+    // Forza il cambio lingua anche se Google Translate non risponde subito
+    let retries = 0;
+    const maxRetries = 5;
+    function ensureLangChanged() {
+      if (document.documentElement.lang !== lang && retries < maxRetries) {
+        translateTo(lang);
+        retries++;
+        setTimeout(ensureLangChanged, 400);
+      } else {
+        currentLang.value = document.documentElement.lang || lang;
+      }
+    }
+    nextTick(() => {
+      setTimeout(ensureLangChanged, 400);
+    });
   } else {
     resetTranslation();
   }
@@ -43,7 +67,13 @@ const translateTo = (lang) => {
   if (select) {
     select.value = lang;
     select.dispatchEvent(new Event('change'));
-    document.documentElement.lang = lang; 
+    document.documentElement.lang = lang;
+  } else {
+    // Se il selettore non esiste, prova a reinizializzare Google Translate
+    if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+      new window.google.translate.TranslateElement({pageLanguage: 'it'}, 'google_translate_element');
+      setTimeout(() => translateTo(lang), 500);
+    }
   }
 };
 
@@ -62,107 +92,174 @@ const deleteCookie = (name, domain) => {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;${domain ? ` domain=${domain};` : ''}`;
 };
 
-
-
-
 function closeMobileMenu() {
   isMobileMenuOpen.value = false;
+  isMobileServicesDropdownOpen.value = false;
   isServicesDropdownOpen.value = false;
 }
+
+function updateLang() {
+  currentLang.value = document.documentElement.lang || 'it';
+}
+window.addEventListener('languagechange', updateLang);
 </script>
 
 <template>
-  <header class="bg-white shadow" @click="closeDropdowns">
+  <header class="bg-white shadow border-b border-emerald-100" @click="closeDropdowns">
     <div class="container mx-auto px-4">
-      <!-- Desktop e Mobile Header -->
       <div class="flex items-center justify-between py-4">
-        <!-- Logo -->
-        <div class="flex items-center">
-          <img src="/logo.png" alt="Logo" class="h-8 w-auto" />
-        </div>
-
-        <!-- Desktop Navigation (nascosto su mobile) -->
-        <nav class="hidden md:flex items-center space-x-6">
-          <RouterLink to="/" class="text-gray-700 hover:text-blue-600">Home</RouterLink>
-          <RouterLink to="/aziende" class="text-gray-700 hover:text-blue-600">Aziende</RouterLink>
-          
-          <!-- Dropdown menu -->
-          <div class="relative dropdown-container">
-            <button 
-              @click.stop="toggleServicesDropdown" 
-              class="flex items-center text-gray-700 hover:text-blue-600"
-            >
-              Servizi
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                class="h-4 w-4 ml-1 transition-transform duration-200" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-                :class="{'rotate-180': isServicesDropdownOpen}"
+        <!-- Logo and Main Navigation -->
+        <div class="flex items-center space-x-8">
+          <RouterLink to="/">
+            <img
+              src="@/assets/logo-mountains.png"
+              alt="Trento101 Logo"
+              class="h-12 md:h-16 w-auto"
+              style="background:none;"
+            />
+          </RouterLink>
+          <!-- Main Navigation (now left, after logo) -->
+          <nav class="hidden md:flex items-center space-x-6">
+            <RouterLink
+              to="/"
+              :class="[
+                $route.path === '/' 
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Home</RouterLink>
+            <RouterLink
+              to="/aziende"
+              :class="[
+                $route.path.startsWith('/aziende')
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Aziende</RouterLink>
+            <!-- Dropdown menu -->
+            <div class="relative dropdown-container">
+              <button
+                @click.stop="toggleServicesDropdown"
+                class="flex items-center transition"
+                :class="[
+                  ['/serviziUniversita', '/serviziComune'].includes($route.path)
+                    ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                    : 'text-gray-700',
+                  'hover:text-emerald-700'
+                ]"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            
-            <div 
-              v-if="isServicesDropdownOpen" 
-              class="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10 border"
-            >
-              <RouterLink 
-                to="/serviziUniversita" 
-                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                @click="isServicesDropdownOpen = false"
+                Servizi
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-1 transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  :class="{'rotate-180': isServicesDropdownOpen}"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div
+                v-if="isServicesDropdownOpen"
+                class="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-emerald-100"
               >
-                Servizi Universitari
-              </RouterLink>
-              <RouterLink 
-                to="/serviziComune" 
-                class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                @click="isServicesDropdownOpen = false"
-              >
-                Servizi del Comune
-              </RouterLink>
+                <RouterLink
+                  to="/serviziUniversita"
+                  :class="[
+                    $route.path === '/serviziUniversita'
+                      ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full'
+                      : 'text-gray-700',
+                    'block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700'
+                  ]"
+                  @click="isServicesDropdownOpen = false"
+                >
+                  Servizi Universitari
+                </RouterLink>
+                <RouterLink
+                  to="/serviziComune"
+                  :class="[
+                    $route.path === '/serviziComune'
+                      ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full'
+                      : 'text-gray-700',
+                    'block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-700'
+                  ]"
+                  @click="isServicesDropdownOpen = false"
+                >
+                  Servizi del Comune
+                </RouterLink>
+              </div>
             </div>
-          </div>  
-          <RouterLink to="/polls" class="text-gray-700 hover:text-blue-600">Sondaggi</RouterLink>
-          <RouterLink to="/contatti" class="text-gray-700 hover:text-blue-600">Contatti</RouterLink>
-        </nav>             
-        <!-- Desktop User Menu (nascosto su mobile) -->
-        <div v-if="AuthStore.isLoggedIn" class="hidden md:flex items-center space-x-4">
-          <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
-          <RouterLink v-if="AuthStore.role=='admin'" to="/adminPanel" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
-            </svg>
-            <span>Pannello di Controllo</span>
-          </RouterLink>
-          <RouterLink v-else-if="AuthStore.role=='company'" to="/companyDashboard" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
-            </svg>
-            <span>Dashboard</span>
-          </RouterLink>
-          <button @click="handleLogout" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h6a2 2 0 002-2v-1" />
-            </svg>
-            <span>Logout</span>
-          </button>
-        </div> 
-
-        <!-- Desktop Login (nascosto su mobile) -->
-        <div v-else class="hidden md:flex items-center space-x-4">
-          <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
-          <RouterLink to="/login" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c3.314 0 6.355 1.112 8.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>Login</span>
-          </RouterLink>
+            <RouterLink
+              to="/polls"
+              :class="[
+                $route.path.startsWith('/polls')
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Sondaggi</RouterLink>
+            <RouterLink
+              to="/contatti"
+              :class="[
+                $route.path.startsWith('/contatti')
+                  ? 'bg-emerald-100 text-emerald-700 font-semibold rounded-full px-3 py-1'
+                  : 'text-gray-700',
+                'hover:text-emerald-700 transition'
+              ]"
+            >Contatti</RouterLink>
+          </nav>
         </div>
+        <!-- Language Switcher and User/Login Menu (right) -->
+        <div class="hidden md:flex items-center space-x-4">
+          <!-- Language Switcher: mostra bandiera e sigla della lingua attiva -->
+          <button
+            @click="toggleLanguage"
+            class="flex items-center gap-1 px-2 py-1 rounded hover:bg-emerald-50 transition focus:outline-none"
+            title="Cambia lingua"
+          >
+            <img
+              :src="currentLang === 'it' ? itFlag : usFlag"
+              :alt="currentLang === 'it' ? 'Italiano' : 'English'"
+              class="w-5 h-5"
+            />
+            <span class="font-medium text-gray-700 text-sm">
+              {{ currentLang === 'it' ? 'IT' : 'EN' }}
+            </span>
+          </button>
+          <template v-if="AuthStore.isLoggedIn">
+            <RouterLink v-if="AuthStore.role=='admin'" to="/adminPanel" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
+              </svg>
+              <span>Pannello di Controllo</span>
+            </RouterLink>
+            <RouterLink v-else-if="AuthStore.role=='company'" to="/companyDashboard" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
+              </svg>
+              <span>Dashboard</span>
+            </RouterLink>
+            <button @click="handleLogout" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h6a2 2 0 002-2v-1" />
+              </svg>
+              <span>Logout</span>
+            </button>
+          </template>
+          <template v-else>
+            <RouterLink to="/login" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c3.314 0 6.355 1.112 8.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Login</span>
+            </RouterLink>
+          </template>
+        </div> 
 
         <!-- Mobile menu button (visibile solo su mobile) -->
         <button 
@@ -195,18 +292,20 @@ function closeMobileMenu() {
       </div>
 
       <!-- Mobile Menu (visibile solo quando aperto) -->
-      <div v-if="isMobileMenuOpen" class="md:hidden border-t border-gray-200">
+      <div v-if="isMobileMenuOpen" class="md:hidden border-t border-emerald-100">
         <nav class="px-2 pt-2 pb-4 space-y-1">
+          <!-- ...existing nav links... -->
+          <!-- Sposta il selettore lingua in fondo nel menu mobile, subito prima di login/user -->
           <RouterLink 
             to="/" 
-            class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+            class="block px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             @click="closeMobileMenu"
           >
             Home
           </RouterLink>
           <RouterLink 
             to="/aziende" 
-            class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+            class="block px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             @click="closeMobileMenu"
           >
             Aziende
@@ -215,8 +314,8 @@ function closeMobileMenu() {
           <!-- Mobile Services Dropdown -->
           <div>
             <button 
-              @click="toggleServicesDropdown" 
-              class="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+              @click="toggleMobileServicesDropdown" 
+              class="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             >
               <span>Servizi</span>
               <svg 
@@ -225,22 +324,22 @@ function closeMobileMenu() {
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
-                :class="{'rotate-180': isServicesDropdownOpen}"
+                :class="{'rotate-180': isMobileServicesDropdownOpen}"
               >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div v-if="isServicesDropdownOpen" class="ml-4 mt-1 space-y-1">
+            <div v-if="isMobileServicesDropdownOpen" class="ml-4 mt-1 space-y-1">
               <RouterLink 
                 to="/serviziUniversita" 
-                class="block px-3 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+                class="block px-3 py-2 text-gray-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
                 @click="closeMobileMenu"
               >
                 Servizi Universitari
               </RouterLink>
               <RouterLink 
                 to="/serviziComune" 
-                class="block px-3 py-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+                class="block px-3 py-2 text-gray-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
                 @click="closeMobileMenu"
               >
                 Servizi del Comune
@@ -250,26 +349,25 @@ function closeMobileMenu() {
           
           <RouterLink 
             to="/polls" 
-            class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+            class="block px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             @click="closeMobileMenu"
           >
             Sondaggi
           </RouterLink>
           <RouterLink 
             to="/contatti" 
-            class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+            class="block px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             @click="closeMobileMenu"
           >
             Contatti
           </RouterLink>
 
-          <!-- Mobile User Menu -->
+          <!-- User menu -->
           <div v-if="AuthStore.isLoggedIn" class="border-t border-gray-200 pt-4 mt-4">
-            <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
             <RouterLink 
               v-if="AuthStore.role=='admin'" 
               to="/adminPanel" 
-              class="flex items-center px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+              class="flex items-center px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
               @click="closeMobileMenu"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
@@ -281,7 +379,7 @@ function closeMobileMenu() {
             <RouterLink 
               v-else-if="AuthStore.role=='company'" 
               to="/companyDashboard" 
-              class="flex items-center px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+              class="flex items-center px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
               @click="closeMobileMenu"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
@@ -292,7 +390,7 @@ function closeMobileMenu() {
             </RouterLink>
             <button 
               @click="handleLogout" 
-              class="flex items-center w-full px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+              class="flex items-center w-full px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-9V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h6a2 2 0 002-2v-1" />
@@ -300,13 +398,10 @@ function closeMobileMenu() {
               <span>Logout</span>
             </button>
           </div>
-
-          <!-- Mobile Login -->
           <div v-else class="border-t border-gray-200 pt-4 mt-4">
-           <button @click="toggleLanguage" class="text-gray-700 hover:text-blue-600 ml-2">Cambia Lingua</button>
             <RouterLink 
               to="/login" 
-              class="flex items-center px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
+              class="flex items-center px-3 py-2 text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 rounded-md"
               @click="closeMobileMenu"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -314,6 +409,24 @@ function closeMobileMenu() {
               </svg>
               <span>Login</span>
             </RouterLink>
+          </div>
+
+          <!-- Language Switcher (in fondo nel mobile menu) -->
+          <div class="flex items-center mt-4">
+            <button
+              @click="toggleLanguage"
+              class="flex items-center gap-1 px-2 py-1 rounded hover:bg-emerald-50 transition focus:outline-none"
+              title="Cambia lingua"
+            >
+              <img
+                :src="currentLang === 'it' ? itFlag : usFlag"
+                :alt="currentLang === 'it' ? 'Italiano' : 'English'"
+                class="w-5 h-5"
+              />
+              <span class="font-medium text-gray-700 text-sm">
+                {{ currentLang === 'it' ? 'IT' : 'EN' }}
+              </span>
+            </button>
           </div>
         </nav>
       </div>

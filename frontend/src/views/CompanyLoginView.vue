@@ -46,7 +46,7 @@ const companyLoginHandler = async (loginData) => {
       <div class="mt-6">
         <p class="text-lg text-gray-600 flex items-center justify-center">
           Non hai un account?
-          <router-link to="/azienda/registrazione" class="font-medium text-blue-600 hover:text-blue-500 span ml-2">
+          <router-link to="/azienda/registrazione" class="font-medium text-emerald-700 hover:text-emerald-800 ml-2">
             Registrati
           </router-link>
         </p>

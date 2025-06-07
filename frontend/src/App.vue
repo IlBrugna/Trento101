@@ -5,11 +5,11 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col bg-emerald-50">
     <HeaderNav />
     <RouterView class="flex-grow"/>
-    <footer class="bg-gray-100 py-4 text-center text-sm">
-      TRENTO 101 
+    <footer class="bg-emerald-700 py-4 text-center text-sm text-white border-t border-emerald-900 relative">
+      TRENTO 101 &copy; {{ new Date().getFullYear() }}
     </footer>
   </div>
 </template>
