@@ -43,9 +43,12 @@ app.use(async (req, res, next) => {
     const isAuth = req.originalUrl.startsWith('/api/v1/auth');
     const isLogs = req.originalUrl.startsWith('/api/v1/logs');
     const isPage = req.originalUrl.startsWith('/api/v1/');
+    const isObject = req.originalUrl.includes('?email=');
+    const isDashboardRequest = req.headers['x-requested-by'] === 'statistics-dashboard' || 
+                              req.query._dashboard === 'true';
     res.on('finish', () => {
     // Registra un evento di visualizzazione della pagina solo per le richieste GET con successo
-    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && !isLogs && isPage) {
+    if (req.method === 'GET' && res.statusCode < 400 && !isStats && !isAuth && !isLogs && !isDashboardRequest && !isObject && isPage) {
         recordEvent(req, 'page_view');
     }
     });
@@ -62,7 +65,7 @@ app.use(
       return cb(new Error('Origin not allowed by CORS'));
     },
     methods: ['GET','POST','PUT','PATCH','DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'X-Requested-By'],
     credentials: true,
   })
 );

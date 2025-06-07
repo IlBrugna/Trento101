@@ -1,13 +1,13 @@
 import api from "@/services/api";
 
-export async function fetchSpecificCompany(id) {
+export async function fetchSpecificCompany(id, options = {}) {
   try {
-    const response = await api.get(`api/v1/companies/${id}`);
-    return response.data; // Return the company details
+    const response = await api.get(`api/v1/companies/${id}`, options);
+    return response.data;
   } catch (error) {
     throw {
-      status: error.response.status,
-      message: error.response.data.message
+      status: error.response?.status,
+      message: error.response?.data?.message
     };  
   }
 }
